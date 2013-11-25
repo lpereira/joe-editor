@@ -9,8 +9,8 @@
 #define _JOE_UMATH_H 1
 
 extern unsigned char *merr; /* Math error message: set if calc returned an error */
-double calc PARAMS((BW *bw, unsigned char *s));
-int umath PARAMS((BW *bw));
+double calc(BW *bw, unsigned char *s);
+int umath(BW *bw);
 
 extern B *mathhist;
 
