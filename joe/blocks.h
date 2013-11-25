@@ -12,16 +12,20 @@
 #define _JOE_BLOCKS_H 1
 
 /* char *mmove(char *d,char *s,int sz); Copy 'sz' bytes from 's' to 'd'.
- * Chooses either mbkwd or mfwrd to do this such that the data won't get
- * clobbered.
  */
-void *mmove(void *d, void *s, int sz);
+static void *mmove(void *d, void *s, int sz);
+{
+	return memmove(d, s, (size_t)sz);
+}
 
 /* char *mset(char *d,char c,int sz); Set 'sz' bytes at 'd' to 'c'.
  * If 'sz'==0 nothing happens
  * Return original value of 'd'
  */
-unsigned char *mset(void *dest, unsigned char c, int sz);
+static unsigned char *mset(void *dest, unsigned char c, int sz)
+{
+	return (unsigned char*)memset(dest, c, (size_t)sz);
+}
 
 /* int *msetI(int *d,int c,int sz); Set 'sz' ints at 'd' to 'c'.
  * If 'sz'==0 nothing happens
@@ -41,11 +45,4 @@ void **msetP(void **dest, void *c, int sz);
  */
 int mcnt(unsigned char *blk, unsigned char c, int size);
 
-#ifdef junk
-/* char *mchr(char *s,char c);
- *
- * Return address of first 'c' following 's'.
- */
-unsigned char *mchr();
-#endif
 #endif
