@@ -18,71 +18,12 @@
 #include <limits.h>
 #endif
 
-
-#ifdef HAVE_DIRENT_H
-#  include <dirent.h>
-#  define NAMLEN(dirent) strlen((dirent)->d_name)
-#else
-#  ifdef HAVE_SYS_DIRENT_H
-#    include <sys/dirent.h>
-#    define NAMLEN(dirent) strlen((dirent)->d_name)
-#  else
-#    define direct dirent
-#    define NAMLEN(dirent) (dirent)->d_namlen
-#    ifdef HAVE_SYS_NDIR_H
-#      include <sys/ndir.h>
-#    else
-#      ifdef HAVE_SYS_DIR_H
-#        include <sys/dir.h>
-#      else
-#        ifdef HAVE_NDIR_H
-#          include <ndir.h>
-#        else
-#          ifndef __MSDOS__
-#            include "dir.c"
-#          endif
-#        endif
-#      endif
-#    endif
-#  endif
-#endif
-
-#ifdef __MSDOS__	/* paths in MS-DOS can include a drive letter followed by semicolon */
-#define	do_if_drive_letter(path, command) do { \
-						if ((path)[0] && (path)[1] == ':') { \
-							command; \
-						} \
-					} while(0)
-#else
-#define do_if_drive_letter(path, command)	do { } while(0)
-#endif
-#define skip_drive_letter(path)	do_if_drive_letter((path), (path) += 2)
-
-#ifndef		_PATH_TMP
-#  ifdef __MSDOS__
-#    define	_PATH_TMP	""
-#  else
-#    define	_PATH_TMP	"/tmp/"
-#  endif
-#endif
-
-#ifndef PATH_MAX
-/* #warning is gcc extension
-  #warning What should we include to have PATH_MAX defined?
-*/
-#define PATH_MAX	4096
-#endif
+#include <dirent.h>
+#define NAMLEN(dirent) strlen((dirent)->d_name)
 
 /********************************************************************/
 unsigned char *joesep(unsigned char *path)
 {
-#ifdef __MSDOS__
-	int x;
-
-	for (x = 0; path[x]; ++x)
-		if (path[x] == '\\')
-			path[x] = '/';
-#endif
 	return path;
 }
 /********************************************************************/
@@ -90,7 +31,6 @@ unsigned char *namprt(unsigned char *path)
 {
 	unsigned char *z;
 
-	skip_drive_letter(path);
 	z = path + slen(path);
 	while ((z != path) && (z[-1] != '/'))
 		--z;
@@ -101,7 +41,6 @@ unsigned char *namepart(unsigned char *tmp, unsigned char *path)
 {
 	unsigned char *z;
 
-	skip_drive_letter(path);
 	z = path + zlen(path);
 	while ((z != path) && (z[-1] != '/'))
 		--z;
@@ -113,7 +52,6 @@ unsigned char *dirprt(unsigned char *path)
 	unsigned char *b = path;
 	unsigned char *z = path + slen(path);
 
-	skip_drive_letter(b);
 	while ((z != b) && (z[-1] != '/'))
 		--z;
 	return vsncpy(NULL, 0, path, z - path);
@@ -124,7 +62,6 @@ unsigned char *begprt(unsigned char *path)
 	unsigned char *z = path + slen(path);
 	int drv = 0;
 
-	do_if_drive_letter(path, drv = 2);
 	while ((z != path + drv) && (z[-1] == '/'))
 		--z;
 	if (z == path + drv)
@@ -141,7 +78,6 @@ unsigned char *endprt(unsigned char *path)
 	unsigned char *z = path + slen(path);
 	int drv = 0;
 
-	do_if_drive_letter(path, drv = 2);
 	while ((z != path + drv) && (z[-1] == '/'))
 		--z;
 	if (z == path + drv)

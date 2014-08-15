@@ -131,42 +131,14 @@ typedef int pid_t;
 #endif
 #define NO_MORE_DATA EOF
 
-#if defined __MSDOS__ && SIZEOF_INT == 2 /* real mode ms-dos compilers */
-#if SIZEOF_VOID_P == 4 /* real mode ms-dos compilers with 'far' memory model or something like that */
-#define physical(a)  (((unsigned long)(a)&0xFFFF)+(((unsigned long)(a)&0xFFFF0000)>>12))
-#define normalize(a) ((void *)(((unsigned long)(a)&0xFFFF000F)+(((unsigned long)(a)&0x0000FFF0)<<12)))
-#else
 #define physical(a) ((unsigned long)(a))
 #define normalize(a) (a)
-#endif /* sizeof(void *) == 4 */
 
 #define SEGSIZ 1024
 #define PGSIZE 1024
 #define LPGSIZE 10
 #define ILIMIT (PGSIZE*96L)
 #define HTSIZE 128
-
-#else /* not real mode ms-dos */
-
-#define physical(a) ((unsigned long)(a))
-#define normalize(a) (a)
-
-/* Log2 of page size */
-#define LPGSIZE 12
-/* No. bytes in page */
-#define PGSIZE (1<<LPGSIZE)
-/* Gap buffer size (must be same as page size) */
-#define SEGSIZ PGSIZE
-
-/* Max number of pages allowed in core */
-#define NPAGES 8192
-/* Max core memory used in bytes */
-#define ILIMIT (PGSIZE*NPAGES)
-/* Hash table size (should be double the max number of pages) */
-#define HTSIZE (NPAGES*2)
-
-#endif /* real mode ms-dos */
-
 
 /* These do not belong here. */
 

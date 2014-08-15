@@ -79,14 +79,6 @@ static void cdata(B *b, unsigned char *dat, int siz)
 
 int cstart(BW *bw, unsigned char *name, unsigned char **s, void *obj, int *notify, int build, int out_only)
 {
-#ifdef __MSDOS__
-	if (notify) {
-		*notify = 1;
-	}
-	varm(s);
-	msgnw(bw->parent, joe_gettext(_("Sorry, no sub-processes in DOS (yet)")));
-	return -1;
-#else
 	MPX *m;
 
 	if (notify) {
@@ -107,7 +99,6 @@ int cstart(BW *bw, unsigned char *name, unsigned char **s, void *obj, int *notif
 		bw->b->pid = m->pid;
 	}
 	return 0;
-#endif
 }
 
 int ubknd(BW *bw)

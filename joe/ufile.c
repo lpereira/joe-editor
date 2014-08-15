@@ -175,29 +175,6 @@ static int backup(BW *bw)
 		unsigned char tmp[1024];
 		unsigned char name[1024];
 
-#ifdef __MSDOS__
-		int x;
-
-		if (backpath) {
-			unsigned char *t = vsncpy(NULL,0,sz(backpath));
-			t = canonical(t);
-			joe_snprintf_2(name, sizeof(name), "%s/%s", t, namepart(tmp, bw->b->name));
-			vsrm(t);
-		} else {
-			joe_snprintf_1(name, sizeof(name), "%s", bw->b->name);
-		}
-
-		for (x = zlen(name); name[--x] != '.';) {
-			if (name[x] == '\\' || (name[x] == ':' && x == 1) || x == 0) {
-				x = zlen(name);
-				break;
-			}
-		}
-
-		zcpy(name + x, USTR ".bak");
-
-#else
-
 		/* Create backup file name */
 		unsigned char *simple_backup_suffix = (unsigned char *)getenv("SIMPLE_BACKUP_SUFFIX");
 		
@@ -215,8 +192,6 @@ static int backup(BW *bw)
 		
 		/* Attempt to delete backup file first */
 		unlink((char *)name);
-
-#endif
 
 		/* Copy original file to backup file */
 		if (cp(dequote(bw->b->name), name)) {

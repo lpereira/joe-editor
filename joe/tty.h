@@ -141,11 +141,7 @@ int ttflsh(void);
 extern int have; /* Set if we have typeahead */
 extern int leave; /* Set if we're exiting (so don't check for typeahead) */
 
-#ifdef __MSDOS__
-#define ifhave bioskey(1)
-#else
 #define ifhave have
-#endif
 
 /* void ttsig(int n);  Signal handler you provide.  This is called if the
  * editor gets a hangup signal, termination signal or if the input closes.

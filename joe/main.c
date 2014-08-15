@@ -132,11 +132,6 @@ int edloop(int flg)
 		return ret;
 }
 
-#ifdef __MSDOS__
-extern void setbreak();
-extern int breakflg;
-#endif
-
 unsigned char **mainenv;
 
 B *startup_log;
@@ -161,9 +156,6 @@ int main(int argc, char **real_argv, char **envv)
 	unsigned char *t;
 	long time_rc;
 	unsigned char *run;
-#ifdef __MSDOS__
-	unsigned char *rundir;
-#endif
 	SCRN *n;
 	int opened = 0;
 	int omid;
@@ -174,20 +166,7 @@ int main(int argc, char **real_argv, char **envv)
 
 	mainenv = (unsigned char **)envv;
 
-#ifdef __MSDOS__
-	_fmode = O_BINARY;
-	zcpy(stdbuf, argv[0]);
-	joesep(stdbuf);
-	run = namprt(stdbuf);
-	rundir = dirprt(stdbuf);
-	for (c = 0; run[c]; ++c)
-		if (run[c] == '.') {
-			run = vstrunc(run, c);
-			break;
-		}
-#else
 	run = namprt(argv[0]);
-#endif
 
 	if ((s = (unsigned char *)getenv("LINES")) != NULL)
 		sscanf((char *)s, "%d", &lines);
@@ -202,47 +181,10 @@ int main(int argc, char **real_argv, char **envv)
 	if ((s = (unsigned char *)getenv("JOETERM")) != NULL)
 		joeterm = s;
 
-#ifndef __MSDOS__
 	if (!(cap = my_getcap(NULL, 9600, NULL, NULL))) {
 		fprintf(stderr, (char *)joe_gettext(_("Couldn't load termcap/terminfo entry\n")));
 		return 1;
 	}
-#endif
-
-#ifdef __MSDOS__
-
-	s = vsncpy(NULL, 0, sv(run));
-	s = vsncpy(sv(s), sc("rc"));
-	c = procrc(cap, s);
-	if (c == 0)
-		goto donerc;
-	if (c == 1) {
-		unsigned char buf[8];
-
-		fprintf(stderr, (char *)joe_gettext(_("There were errors in '%s'.  Use it anyway?")), s);
-		fflush(stderr);
-		fgets(buf, 8, stdin);
-		if (yn_checks(yes_key, buf))
-			goto donerc;
-	}
-
-	vsrm(s);
-	s = vsncpy(NULL, 0, sv(rundir));
-	s = vsncpy(sv(s), sv(run));
-	s = vsncpy(sv(s), sc("rc"));
-	c = procrc(cap, s);
-	if (c == 0)
-		goto donerc;
-	if (c == 1) {
-		unsigned char buf[8];
-
-		fprintf(stderr, (char *)joe_gettext(_("There were errors in '%s'.  Use it anyway?")), s);
-		fflush(stderr);
-		fgets(buf, 8, stdin);
-		if (yn_checks(yes_key, buf))
-			goto donerc;
-	}
-#else
 
 	/* Name of system joerc file.  Try to find one with matching language... */
 	
@@ -354,7 +296,6 @@ int main(int argc, char **real_argv, char **envv)
 		if (ynchecks(yes_key, buf))
 			goto donerc;
 	}
-#endif
 
 	fprintf(stderr,(char *)joe_gettext(_("Couldn't open '%s'\n")), s);
 	return 1;

@@ -162,73 +162,6 @@ static KMAP *kbuild(CAP *cap, KMAP *kmap, unsigned char *seq, void *bind, int *e
 		for (x = 0; seq[x] && seq[x] != ' '; ++x) ;
 		c = seq[x];
 		seq[x] = 0;
-#ifdef __MSDOS__
-		if (!zcmp(seq + 1, "ku")) {
-			capseq = "\0H";
-			seql = 2;
-		} else if (!zcmp(seq + 1, USTR "kd")) {
-			capseq = "\0P";
-			seql = 2;
-		} else if (!zcmp(seq + 1, USTR "kl")) {
-			capseq = "\0K";
-			seql = 2;
-		} else if (!zcmp(seq + 1, USTR "kr")) {
-			capseq = "\0M";
-			seql = 2;
-		} else if (!zcmp(seq + 1, USTR "kI")) {
-			capseq = "\0R";
-			seql = 2;
-		} else if (!zcmp(seq + 1, USTR "kD")) {
-			capseq = "\0S";
-			seql = 2;
-		} else if (!zcmp(seq + 1, USTR "kh")) {
-			capseq = "\0G";
-			seql = 2;
-		} else if (!zcmp(seq + 1, USTR "kH")) {
-			capseq = "\0O";
-			seql = 2;
-		} else if (!zcmp(seq + 1, USTR "kP")) {
-			capseq = "\0I";
-			seql = 2;
-		} else if (!zcmp(seq + 1, USTR "kN")) {
-			capseq = "\0Q";
-			seql = 2;
-		} else if (!zcmp(seq + 1, USTR "k1")) {
-			capseq = "\0;";
-			seql = 2;
-		} else if (!zcmp(seq + 1, USTR "k2")) {
-			capseq = "\0<";
-			seql = 2;
-		} else if (!zcmp(seq + 1, USTR "k3")) {
-			capseq = "\0=";
-			seql = 2;
-		} else if (!zcmp(seq + 1, USTR "k4")) {
-			capseq = "\0>";
-			seql = 2;
-		} else if (!zcmp(seq + 1, USTR "k5")) {
-			capseq = "\0?";
-			seql = 2;
-		} else if (!zcmp(seq + 1, USTR "k6")) {
-			capseq = "\0@";
-			seql = 2;
-		} else if (!zcmp(seq + 1, USTR "k7")) {
-			capseq = "\0A";
-			seql = 2;
-		} else if (!zcmp(seq + 1, USTR "k8")) {
-			capseq = "\0B";
-			seql = 2;
-		} else if (!zcmp(seq + 1, USTR "k9")) {
-			capseq = "\0C";
-			seql = 2;
-		} else if (!zcmp(seq + 1, USTR "k0")) {
-			capseq = "\0D";
-			seql = 2;
-		}
-		seq[x] = c;
-		if (seql) {
-			for (seq += x; *seq == ' '; ++seq) ;
-		}
-#else
 		s = jgetstr(cap, seq + 1);
 		seq[x] = c;
 		if (s && (s = tcompile(cap, s, 0, 0, 0, 0))
@@ -236,9 +169,7 @@ static KMAP *kbuild(CAP *cap, KMAP *kmap, unsigned char *seq, void *bind, int *e
 			capseq = s;
 			seql = sLEN(s);
 			for (seq += x; *seq == ' '; ++seq) ;
-		}
-#endif
-		else {
+		} else {
 			*err = -2;
 			return kmap;
 		}

@@ -2248,7 +2248,6 @@ unsigned char *parsens(unsigned char *s, off_t *skip, off_t *amnt)
 
 unsigned char *canonical(unsigned char *n)
 {
-#ifndef __MSDOS__
 	int x;
 	unsigned char *s;
 	if (n[0] == '~') {
@@ -2279,7 +2278,6 @@ unsigned char *canonical(unsigned char *n)
 			}
 		}
 	}
-#endif
 	return n;
 }
 
@@ -2372,14 +2370,11 @@ B *bload(unsigned char *s)
 	n = parsens(s, &skip, &amnt);
 
 	/* Open file or stream */
-#ifndef __MSDOS__
 	if (n[0] == '!') {
 		nescape(maint->t);
 		ttclsn();
 		fi = popen((char *)dequote(n + 1), "r");
-	} else
-#endif
-	if (!zcmp(n, USTR "-")) {
+	} else if (!zcmp(n, USTR "-")) {
 #ifdef junk
 		FILE *f;
 		struct stat y;
@@ -2452,12 +2447,9 @@ B *bload(unsigned char *s)
 
 	/* Close stream */
 err:
-#ifndef __MSDOS__
 	if (s[0] == '!')
 		pclose(fi);
-	else
-#endif
-	if (zcmp(n, USTR "-"))
+	else if (zcmp(n, USTR "-"))
 		fclose(fi);
 
 opnerr:
@@ -2757,14 +2749,11 @@ int bsave(P *p, unsigned char *s, off_t size, int flag)
 	if (amnt < size)
 		size = amnt;
 
-#ifndef __MSDOS__
 	if (s[0] == '!') {
 		nescape(maint->t);
 		ttclsn();
 		f = popen((char *)dequote(s + 1), "w");
-	} else
-#endif
-	if (s[0] == '>' && s[1] == '>')
+	} else if (s[0] == '>' && s[1] == '>')
 		f = fopen((char *)dequote(s + 2), "a");
 	else if (!zcmp(s, USTR "-")) {
 		nescape(maint->t);
@@ -2848,12 +2837,9 @@ int bsave(P *p, unsigned char *s, off_t size, int flag)
 	}
 
 err:
-#ifndef __MSDOS__
 	if (s[0] == '!')
 		pclose(f);
-	else
-#endif
-	if (zcmp(s, USTR "-"))
+	else if (zcmp(s, USTR "-"))
 		fclose(f);
 	else
 		fflush(f);

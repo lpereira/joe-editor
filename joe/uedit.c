@@ -1847,7 +1847,6 @@ int utypebw_raw(BW *bw, int k, int no_decode)
 		}
 
 		bw->cursor->xcol = piscol(bw->cursor);
-#ifndef __MSDOS__
 		if (x < 0 || x >= bw->w)
 			simple = 0;
 		if (bw->cursor->line < bw->top->line || bw->cursor->line >= bw->top->line + bw->h)
@@ -1875,7 +1874,6 @@ int utypebw_raw(BW *bw, int k, int no_decode)
 				atr |= INVERSE;
 			outatr(bw->b->o.charmap, t, screen + x, attr + x, x, y, k, atr);
 		}
-#endif
 	}
 	return 0;
 }

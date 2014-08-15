@@ -15,22 +15,6 @@ struct hentry {
 
 /* Each terminal has one of these: terminal capability database */
 
-#ifdef __MSDOS__
-
-struct scrn {
-	int	li;		/* Height of screen */
-	int	co;		/* Width of screen */
-	short	*scrn;		/* Buffer */
-	int	scroll;
-	int	insdel;
-	int	*updtab;	/* Lines which need to be updated */
-	HIGHLIGHT_STATE *syntax;
-	int	*compose;
-	int	*sary;
-};
-
-#else
-
 struct scrn {
 	CAP	*cap;		/* Termcap/Terminfo data */
 
@@ -145,8 +129,6 @@ struct scrn {
 	struct hentry	*ary;
 };
 
-#endif
-
 extern int skiptop;
 
 /* SCRN *nopen(void);
@@ -204,24 +186,6 @@ void utf8_putc(int c);
  */
 
 /* Character attribute bits */
-
-#ifdef __MSDOS__
-
-#define INVERSE 1
-#define UNDERLINE 2
-#define BOLD 4
-#define BLINK 8
-#define DIM 16
-extern unsigned atab[];
-
-#define outatr(t,scrn,attr,x,y,c,a) do { \
-	(t); \
-	(x); \
-	(y); \
-	*(scrn) = ((unsigned)(c) | atab[a]); \
-} while(0)
-
-#else
 
 #define INVERSE		 256
 #define UNDERLINE	 512
@@ -281,8 +245,6 @@ extern unsigned atab[];
 #define FG_BLACK	(FG_NOT_DEFAULT|(0<<FG_SHIFT))
 
 void outatr(struct charmap *map,SCRN *t,int *scrn,int *attrf,int xx,int yy,int c,int a);
-
-#endif
 
 /*
  * translate character and its attribute into something printable

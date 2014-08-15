@@ -129,11 +129,7 @@ OPTIONS pdefault = {
 	0,		/* french spacing */
 	0,		/* flowed text */
 	0,		/* spaces */
-#ifdef __MSDOS__
-	1,		/* crlf */
-#else
 	0,		/* crlf */
-#endif
 	0,		/* Highlight */
 	NULL,		/* Syntax name */
 	NULL,		/* Syntax */
@@ -186,11 +182,7 @@ OPTIONS fdefault = {
 	0,		/* french spacing */
 	0,		/* flowed text */
 	0,		/* spaces */
-#ifdef __MSDOS__
-	1,		/* crlf */
-#else
 	0,		/* crlf */
-#endif
 	0,		/* Highlight */
 	NULL,		/* Syntax name */
 	NULL,		/* Syntax */
@@ -1244,11 +1236,7 @@ int procrc(CAP *cap, unsigned char *name)
 
 	strncpy((char *)buf, (char *)name, sizeof(buf) - 1);
 	buf[sizeof(buf)-1] = '\0';
-#ifdef __MSDOS__
-	fd = jfopen(buf, "rt");
-#else
 	fd = jfopen(buf, "r");
-#endif
 
 	if (!fd)
 		return -1;	/* Return if we couldn't open the rc file */
