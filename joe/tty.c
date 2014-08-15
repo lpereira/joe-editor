@@ -21,16 +21,12 @@
 #include <sys/param.h>
 #endif
 
-#ifdef HAVE_OPENPTY
-
 #ifdef HAVE_PTY_H
 #include <pty.h>
 #endif
 
 #ifdef HAVE_LIBUTIL_H
 #include <libutil.h>
-#endif
-
 #endif
 
 #ifdef HAVE_LOGIN_TTY
@@ -849,46 +845,6 @@ static void mpxend(void)
  * string in static buffer or NULL if couldn't get a pair.
  */
 
-#ifdef __svr4__
-#define USEPTMX 1
-#else
-#ifdef __CYGWIN__
-#define USEPTMX 1
-#endif
-#endif
-
-#ifdef sgi
-
-/* Newer sgi machines can do it the __svr4__ way, but old ones can't */
-
-extern char *_getpty();
-
-static unsigned char *getpty(int *ptyfd)
-{
-	return (unsigned char *)_getpty(ptyfd, O_RDWR, 0600, 0);
-}
-
-#else
-#ifdef USEPTMX
-
-/* Strange streams way */
-
-extern char *ptsname();
-
-static unsigned char *getpty(int *ptyfd)
-{
-	int fdm;
-	*ptyfd = fdm = open("/dev/ptmx", O_RDWR);
-	grantpt(fdm);
-	unlockpt(fdm);
-	return (unsigned char *)ptsname(fdm);
-}
-
-#else
-#ifdef HAVE_OPENPTY
-
-/* BSD function, present in libc5 and glibc2 */
-
 static unsigned char *getpty(int *ptyfd)
 {
 	static unsigned char name[32];
@@ -899,72 +855,6 @@ static unsigned char *getpty(int *ptyfd)
         else
 	   return (NULL);
 }
-
-#else
-/* The normal way: for each possible pty/tty pair, try to open the pty and
- * then the corresponding tty.  If both could be opened, close them both and
- * then re-open the pty.  If that succeeded, return with the opened pty and the
- * name of the tty.
- *
- * Logically you should only have to succeed in opening the pty- but the
- * permissions may be set wrong on the tty, so we have to try that too.
- * We close them both and re-open the pty because we want the forked process
- * to open the tty- that way it gets to be the controlling tty for that
- * process and the process gets to be the session leader.
- */
-
-static unsigned char *getpty(int *ptyfd)
-{
-	int x, fd;
-	unsigned char *orgpwd = pwd();
-	static unsigned char **ptys = NULL;
-	static unsigned char *ttydir;
-	static unsigned char *ptydir;
-	static unsigned char ttyname[32];
-
-	if (!ptys) {
-		ttydir = USTR "/dev/pty/";
-		ptydir = USTR "/dev/ptym/";	/* HPUX systems */
-		if (chpwd(ptydir) || !(ptys = rexpnd(USTR "pty*")))
-			if (!ptys) {
-				ttydir = ptydir = USTR "/dev/";	/* Everyone else */
-				if (!chpwd(ptydir))
-					ptys = rexpnd(USTR "pty*");
-			}
-	}
-	chpwd(orgpwd);
-
-	if (ptys)
-		for (fd = 0; ptys[fd]; ++fd) {
-			zcpy(ttyname, ptydir);
-			zcat(ttyname, ptys[fd]);
-			if ((*ptyfd = open((char *)ttyname, O_RDWR)) >= 0) {
-				ptys[fd][0] = 't';
-				zcpy(ttyname, ttydir);
-				zcat(ttyname, ptys[fd]);
-				ptys[fd][0] = 'p';
-				x = open((char *)ttyname, O_RDWR);
-				if (x >= 0) {
-					close(x);
-					close(*ptyfd);
-					zcpy(ttyname, ptydir);
-					zcat(ttyname, ptys[fd]);
-					*ptyfd = open((char *)ttyname, O_RDWR);
-					ptys[fd][0] = 't';
-					zcpy(ttyname, ttydir);
-					zcat(ttyname, ptys[fd]);
-					ptys[fd][0] = 'p';
-					return ttyname;
-				} else
-					close(*ptyfd);
-			}
-		}
-	return NULL;
-}
-
-#endif
-#endif
-#endif
 
 /* Shell dies signal handler.  Puts pty in non-block mode so
  * that read returns with <1 when all data from process has
