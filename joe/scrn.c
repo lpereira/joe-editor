@@ -1327,10 +1327,10 @@ static void doinschr(SCRN *t, int x, int y, int *s, int *as, int n)
 				outatri(t, x + a, y, s[a], as[a]);
 		}
 	}
-	mmove(t->scrn + x + t->co * y + n, t->scrn + x + t->co * y, (t->co - (x + n)) * sizeof(int));
-	mmove(t->attr + x + t->co * y + n, t->attr + x + t->co * y, (t->co - (x + n)) * sizeof(int));
-	mmove(t->scrn + x + t->co * y, s, n * sizeof(int));
-	mmove(t->attr + x + t->co * y, s, n * sizeof(int));
+	memmove(t->scrn + x + t->co * y + n, t->scrn + x + t->co * y, (t->co - (x + n)) * sizeof(int));
+	memmove(t->attr + x + t->co * y + n, t->attr + x + t->co * y, (t->co - (x + n)) * sizeof(int));
+	memmove(t->scrn + x + t->co * y, s, n * sizeof(int));
+	memmove(t->attr + x + t->co * y, s, n * sizeof(int));
 }
 
 static void dodelchr(SCRN *t, int x, int y, int n)
@@ -1351,8 +1351,8 @@ static void dodelchr(SCRN *t, int x, int y, int n)
 			texec(t->cap, t->DC, 1, n, 0, 0, 0);
 		texec(t->cap, t->ed, 1, x, 0, 0, 0);	/* Exit delete mode */
 	}
-	mmove(t->scrn + t->co * y + x, t->scrn + t->co * y + x + n, (t->co - (x + n)) * sizeof(int));
-	mmove(t->attr + t->co * y + x, t->attr + t->co * y + x + n, (t->co - (x + n)) * sizeof(int));
+	memmove(t->scrn + t->co * y + x, t->scrn + t->co * y + x + n, (t->co - (x + n)) * sizeof(int));
+	memmove(t->attr + t->co * y + x, t->attr + t->co * y + x + n, (t->co - (x + n)) * sizeof(int));
 	msetI(t->scrn + t->co * y + t->co - n, ' ', n);
 	msetI(t->attr + t->co * y + t->co - n, (t->attrib & FG_MASK), n);
 }
@@ -1523,8 +1523,8 @@ static void doupscrl(SCRN *t, int top, int bot, int amnt, int atr)
 	return;
 
       done:
-	mmove(t->scrn + top * t->co, t->scrn + (top + amnt) * t->co, (bot - top - amnt) * t->co * sizeof(int));
-	mmove(t->attr + top * t->co, t->attr + (top + amnt) * t->co, (bot - top - amnt) * t->co * sizeof(int));
+	memmove(t->scrn + top * t->co, t->scrn + (top + amnt) * t->co, (bot - top - amnt) * t->co * sizeof(int));
+	memmove(t->attr + top * t->co, t->attr + (top + amnt) * t->co, (bot - top - amnt) * t->co * sizeof(int));
 
 	if (bot == t->li && t->db) {
 		msetI(t->scrn + (t->li - amnt) * t->co, -1, amnt * t->co);
@@ -1592,8 +1592,8 @@ static void dodnscrl(SCRN *t, int top, int bot, int amnt, int atr)
 	msetI(t->updtab + top, 1, bot - top);
 	return;
       done:
-	mmove(t->scrn + (top + amnt) * t->co, t->scrn + top * t->co, (bot - top - amnt) * t->co * sizeof(int));
-	mmove(t->attr + (top + amnt) * t->co, t->attr + top * t->co, (bot - top - amnt) * t->co * sizeof(int));
+	memmove(t->scrn + (top + amnt) * t->co, t->scrn + top * t->co, (bot - top - amnt) * t->co * sizeof(int));
+	memmove(t->attr + (top + amnt) * t->co, t->attr + top * t->co, (bot - top - amnt) * t->co * sizeof(int));
 
 	if (!top && t->da) {
 		msetI(t->scrn, -1, amnt * t->co);

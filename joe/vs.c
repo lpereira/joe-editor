@@ -98,7 +98,7 @@ sELEMENT *vsncpy(sELEMENT *vary, int pos, sELEMENT *array, int len)
 	}
 	if (pos > olen)
 		vary = vsfill(vary, olen, sblank, pos - olen);
-	mmove(vary + pos, array, len * sizeof(sELEMENT));
+	memmove(vary + pos, array, len * sizeof(sELEMENT));
 	return vary;
 }
 
@@ -153,7 +153,7 @@ sELEMENT *vsins(sELEMENT *vary, int pos, int n)
 	if (pos >= sLen(vary))
 		vary = vstrunc(vary, pos + n);
 	else {
-		mmove(vary + pos + n, vary + pos, sLen(vary) - (pos + n) + 1);
+		memmove(vary + pos + n, vary + pos, sLen(vary) - (pos + n) + 1);
 		sLen(vary) += n;
 	}
 	return vary;
@@ -165,7 +165,7 @@ sELEMENT *vsdel(sELEMENT *vary, int pos, int n)
 		return vary;
 	if (pos + n >= sLen(vary))
 		return vstrunc(vary, pos);
-	mmove(vary + pos, vary + pos + n, sLen(vary) - (pos + n) + 1);
+	memmove(vary + pos, vary + pos + n, sLen(vary) - (pos + n) + 1);
 	sLen(vary) -= n;
 	return vary;
 }

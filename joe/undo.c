@@ -294,7 +294,7 @@ static void yankdel(long where, B *b)
 				boffline(rec->big);
 			} else {
 				rec->small = (unsigned char *) joe_realloc(rec->small, rec->len + size);
-				mmove(rec->small + size, rec->small, (int) rec->len);
+				memmove(rec->small + size, rec->small, (int) rec->len);
 				brmem(b->bof, rec->small, (int) size);
 			}
 			rec->len += size;
@@ -367,7 +367,7 @@ void undodel(UNDO *undo, long where, B *b)
 			boffline(rec->big);
 		} else {
 			rec->small = (unsigned char *) joe_realloc(rec->small, rec->len + size);
-			mmove(rec->small + size, rec->small, (int) rec->len);
+			memmove(rec->small + size, rec->small, (int) rec->len);
 			brmem(b->bof, rec->small, (int) size);
 			brm(b);
 		}

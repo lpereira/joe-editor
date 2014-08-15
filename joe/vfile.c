@@ -144,7 +144,7 @@ unsigned char *vlock(VFILE *vfile, off_t addr)
 					int amnt = (physical(vbase) - physical(vp->data)) >> LPGSIZE;
 
 					vheaders = (VPAGE **) joe_malloc((amnt + vheadsz) * sizeof(VPAGE *));
-					mmove(vheaders + amnt, t, vheadsz * sizeof(VPAGE *));
+					memmove(vheaders + amnt, t, vheadsz * sizeof(VPAGE *));
 					vheadsz += amnt;
 					vbase = vp->data;
 					joe_free(t);

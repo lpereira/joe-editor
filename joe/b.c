@@ -59,10 +59,10 @@ unsigned char *msgs[] = {
 static void gstgap(H *hdr, unsigned char *ptr, int ofst)
 {
 	if (ofst > hdr->hole) {
-		mmove(ptr + hdr->hole, ptr + hdr->ehole, ofst - hdr->hole);
+		memmove(ptr + hdr->hole, ptr + hdr->ehole, ofst - hdr->hole);
 		vchanged(ptr);
 	} else if (ofst < hdr->hole) {
-		mmove(ptr + hdr->ehole - (hdr->hole - ofst), ptr + ofst, hdr->hole - ofst);
+		memmove(ptr + hdr->ehole - (hdr->hole - ofst), ptr + ofst, hdr->hole - ofst);
 		vchanged(ptr);
 	}
 	hdr->ehole = ofst + hdr->ehole - hdr->hole;
@@ -74,7 +74,7 @@ static void ginsm(H *hdr, unsigned char *ptr, int ofst, unsigned char *blk, int 
 {
 	if (ofst != hdr->hole)
 		gstgap(hdr, ptr, ofst);
-	mmove(ptr + hdr->hole, blk, size);
+	memmove(ptr + hdr->hole, blk, size);
 	hdr->hole += size;
 	vchanged(ptr);
 }
@@ -84,12 +84,12 @@ static void grmem(H *hdr, unsigned char *ptr, int ofst, unsigned char *blk, int 
 {
 	if (ofst < hdr->hole)
 		if (size > hdr->hole - ofst) {
-			mmove(blk, ptr + ofst, hdr->hole - ofst);
-			mmove(blk + hdr->hole - ofst, ptr + hdr->ehole, size - (hdr->hole - ofst));
+			memmove(blk, ptr + ofst, hdr->hole - ofst);
+			memmove(blk + hdr->hole - ofst, ptr + hdr->ehole, size - (hdr->hole - ofst));
 		} else
-			mmove(blk, ptr + ofst, size);
+			memmove(blk, ptr + ofst, size);
 	else
-		mmove(blk, ptr + ofst + hdr->ehole - hdr->hole, size);
+		memmove(blk, ptr + ofst + hdr->ehole - hdr->hole, size);
 }
 
 
@@ -1595,7 +1595,7 @@ B *bcpy(P *from, P *to)
 		if (q->ofst != q->hdr->hole)
 			gstgap(q->hdr, q->ptr, q->ofst);
 		l->nlines = mcnt(q->ptr + q->hdr->ehole, '\n', l->hole = to->ofst - q->ofst);
-		mmove(ptr, q->ptr + q->hdr->ehole, l->hole);
+		memmove(ptr, q->ptr + q->hdr->ehole, l->hole);
 		vchanged(ptr);
 		vunlock(ptr);
 		enqueb(H, link, &anchor, l);
@@ -1605,7 +1605,7 @@ B *bcpy(P *from, P *to)
 		if (q->ofst != q->hdr->hole)
 			gstgap(q->hdr, q->ptr, q->ofst);
 		l->nlines = mcnt(q->ptr + q->hdr->ehole, '\n', l->hole = SEGSIZ - q->hdr->ehole);
-		mmove(ptr, q->ptr + q->hdr->ehole, l->hole);
+		memmove(ptr, q->ptr + q->hdr->ehole, l->hole);
 		vchanged(ptr);
 		vunlock(ptr);
 		enqueb(H, link, &anchor, l);
@@ -1614,8 +1614,8 @@ B *bcpy(P *from, P *to)
 			l = halloc();
 			ptr = vlock(vmem, l->seg);
 			l->nlines = q->hdr->nlines;
-			mmove(ptr, q->ptr, q->hdr->hole);
-			mmove(ptr + q->hdr->hole, q->ptr + q->hdr->ehole, SEGSIZ - q->hdr->ehole);
+			memmove(ptr, q->ptr, q->hdr->hole);
+			memmove(ptr + q->hdr->hole, q->ptr + q->hdr->ehole, SEGSIZ - q->hdr->ehole);
 			l->hole = GSIZE(q->hdr);
 			vchanged(ptr);
 			vunlock(ptr);
@@ -1628,7 +1628,7 @@ B *bcpy(P *from, P *to)
 			if (to->ofst != to->hdr->hole)
 				gstgap(to->hdr, to->ptr, to->ofst);
 			l->nlines = mcnt(to->ptr, '\n', to->ofst);
-			mmove(ptr, to->ptr, l->hole = to->ofst);
+			memmove(ptr, to->ptr, l->hole = to->ofst);
 			vchanged(ptr);
 			vunlock(ptr);
 			enqueb(H, link, &anchor, l);
@@ -1734,7 +1734,7 @@ static B *bcut(P *from, P *to)
 		/* Store the deleted text */
 		h = halloc();
 		ptr = vlock(vmem, h->seg);
-		mmove(ptr, from->ptr + from->hdr->ehole, (int) amnt);
+		memmove(ptr, from->ptr + from->hdr->ehole, (int) amnt);
 		h->hole = amnt;
 		h->nlines = nlines;
 		vchanged(ptr);
@@ -1758,7 +1758,7 @@ static B *bcut(P *from, P *to)
 			/* Save deleted text */
 			i = halloc();
 			ptr = vlock(vmem, i->seg);
-			mmove(ptr, to->ptr, to->hdr->hole);
+			memmove(ptr, to->ptr, to->hdr->hole);
 			i->hole = to->hdr->hole;
 			i->nlines = mcnt(to->ptr, '\n', to->hdr->hole);
 			vchanged(ptr);
@@ -1786,7 +1786,7 @@ static B *bcut(P *from, P *to)
 			/* Save deleted text */
 			h = halloc();
 			ptr = vlock(vmem, h->seg);
-			mmove(ptr, from->ptr + from->hdr->ehole, SEGSIZ - from->hdr->ehole);
+			memmove(ptr, from->ptr + from->hdr->ehole, SEGSIZ - from->hdr->ehole);
 			h->hole = SEGSIZ - from->hdr->ehole;
 			h->nlines = mcnt(ptr, '\n', h->hole);
 			vchanged(ptr);
@@ -1910,7 +1910,7 @@ static void bsplit(P *p)
 
 		if (p->ofst != p->hdr->hole)
 			gstgap(p->hdr, p->ptr, p->ofst);
-		mmove(ptr, p->ptr + p->hdr->ehole, SEGSIZ - p->hdr->ehole);
+		memmove(ptr, p->ptr + p->hdr->ehole, SEGSIZ - p->hdr->ehole);
 		hdr->hole = SEGSIZ - p->hdr->ehole;
 		hdr->nlines = mcnt(ptr, '\n', hdr->hole);
 		p->hdr->nlines -= hdr->nlines;
@@ -1954,7 +1954,7 @@ static H *bldchn(unsigned char *blk, int size, long *nlines)
 			amnt = SEGSIZ;
 		else
 			amnt = size;
-		mmove(ptr, blk, amnt);
+		memmove(ptr, blk, amnt);
 		l->hole = amnt;
 		l->ehole = SEGSIZ;
 		(*nlines) += (l->nlines = mcnt(ptr, '\n', amnt));

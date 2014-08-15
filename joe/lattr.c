@@ -93,9 +93,9 @@ void reset_all_lattr_db(struct lattr_db *db)
 void lattr_hole(struct lattr_db *db, long pos)
 {
 	if (pos > db->hole)
-		mmove(db->buffer + db->hole, db->buffer + db->ehole, (pos - db->hole) * sizeof(HIGHLIGHT_STATE));
+		memmove(db->buffer + db->hole, db->buffer + db->ehole, (pos - db->hole) * sizeof(HIGHLIGHT_STATE));
 	else if (pos < db->hole)
-		mmove(db->buffer + db->ehole - (db->hole - pos), db->buffer + pos, (db->hole - pos) * sizeof(HIGHLIGHT_STATE));
+		memmove(db->buffer + db->ehole - (db->hole - pos), db->buffer + pos, (db->hole - pos) * sizeof(HIGHLIGHT_STATE));
 	db->ehole = pos + db->ehole - db->hole;
 	db->hole = pos;
 }
@@ -109,7 +109,7 @@ void lattr_check(struct lattr_db *db, long amnt)
 		/* Amount of additional space needed */
 		amnt = amnt - (db->ehole - db->hole) + 16;
 		db->buffer = (HIGHLIGHT_STATE *)realloc(db->buffer, (db->end + amnt) * sizeof(HIGHLIGHT_STATE));
-		mmove(db->buffer + db->ehole + amnt, db->buffer + db->ehole, (db->end - db->ehole) * sizeof(HIGHLIGHT_STATE));
+		memmove(db->buffer + db->ehole + amnt, db->buffer + db->ehole, (db->end - db->ehole) * sizeof(HIGHLIGHT_STATE));
 		db->ehole += amnt;
 		db->end += amnt;
 	}
