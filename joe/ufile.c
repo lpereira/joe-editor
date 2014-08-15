@@ -993,41 +993,6 @@ int ulose(BW *bw)
 
 /* Buffer list */
 
-#ifdef junk
-
-static int dobuf(MENU *m, int x, unsigned char **s)
-{
-	unsigned char *name;
-	BW *bw = m->parent->win->object;
-	int *notify = m->parent->notify;
-
-	m->parent->notify = 0;
-	name = vsdup(s[x]);
-	wabort(m->parent);
-	return dorepl(bw, name, NULL, notify);
-}
-
-static int abrtb(MENU *m, int x, unsigned char **s)
-{
-	varm(s);
-	return -1;
-}
-
-int ubufed(BW *bw)
-{
-	unsigned char **s = getbufs();
-
-	vasort(av(s));
-	if (mkmenu(bw->parent, bw->parent, s, dobuf, abrtb, NULL, 0, s, NULL))
-		return 0;
-	else {
-		varm(s);
-		return -1;
-	}
-}
-
-#endif
-
 unsigned char **sbufs = NULL;	/* Array of command names */
 
 static int bufedcmplt(BW *bw)

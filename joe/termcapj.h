@@ -149,18 +149,6 @@ int tcost(CAP *cap, unsigned char *s, int l, int a0, int a1, int a2, int a3);
 */
 unsigned char *tcompile(CAP *cap, unsigned char *s, int a0, int a1, int a2, int a3);
 
-/* Old termcap support */
-#ifdef junk
-int tgetent();
-unsigned char *tgetstr();
-int tgetflag();
-int tgetnum();
-unsigned char *tgoto();
-void tputs();
-extern short ospeed;
-extern unsigned char PC, *UP, *BC;
-#endif
-
 extern int dopadding;
 extern unsigned char *joeterm;
 

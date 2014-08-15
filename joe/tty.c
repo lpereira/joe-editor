@@ -809,11 +809,6 @@ void ttsusp(void)
 	ttclsn();
 	fprintf(stderr, (char *)joe_gettext(_("You have suspended the program.  Type 'fg' to return\n")));
 	kill(0, SIGTSTP);
-#ifdef junk
-	/* Hmmm... this should not have been necessary */
-	if (ackkbd != -1)
-		kill(kbdpid, SIGCONT);
-#endif
 	if (omode)
 		ttopnn();
 	if (ackkbd!= -1)

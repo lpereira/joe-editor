@@ -551,20 +551,10 @@ SCRN *nopen(CAP *cap)
 #ifndef TERMINFO
 		if (t->md && t->md[0]=='\\' && t->md[1]=='E' && t->md[2]=='[') { 
 			t->assume_256 = 1;
-#ifdef junk
-			t->ut = 1;
-			t->Sf = USTR "\\E[38;5;%dm";
-			t->Sb = USTR "\\E[48;5;%dm";
-#endif
 		}
 #else
 		if (t->md && t->md[0]=='\033' && t->md[1]=='[') { 
 			t->assume_256 = 1;
-#ifdef junk
-			t->ut = 1;
-			t->Sf = USTR "\033[38;5;%p1%dm";
-			t->Sb = USTR "\033[48;5;%p1%dm";
-#endif
 		}
 #endif
 	}

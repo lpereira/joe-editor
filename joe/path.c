@@ -358,17 +358,6 @@ unsigned char *simplify_prefix(unsigned char *s)
 	unsigned char *t = (unsigned char *)getenv("HOME");
 	unsigned char *n;
 
-#ifdef junk
-	unsigned char *org = pwd();
-	/* Normalize home */
-	if (t && !chpwd(t)) {
-		t = pwd();
-	} else {
-		t = 0;
-	}
-	chpwd(org);
-#endif
-
 	/* If current directory is prefixed with home directory, use ~... */
 	if (t && !strncmp((char *)s,(char *)t,zlen(t)) && (!s[zlen(t)] || s[zlen(t)]=='/')) {
 		n = vsncpy(NULL,0,sc("~/"));

@@ -2375,19 +2375,6 @@ B *bload(unsigned char *s)
 		ttclsn();
 		fi = popen((char *)dequote(n + 1), "r");
 	} else if (!zcmp(n, USTR "-")) {
-#ifdef junk
-		FILE *f;
-		struct stat y;
-		fi = stdin;
-		/* Make sure stdin is not tty */
-		if (fstat(fileno(fi), &y)) 
-			goto no_stat;
-		if (y.st_mode & S_IFCHR) {
-			no_stat:
-			b = bmk(NULL);
-			goto empty;
-		}
-#endif
 		/* Now we always just create an empty buffer for "-" */
 		b = bmk(NULL);
 		goto empty;

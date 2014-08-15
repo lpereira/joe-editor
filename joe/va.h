@@ -114,16 +114,6 @@ aELEMENT *vatrunc(aELEMENT *vary, int len);
  */
 aELEMENT *vafill(aELEMENT *vary, int pos, aELEMENT el, int len);
 
-#ifdef junk
-/* aELEMENT *vancpy(aELEMENT *vary, int pos, aELEMENT *array, int len);
- * Copy 'len' elements from 'array' onto 'vary' beginning at position 'pos'.
- * 'array' can be a normal char array since the length is passed seperately.  The
- * elements are copied, not duplicated.  A new array is created if 'vary' is
- * 0.  This does not zap previous elements.
- */
-aELEMENT *vancpy(aELEMENT *vary, int pos, aELEMENT *array, int len);
-#endif
-
 /* aELEMENT *vandup(aELEMENT *vary, int pos, aELEMENT *array, int len);
  * Duplicate 'len' elements from 'array' onto 'vary' beginning at position
  * 'pos'.  'array' can be a char array since its length is passed seperately.  A

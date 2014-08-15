@@ -78,17 +78,6 @@ static int cpara(BW *bw, int c)
 			if (bw->o.cpara[x] == c)
 				return 1;
 	return 0;
-#ifdef junk
-	if (c == ' ' || c == '\t' || c == '\\' ||
-	    c == '>' || c == '|' || c == ':' || c == '*' || c == '/' ||
-	    c == ',' || c == '.' || c == '?' || c == ';' || c == ']' ||
-	    c == '}' || c == '=' || c == '+' || c == '-' || c == '_' ||
-	    c == ')' || c == '&' || c == '^' || c == '%' || c == '$' ||
-	    c == '#' || c == '@' || c == '!' || c == '~')
-		return 1;
-	else
-		return 0;
-#endif
 }
 
 /* Return true if line is definitly not a paragraph line.

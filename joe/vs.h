@@ -316,30 +316,6 @@ sELEMENT *_vsset(sELEMENT *vary, int pos, sELEMENT el);
 /**********************/
 /* Insertion/Deletion */
 /**********************/
-#ifdef junk
-/* sELEMENT *vsins(sELEMENT *vary, int pos, int n);
- * Insert n empty slots into the array.  If 'pos' >= the length of the array,
- * the array is simply extended.  The new slots are not set to anything.
- * This does not set the elements in the created hole to any particular
- * value: use vsfill if you need that to occur.
- */
-sELEMENT *vsins(sELEMENT *vary, int pos, int n);
-
-/* sELEMENT *vsdel(sELEMENT *vary, int pos, int n);
- * Delete n slots from the array.  This does not zap the elements first; call
- * vszap first if you need this to happen.
- */
-sELEMENT *vsdel(SELEMENT *vary, int pos, int n);
-
-/*************************/
-/* Searching and Sorting */
-/*************************/
-
-/* sELEMENT *vssort(sELEMENT *ary, int len))
- * Sort the elements of an array (char or variable length) using qsort().
- */
-sELEMENT *vssort(sELEMENT *ary, int len);
-#endif
 /* int vsbsearch(sELEMENT *ary, int len, sELEMENT element);
  * Do a binary search on a sorted variable length or char array.  Returns position
  * of matching element or the position where the element should be if it was
@@ -349,23 +325,6 @@ sELEMENT *vssort(sELEMENT *ary, int len);
  */
 int vsbsearch(sELEMENT *ary, int len, sELEMENT el);
 
-#ifdef junk
-/* int vsfirst(sELEMENT *ary, int len, sELEMENT element);
- * Find offset to first matching element in 'vary' or return ~0 if not found.
- */
-int vsfirst(sELEMENT *ary, int len, sELEMENT element);
-
-/* int vslast(sELEMENT *ary, int len, sELEMENT element);
- * Find offset to last matching element in 'vary' or return ~0 if none found.
- */
-int vslast(sELEMENT *ary, int len, sELEMENT element);
-
-/* int vss(sELEMENT *a, int alen, sELEMENT *b, int blen);
- * Do a substring search on 'a'.  Return offset from 'a' to first matching
- * occurance of 'b' in 'a' or return ~0 if none found.
- */
-int vss(sELEMENT *a, int alen, sELEMENT *b, int blen);
-#endif
 /* int vscmpn(sELEMENT *a, int alen, sELEMENT *b, int blen);
  *
  * Compare two arrays using scmp.  If 'a' > 'b', return 1.  If 'a' == 'b',
@@ -380,23 +339,6 @@ int vscmpn(sELEMENT *a, int alen, sELEMENT *b, int blen);
  */
 int vscmp(sELEMENT *a, sELEMENT *b);
 
-#ifdef junk
-/* int vsicmpn(sELEMENT *a, int alen, sELEMENT *b, int blen);
- *
- * Compare two arrays using sicmp.  If 'a' > 'b', return 1.  If 'a' == 'b',
- * return 0.  If 'a' < 'b', return -1.  Longer strings are > shorter ones if
- * their beginning match.
- *
- * This is same as vscmpn except that it is case insensitive.
- */
-int vsicmpn(sELEMENT *a, int alen, sELEMENT *b, int blen);
-
-/* int vsicmp(sELEMENT *a, sELEMENT *b);
- *
- * Functionalized version of: vsicmpn(sv(a), sv(b));
- */
-int vsicmp(sELEMENT *a, sELEMENT *b);
-#endif
 /* int vsscan(sELEMENT *a, int alen, sELEMENT *b, int blen);
  * Find offset of first matching element in 'a' which matches any
  * of the elements passed in 'b'.  Array 'b' must be sorted.
@@ -411,32 +353,4 @@ int vsscan(sELEMENT *a, int alen, sELEMENT *b, int blen);
  */
 int vsspan(sELEMENT *a, int alen, sELEMENT *b, int blen);
 
-/***************/
-/* Other stuff */
-/***************/
-#ifdef junk
-/* char *vsread(char *d, int p, int (*getC)(void *ptr), void *ptr);
- * Replace 'd' with next line read from read-character function 'getC'.  If 
- * 'd' is 0, a new string is allocated.  If there is no more input, the string
- * is freed and 0 is returned.  The \n is deleted from the entered line.
- *
- * 'ptr' is passed as the first arg to 'getC'.  'getC' should return -1 if
- * there is no more input.
- */
-unsigned char *vsread();
-
-/* char *vwords(char *s, char **a, int len, char t);
- *
- * Generate a 't'-seperated word list from the words in the zero-terminated
- * array of zero-terminated strings 'a'.  For example a simple 'echo.c':
- *
- * main(argc, argv)
- * char *argv[];
- * {
- * printf("%s\n",vwords(NULL,argv,argc,' ')):
- * }
- *
- */
-unsigned char *vwords();
-#endif
 #endif

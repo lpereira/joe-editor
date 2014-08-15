@@ -98,24 +98,6 @@ aELEMENT *vafill(aELEMENT *vary, int pos, aELEMENT el, int len)
 	return vary;
 }
 
-#ifdef junk
-aELEMENT *vancpy(aELEMENT *vary, int pos, aELEMENT *array, int len)
-{
-	int olen = aLEN(vary);
-
-	if (!vary || pos + len > aSIZ(vary))
-		vary = vaensure(vary, pos + len);
-	if (pos + len > olen) {
-		vary[pos + len] = vary[olen];
-		aLen(vary) = pos + len;
-	}
-	if (pos > olen)
-		vary = vafill(vary, olen, ablank, pos - olen);
-	mfwrd(vary + pos, array, len * sizeof(aELEMENT));
-	return vary;
-}
-#endif
-
 aELEMENT *vandup(aELEMENT *vary, int pos, aELEMENT *array, int len)
 {
 	int olen = aLEN(vary), x;

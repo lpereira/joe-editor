@@ -548,18 +548,6 @@ static int docmd(BW *bw, unsigned char *s, void *object, int *notify)
 		rmmacro(mac);
 	}
 
-#ifdef junk
-	CMD *cmd = findcmd(s);
-	vsrm(s);	/* allocated in pw.c::rtnpw() */
-	if (!cmd)
-		msgnw(bw->parent,joe_gettext(_("No such command")));
-	else {
-		mac = mkmacro(-1, 0, 0, cmd);
-		ret = exmacro(mac, 1);
-		rmmacro(mac);
-	}
-#endif
-
 	if (notify)
 		*notify = 1;
 	return ret;

@@ -338,55 +338,6 @@ unsigned char *zrchr(unsigned char *s, int c)
 	return (unsigned char *)strrchr((char *)s,c);
 }
 
-#ifdef junk
-
-void *replenish(void **list,int size)
-{
-	unsigned char *i = joe_malloc(size*16);
-	int x;
-	for (x=0; x!=15; ++x) {
-		fr_single(list, i);
-		i += size;
-	}
-	return i;
-}
-
-/* Destructors */
-
-GC *gc_free_list = 0;
-
-void gc_add(GC **gc, void **var, void (*rm)(void *val))
-{
-	GC *g;
-	for (g = *gc; g; g=g->next)
-		if (g->var == var)
-			return;
-	g = al_single(&gc_free_list, GC);
-	g = gc_free_list;
-	gc_free_list = g->next;
-	g->next = *gc;
-	*gc = g;
-	g->var = var;
-	g->rm = rm;
-}
-
-void gc_collect(GC **gc)
-{
-	GC *g = *gc;
-	while (g) {
-		GC *next = g->next;
-		if (*g->var) {
-			g->rm(*g->var);
-			*g->var = 0;
-		}
-		fr_single(&gc_free_list,g);
-		g = next;
-	}
-	*gc = 0;
-}
-
-#endif
-
 /* Zstrings */
 
 void rm_zs(ZS z)
@@ -598,27 +549,6 @@ int parse_string(unsigned char **pp, unsigned char *buf, int len)
 	}
 	return -1;
 }
-
-/* Emit a string with escape sequences */
-
-#ifdef junk
-
-/* Used originally for printing macros */
-
-void emit_string(FILE *f,unsigned char *s,int len)
-{
-	unsigned char buf[8];
-	unsigned char *p, *q;
-	fputc('\"',f);
-	while(len) {
-		p = unescape(buf,*s++);
-		for(q=buf;q!=p;++q)
-			fputc(*q,f);
-		--len;
-	}
-	fputc('\"',f);
-}
-#endif
 
 /* Emit a string */
 

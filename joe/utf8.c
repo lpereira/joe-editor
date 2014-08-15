@@ -428,18 +428,6 @@ void joe_locale()
 		       joe_isalnum_(locale_map,x), joe_ispunct(locale_map,x), joe_isprint(locale_map,x));
 */
 
-/* Use iconv() */
-#ifdef junk
-	to_utf = iconv_open("UTF-8", (char *)non_utf8_codeset);
-	from_utf = iconv_open((char *)non_utf8_codeset, "UTF-8");
-#endif
-
-/* For no locale support */
-#ifdef junk
-	locale_map = find_charmap("ascii");
-	fdefault.charmap = locale_map;
-	pdefault.charmap = locale_map;
-#endif
 	init_gettext(locale_msgs);
 }
 
@@ -451,24 +439,6 @@ void to_utf8(struct charmap *map,unsigned char *s,int c)
 		utf8_encode(s,'?');
 	else
 		utf8_encode(s,d);
-#ifdef junk
-	/* Iconv() way */
-	unsigned char buf[10];
-	unsigned char *ibufp = buf;
-	unsigned char *obufp = s;
-	int ibuf_sz=1;
-	int obuf_sz= 10;
-	buf[0]=c;
-	buf[1]=0;
-
-	if (to_utf==(iconv_t)-1 ||
-	    iconv(to_utf,(char **)&ibufp,&ibuf_sz,(char **)&obufp,&obuf_sz)==(size_t)-1) {
-		s[0]='?';
-		s[1]=0;
-	} else {
-		*obufp = 0;
-	}
-#endif
 }
 
 int from_utf8(struct charmap *map,unsigned char *s)
@@ -479,22 +449,6 @@ int from_utf8(struct charmap *map,unsigned char *s)
 		return '?';
 	else
 		return c;
-
-#ifdef junk
-	/* Iconv() way */
-	int ibuf_sz=zlen(s);
-	unsigned char *ibufp=s;
-	int obuf_sz=10;
-	unsigned char obuf[10];
-	unsigned char *obufp = obuf;
-
-
-	if (from_utf==(iconv_t)-1 ||
-	    iconv(from_utf,(char **)&ibufp,&ibuf_sz,(char **)&obufp,&obuf_sz)==((size_t)-1))
-		return '?';
-	else
-		return obuf[0];
-#endif
 }
 
 void my_iconv(unsigned char *dest,struct charmap *dest_map,
