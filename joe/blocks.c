@@ -25,7 +25,7 @@ int *msetI(void *dest, int c, int sz)
 /* Set 'sz' 'int's beginning at 'd' to the value 'c' */
 /* Returns address of block.  Does nothing if 'sz' equals zero */
 
-void **msetP(void **d, void *c, int sz)
+void **msetP(void **dest, void *c, int sz)
 {
 	void **d = (void**)dest;
 

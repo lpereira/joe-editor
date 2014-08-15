@@ -13,7 +13,7 @@
 
 /* char *mmove(char *d,char *s,int sz); Copy 'sz' bytes from 's' to 'd'.
  */
-static void *mmove(void *d, void *s, int sz);
+static void *mmove(void *d, void *s, int sz)
 {
 	return memmove(d, s, (size_t)sz);
 }

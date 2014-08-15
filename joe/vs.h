@@ -243,7 +243,7 @@ sELEMENT *vsdup(sELEMENT *vary);
  * deleted.    This does not duplicate 'element'.  If you need 'element'
  * duplicated, call: vsset(vary,pos,sdup(element));
  */
-sELEMENT *_vsset(sELEMENT *vary, int pos, sELEMENT el));
+sELEMENT *_vsset(sELEMENT *vary, int pos, sELEMENT el);
 
 #define vsset(v, p, el)  \
  (!(v) || (p) > sLen(v) || (p) >= sSiz(v) ?  \
