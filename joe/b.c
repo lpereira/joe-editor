@@ -219,7 +219,7 @@ static B *bmkchn(H *chn, B *prop, long amnt, long nlines)
 		b->o = prop->o;
 	else
 		b->o = pdefault;
-	mset(b->marks, 0, sizeof(b->marks));
+	memset(b->marks, 0, sizeof(b->marks));
 	b->rdonly = 0;
 	b->orphan = 0;
 	b->oldcur = NULL;
@@ -1298,7 +1298,7 @@ static P *ffind(P *p, unsigned char *s, int len)
 	if (!len)
 		return p;
 	p->valcol = 0;
-	mset(table, 255, 256);
+	memset(table, 255, 256);
 	for (x = 0; x != len - 1; ++x)
 		table[s[x]] = x;
 	ffwrd(p, len);
@@ -1338,7 +1338,7 @@ static P *fifind(P *p, unsigned char *s, int len)
 	if (!len)
 		return p;
 	p->valcol = 0;
-	mset(table, 255, 256);
+	memset(table, 255, 256);
 	for (x = 0; x != len - 1; ++x)
 		table[s[x]] = x;
 	ffwrd(p, len);
@@ -1457,7 +1457,7 @@ static P *frfind(P *p, unsigned char *s, int len)
 	if (!len)
 		return p;
 	p->valcol = 0;
-	mset(table, 255, 256);
+	memset(table, 255, 256);
 	for (x = len; --x; table[s[x]] = len - x - 1) ;
 	x = 0;
 	do {
@@ -1500,7 +1500,7 @@ static P *frifind(P *p, unsigned char *s, int len)
 	if (!len)
 		return p;
 	p->valcol = 0;
-	mset(table, 255, 256);
+	memset(table, 255, 256);
 	for (x = len; --x; table[s[x]] = len - x - 1) ;
 	x = 0;
 	do {

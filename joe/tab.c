@@ -84,7 +84,7 @@ static int get_entries(TAB *tab, int prv)
 			tab->type[a] = F_DIR;
 		} else {
 			struct stat buf;
-			mset(&buf, 0, sizeof(struct stat));
+			memset(&buf, 0, sizeof(struct stat));
 
 			stat((char *)(files[a]), &buf);
 			if (buf.st_ino == prv)

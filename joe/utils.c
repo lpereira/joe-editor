@@ -415,7 +415,7 @@ int joe_set_signal(int signum, sighandler_t handler)
 #ifdef HAVE_SIGACTION
 	struct sigaction sact;
 
-	mset(&sact, 0, sizeof(sact));
+	memset(&sact, 0, sizeof(sact));
 	sact.sa_handler = handler;
 #ifdef SA_INTERRUPT
 	sact.sa_flags = SA_INTERRUPT;

@@ -1369,7 +1369,7 @@ void magic(SCRN *t, int y, int *cs, int *ca,int *s, int *a, int placex)
 
 	if (!(t->im || t->ic || t->IC) || !(t->dc || t->DC))
 		return;
-	mset(htab, 0, 256 * sizeof(struct hentry));
+	memset(htab, 0, 256 * sizeof(struct hentry));
 
 	msetI(ofst, 0, t->co);
 
@@ -1732,7 +1732,7 @@ void nscrlup(SCRN *t, int top, int bot, int amnt)
 	msetI(t->sary + bot - amnt, t->li, amnt);
 	if (amnt == bot - top) {
 		msetI(t->updtab + bot - amnt, 1, amnt);
-		}
+	}
 }
 
 void nredraw(SCRN *t)

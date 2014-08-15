@@ -200,12 +200,12 @@ unsigned char *vlock(VFILE *vfile, off_t addr)
 		if (addr + PGSIZE > vfile->size) {
 			if (joe_read(vfile->fd, vp->data, (int) (vfile->size - addr)) < 0)
 				ttsig(-2);
-			mset(vp->data + vfile->size - addr, 0, PGSIZE - (int) (vfile->size - addr));
+			memset(vp->data + vfile->size - addr, 0, PGSIZE - (int) (vfile->size - addr));
 		} else
 			if (joe_read(vfile->fd, vp->data, PGSIZE) < 0)
 				ttsig(-2);
 	} else
-		mset(vp->data, 0, PGSIZE);
+		memset(vp->data, 0, PGSIZE);
 
 	return vp->data + ofst;
 }
