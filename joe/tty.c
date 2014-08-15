@@ -37,10 +37,6 @@
 
 int idleout = 1;
 
-#ifdef __amigaos
-#undef SIGTSTP
-#endif
-
 /* We use the defines in sys/ioctl to determine what type
  * tty interface the system uses and what type of system
  * we actually have.
@@ -724,11 +720,7 @@ int ttshell(unsigned char *cmd)
 		/* return; */
 	}
 	ttclsn();
-#ifdef HAVE_FORK
 	if ((x = fork()) != 0) {
-#else
-	if ((x = vfork()) != 0) { /* For AMIGA only  */
-#endif
 		if (x != -1)
 			wait(&stat);
 		if (omode)

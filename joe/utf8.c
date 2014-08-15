@@ -7,13 +7,6 @@
  */
 #include "types.h"
 
-/* Under AmigaOS we have setlocale() but don't have langinfo.h and associated stuff,
- * so we have to disable the whole piece of code
- */
-#ifdef __amigaos
-#undef HAVE_SETLOCALE
-#endif
-
 /* Cygwin has CODESET, but it's crummy */
 #ifdef __CYGWIN__
 #undef HAVE_SETLOCALE
