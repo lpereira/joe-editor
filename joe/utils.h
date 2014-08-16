@@ -90,7 +90,6 @@ void rm_zs(ZS z);
    character is loaded from a string into an 'int', the codes 0-255 are
    used, not -128 - 127. */
 
-unsigned char *zstr(unsigned char *a, unsigned char *b);
 unsigned char *zchr(unsigned char *s, int c);
 unsigned char *zrchr(unsigned char *s, int c);
 unsigned char *zcat(unsigned char *a, unsigned char *b);

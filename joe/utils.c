@@ -94,11 +94,6 @@ void joe_free(void *ptr)
 	free(ptr);
 }
 
-unsigned char *zstr(unsigned char *a, unsigned char *b)
-{
-	return (unsigned char *)strstr((char *)a,(char *)b);
-}
-
 unsigned char *zcat(unsigned char *a, unsigned char *b)
 {
 	strcat((char *)a,(char *)b);
