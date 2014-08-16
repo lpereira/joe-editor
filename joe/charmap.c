@@ -1308,22 +1308,6 @@ struct charmap *find_charmap(unsigned char *name)
 	return NULL;
 }
 
-/* Test */
-
-#if 0
-main(int argc,char *argv[])
-{
-	struct charmap *map=find_charmap(argv[1]);
-	int u;
-	int uni;
-	if (!map)
-		printf("Not found\n");
-	sscanf(argv[2],"%x",&u);
-	printf("Unicode=%x\n",uni=to_uni(map,u));
-	printf("Local=%x\n",from_uni(map,uni));
-}
-#endif
-
 /* Get names of available encodings (for tab completion of ^T E prompt) */
 
 unsigned char **get_encodings()
@@ -1391,63 +1375,6 @@ unsigned char **get_encodings()
 
 	return encodings;
 }
-
-#if 0
-
-/* Convert to uppercase via unicode.  Returns original
-   character if there was no conversion. */
-
-int joe_toupper(struct charmap *map,int c)
-{
-	int d;
-
-	/* This appears to always be true */
-	if (c>='a' && c<='z')
-		return c+'A'-'a';
-	else if (c<128)
-		return c;
-
-	/* Slow... */
-	d = to_uni(map,c);
-	if (d== -1)
-		return c;
-	d = joe_towupper(d);
-	if (d== -1)
-		return c;
-	d = from_uni(map,d);
-	if (d== -1)
-		return c;
-	else
-		return d;
-}
-
-/* Convert to uppercase via unicode.  Returns original
-   character if there was no conversion. */
-
-int joe_tolower(struct charmap *map,int c)
-{
-	int d;
-
-	/* This appears to always be true */
-	if (c>='A' && c<='Z')
-		return c+'a'-'A';
-	else if (c<128)
-		return c;
-
-	/* Slow... */
-	d = to_uni(map,c);
-	if (d== -1)
-		return c;
-	d = joe_towlower(d);
-	if (d== -1)
-		return c;
-	d = from_uni(map,d);
-	if (d== -1)
-		return c;
-	else
-		return d;
-}
-#endif
 
 /* This is not correct... (EBCDIC for example) */
 

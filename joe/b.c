@@ -895,51 +895,7 @@ int prgetc(P *p)
 			prm(q);
 			return brch(p);
 		}
-
-#if 0
-		int d = 0;
-		int c;
-		int n = 0;
-		int val = p->valcol;
-		for(;;) {
-			c = prgetb(p);
-			if (c == NO_MORE_DATA)
-				return NO_MORE_DATA;
-			else if ((c&0xC0)==0x80) {
-				d |= ((c&0x3F)<<n);
-				n += 6;
-			} else if ((c&0x80)==0x00) { /* One char */
-				d = c;
-				break;
-			} else if ((c&0xE0)==0xC0) { /* Two chars */
-				d |= ((c&0x1F)<<n);
-				break;
-			} else if ((c&0xF0)==0xE0) { /* Three chars */
-				d |= ((c&0x0F)<<n);
-				break;
-			} else if ((c&0xF8)==0xF0) { /* Four chars */
-				d |= ((c&0x07)<<n);
-				break;
-			} else if ((c&0xFC)==0xF8) { /* Five chars */
-				d |= ((c&0x03)<<n);
-				break;
-			} else if ((c&0xFE)==0xFC) { /* Six chars */
-				d |= ((c&0x01)<<n);
-				break;
-			} else { /* FIXME: Invalid (0xFE or 0xFF found) */
-				break;
-			}
-		}
-
-		if (val && c!='\t' && c!='\n') {
-			p->valcol = 1;
-			p->col -= joe_wcwidth(1,d);
-		}
-		
-		return d;
-#endif
-	}
-	else {
+	} else {
 		return prgetb(p);
 	}
 }

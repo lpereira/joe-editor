@@ -68,16 +68,6 @@ struct window {
 	KBD	*kbd;		/* Keyboard handler for this window */
 	WATOM	*watom;		/* The type of this window */
 	void	*object;	/* Object which inherits this */
-#if 0
-	union {			/* FIXME: instead of void *object we should */
-		BW	*bw;	/* use this union to get strict type checking */
-		PW	*pw;	/* from C compiler (need to check and change */
-		QW	*qw;	/* all of the occurrencies of ->object) */
-		TW	*tw;
-		MENU	*menu;
-		BASE	*base;
-	} object;
-#endif
 
 	unsigned char	*msgt;		/* Message at top of window */
 	unsigned char	*msgb;		/* Message at bottom of window */

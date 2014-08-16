@@ -1048,39 +1048,6 @@ int display_menu(BW *bw, struct rc_menu *menu, int *notify)
 	for (x = 0; x != menu->size; ++x) {
 		/* s[x] = zdup(menu->entries[x]->name); */
 		s[x] = stagen(NULL, bw, menu->entries[x]->name, ' ');
-
-
-#if 0
-		int y;
-		if ((y = find_option(menu->entries[x])) >= 0) {
-			s[x] = (unsigned char *) joe_malloc(OPT_BUF_SIZE);		/* FIXME: why 40 ??? */
-			switch (glopts[y].type) {
-				case 0:
-					joe_snprintf_2((s[x]), OPT_BUF_SIZE, "%s%s", joe_gettext(glopts[y].menu), *(int *)glopts[y].set ? "ON" : "OFF");
-					break;
-				case 1:
-					joe_snprintf_2((s[x]), OPT_BUF_SIZE, "%s%d", joe_gettext(glopts[y].menu), *(int *)glopts[y].set);
-					break;
-				case 2:
-				case 9:
-				case 13:
-				case 6:
-					zcpy(s[x], joe_gettext(glopts[y].menu));
-					break;
-				case 4:
-					joe_snprintf_2((s[x]), OPT_BUF_SIZE, "%s%s", joe_gettext(glopts[y].menu), *(int *) ((unsigned char *) &bw->o + glopts[y].ofst) ? "ON" : "OFF");
-					break;
-				case 5:
-					joe_snprintf_2((s[x]), OPT_BUF_SIZE, "%s%d", joe_gettext(glopts[y].menu), *(int *) ((unsigned char *) &bw->o + glopts[y].ofst));
-					break;
-				case 7:
-					joe_snprintf_2((s[x]), OPT_BUF_SIZE, "%s%d", joe_gettext(glopts[y].menu), *(int *) ((unsigned char *) &bw->o + glopts[y].ofst) + 1);
-					break;
-			}
-		} else {
-			s[x] = zdup(menu->entries[x]);
-		}
-#endif
 	}
 	s[x] = 0;
 	m->menu = menu;

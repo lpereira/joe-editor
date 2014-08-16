@@ -149,33 +149,3 @@ output_security_context(char *from_file)
 	return 0;
 }
 
-#if 0
-
-/*
-  Test program compile using the following command
-  cc -o t t.c -DWITH_SELINUX -DTEST -lselinux
- */
-
-#include <stdio.h>
-#include <stdlib.h>
-main(int argc, char **argv)
-{
-
-	printf("%d: %s\n", argc, argv[1]);
-	if (argc == 3) {
-		copy_security_context(argv[1], argv[2]);
-		output_security_context(argv[2]);
-	}
-	if (argc == 2) {
-		FILE *fd;
-		char *temp;
-		match_default_security_context(argv[1]);
-		mkstemp(temp);
-		printf("temp=%s", temp);
-		fd = fopen(temp, "w");
-		fclose(fd);
-		output_security_context(temp);
-		reset_default_security_context();
-	}
-}
-#endif
