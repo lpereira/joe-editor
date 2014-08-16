@@ -884,10 +884,8 @@ static int dofilt(BW *bw, unsigned char *s, void *object, int *notify)
 	npartial(bw->parent->t->t);
 	ttclsn();
 	if (!fork()) {
-#ifdef HAVE_PUTENV
-		unsigned char		*fname, *name;
+		unsigned char	*fname, *name;
 		unsigned	len;
-#endif
 		signrm();
 		close(0);
 		close(1);
@@ -899,15 +897,12 @@ static int dofilt(BW *bw, unsigned char *s, void *object, int *notify)
 		close(fr[1]);
 		close(fw[1]);
 		close(fr[0]);
-#ifdef HAVE_PUTENV
 		fname = vsncpy(NULL, 0, sc("JOE_FILENAME="));
 		name = bw->b->name ? bw->b->name : (unsigned char *)"Unnamed";
 		if((len = slen(name)) >= 512)	/* limit filename length */
 			len = 512;
 		fname = vsncpy(sv(fname), name, len);
 		putenv((char *)fname);
-		vsrm(fname);
-#endif
 		execl("/bin/sh", "/bin/sh", "-c", s, NULL);
 		_exit(0);
 	}
