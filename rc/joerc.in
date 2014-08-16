@@ -178,16 +178,16 @@
 
  -text_color color
 		Set color for text.
- -status_color color
-		Set color for status bar.
- -help_color color
-		Set color for help.
- -menu_color color
-		Set color for menus.
- -prompt_color color
-		Set color for prompts.
- -msg_color color
-		Set color for messages.
+-status_color bg_white+green
+                Set color for status bar.
+-help_color bg_white+green
+                Set color for help.
+-menu_color bg_green+white
+                Set color for menus.
+-prompt_color bg_green+white
+                Set color for prompts.
+-msg_color cyan
+                Set color for messages.
 
 		For example: -text_color bg_blue+white
 		Sets the background color to blue and foreground color to white.
@@ -239,8 +239,8 @@
   \d  Dim
   \f  Blink
 
--lmsg \i%k%T%W%I%X %n %m%y%R %M %x
--rmsg  %S Row %r Col %c %t  Ctrl-K H for help
+-lmsg \i ⭡ %r:%c\i⮀ \b%n\b%*\i⮀ %x
+-rmsg  \i⮀ %T \d%y%R\d
 
  SECOND SECTION: File name dependant local option settings:
 
