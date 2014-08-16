@@ -2133,7 +2133,7 @@ int rtntw(BW *bw)
 
 		binsc(bw->cursor, '\n'), pgetc(bw->cursor);
 		/* Suppress autoindent if we're on a space or tab... */
-		if (bw->o.autoindent)
+		if (bw->o.autoindent) {
 			p_goto_bol(p);
 			while (joe_isspace(bw->b->o.charmap,(c = pgetc(p))) && c != '\n') {
 				binsc(bw->cursor, c);
