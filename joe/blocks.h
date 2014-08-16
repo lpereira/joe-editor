@@ -11,15 +11,6 @@
 #ifndef _JOE_BLOCKS_H
 #define _JOE_BLOCKS_H 1
 
-/* char *mset(char *d,char c,int sz); Set 'sz' bytes at 'd' to 'c'.
- * If 'sz'==0 nothing happens
- * Return original value of 'd'
- */
-static unsigned char *mset(void *dest, unsigned char c, int sz)
-{
-	return (unsigned char*)memset(dest, c, (size_t)sz);
-}
-
 /* int *msetI(int *d,int c,int sz); Set 'sz' ints at 'd' to 'c'.
  * If 'sz'==0 nothing happens
  * Returns orininal value of 'd'

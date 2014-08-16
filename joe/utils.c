@@ -375,7 +375,7 @@ int joe_set_signal(int signum, sighandler_t handler)
 #elif defined(HAVE_SIGVEC)
 	struct sigvec svec;
 
-	mset(&svec, 0, sizeof(svec));
+	memset(&svec, 0, sizeof(svec));
 	svec.sv_handler = handler;
 #ifdef HAVE_SV_INTERRUPT
 	svec.sv_flags = SV_INTERRUPT;
