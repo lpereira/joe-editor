@@ -582,7 +582,7 @@ struct high_state *load_dfa(struct high_syntax *syntax)
 	while(fgets((char *)buf,1023,f)) {
 		++line;
 		p = buf;
-		c = parse_ws(&p,'#');
+		parse_ws(&p,'#');
 		if (!parse_char(&p, '.')) {
 			if (!parse_ident(&p, bf, sizeof(bf))) {
 				if (!strcmp(bf, USTR "ifdef")) {

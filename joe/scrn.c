@@ -1047,10 +1047,8 @@ static void cposs(register SCRN *t, register int x, register int y)
 	}
 	if (t->cho + t->ccv < bestcost) {
 		cost = tcost(t->cap, t->ho, 1, 0, 0, 0, 0) + tcost(t->cap, t->cv, 1, y, 0, 0, 0) + relcost(t, x, y, 0, y);
-		if (cost < bestcost) {
-			bestcost = cost;
+		if (cost < bestcost)
 			bestway = 12;
-		}
 	}
 
 /* Do absolute cursor positioning if we don't know the cursor position or

@@ -218,7 +218,7 @@ static int skip_special(P *p)
 		break;
 	case '\'':
 		if ((s = pgetc(p)) == '\\') {
-			s = pgetc(p);
+			pgetc(p);
 			s = pgetc(p);
 		}
 		if (s == '\'')
