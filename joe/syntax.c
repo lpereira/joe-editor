@@ -348,10 +348,10 @@ void dump_syntax(BW *bw)
 		pnextl(bw->cursor);
 		strcpy(buf, USTR "params=(");
 		for(params = syntax->params; params; params = params->next) {
-			zcat(buf, USTR " ");
-			zcat(buf, params->name);
+			strcat(buf, USTR " ");
+			strcat(buf, params->name);
 		}
-		zcat(buf, USTR " )\n");
+		strcat(buf, USTR " )\n");
 		binss(bw->cursor, buf);
 		pnextl(bw->cursor);
 		for(x=0;x!=syntax->nstates;++x) {

@@ -92,7 +92,6 @@ void rm_zs(ZS z);
 
 unsigned char *zchr(unsigned char *s, int c);
 unsigned char *zrchr(unsigned char *s, int c);
-unsigned char *zcat(unsigned char *a, unsigned char *b);
 
 /*
  * Functions which return minimum/maximum of two numbers  
