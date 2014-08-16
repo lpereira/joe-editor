@@ -348,7 +348,7 @@ void breplace(B *b, B *n)
 	reset_all_lattr_db(b->db);
 	
 	/* Take new name */
-	b->name = zdup(n->name);
+	b->name = strdup(n->name);
 
 	/* Take bof Pointer */
 	/* Taking n->bof's vlock */
@@ -2401,7 +2401,7 @@ opnerr:
 	}
 
 	/* Set name */
-	b->name = zdup(s);
+	b->name = strdup(s);
 
 	/* Set flags */
 	if (berror || s[0] == '!' || skip || amnt != MAXLONG) {
@@ -2569,7 +2569,7 @@ B *bfind_scratch(unsigned char *s)
 	b->internal = 0;
 	b->rdonly = b->o.readonly;
 	b->er = berror;
-	b->name = zdup(s);
+	b->name = strdup(s);
 	b->scratch = 1;
 	return b;
 }

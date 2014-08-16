@@ -109,14 +109,6 @@ int zncmp(unsigned char *a, unsigned char *b, size_t len)
 	return strncmp((char *)a, (char *)b, len);
 }
 
-unsigned char *zdup(unsigned char *bf)
-{
-	int size = zlen(bf);
-	unsigned char *p = (unsigned char *)joe_malloc(size+1);
-	memcpy(p,bf,size+1);
-	return p;
-}
-
 unsigned char *zcpy(unsigned char *a, unsigned char *b)
 {
 	strcpy((char *)a,(char *)b);

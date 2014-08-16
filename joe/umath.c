@@ -47,7 +47,7 @@ static struct var *get(unsigned char *str)
 	v->val = 0;
 	v->next = vars;
 	vars = v;
-	v->name = zdup(str);
+	v->name = strdup(str);
 	return v;
 }
 

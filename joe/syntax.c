@@ -231,7 +231,7 @@ static struct high_state *find_state(struct high_syntax *syntax,unsigned char *n
 	if(!state) {
 		int y;
 		state=joe_malloc(sizeof(struct high_state));
-		state->name=zdup(name);
+		state->name=strdup(name);
 		state->no=syntax->nstates;
 		state->color=FG_WHITE;
 		/* Expand the state table if necessary */
@@ -305,7 +305,7 @@ void parse_color_def(struct high_color **color_list,unsigned char *p,unsigned ch
 		/* If it doesn't exist, create it */
 		if(!color) {
 			color = joe_malloc(sizeof(struct high_color));
-			color->name = zdup(bf);
+			color->name = strdup(bf);
 			color->color = 0;
 			color->next = *color_list;
 			*color_list = color;
@@ -389,7 +389,7 @@ struct high_param *parse_params(struct high_param *current_params,unsigned char 
 	param_ptr = &params;
 	while (current_params) {
 		*param_ptr = joe_malloc(sizeof(struct high_param));
-		(*param_ptr)->name = zdup(current_params->name);
+		(*param_ptr)->name = strdup(current_params->name);
 		param_ptr = &(*param_ptr)->next;
 		current_params = current_params->next;
 	}
@@ -426,7 +426,7 @@ struct high_param *parse_params(struct high_param *current_params,unsigned char 
 				/* Discard duplicates */
 				if (!*param_ptr || cmp) {
 					struct high_param *param = joe_malloc(sizeof(struct high_param));
-					param->name = zdup(bf);
+					param->name = strdup(bf);
 					param->next = *param_ptr;
 					*param_ptr = param;
 				}
@@ -516,7 +516,7 @@ void parse_options(struct high_syntax *syntax,struct high_cmd *cmd,FILE *f,unsig
 							} else {
 								if(!cmd->keywords)
 									cmd->keywords = htmk(64);
-								htadd(cmd->keywords,zdup(bf),kw_cmd);
+								htadd(cmd->keywords,strdup(bf),kw_cmd);
 							}
 							parse_options(syntax,kw_cmd,f,p,1,name,line);
 						} else
@@ -776,8 +776,8 @@ struct high_syntax *load_syntax_subr(unsigned char *name,unsigned char *subr,str
 
 	/* Create new one */
 	syntax = joe_malloc(sizeof(struct high_syntax));
-	syntax->name = zdup(name);
-	syntax->subr = subr ? zdup(subr) : 0;
+	syntax->name = strdup(name);
+	syntax->subr = subr ? strdup(subr) : 0;
 	syntax->params = params;
 	syntax->next = syntax_list;
 	syntax->nstates = 0;

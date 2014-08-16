@@ -57,7 +57,7 @@ KMAP *kmap_getcontext(unsigned char *name)
 	c = (struct context *) joe_malloc(sizeof(struct context));
 
 	c->next = contexts;
-	c->name = zdup(name);
+	c->name = strdup(name);
 	contexts = c;
 	return c->kmap = mkkmap();
 }
@@ -221,14 +221,14 @@ void lazy_opts(B *b, OPTIONS *o)
 			len = b->eof->byte;
 		brmem(b->bof, buf, len);
 		o->charmap = guess_map(buf, len);
-		o->map_name = zdup(o->charmap->name);
+		o->map_name = strdup(o->charmap->name);
 	} else {
 		o->charmap = find_charmap(o->map_name);
 	}
 	if (!o->charmap)
 		o->charmap = locale_map;
 	if (!o->language)
-		o->language = zdup(locale_msgs);
+		o->language = strdup(locale_msgs);
 	/* Hex not allowed with UTF-8 */
 	if (o->hex && o->charmap->type) {
 		o->charmap = find_charmap(USTR "c");
@@ -466,7 +466,7 @@ int glopt(unsigned char *s, unsigned char *arg, OPTIONS *options, int set)
 		case 2: /* Global variable string option */
 			if (set) {
 				if (arg)
-					*(unsigned char **) opt->set = zdup(arg);
+					*(unsigned char **) opt->set = strdup(arg);
 				else
 					*(unsigned char **) opt->set = 0;
 			}
@@ -489,7 +489,7 @@ int glopt(unsigned char *s, unsigned char *arg, OPTIONS *options, int set)
 			if (options) {
 				if (arg) {
 					*(unsigned char **) ((unsigned char *)
-							  options + opt->ofst) = zdup(arg);
+							  options + opt->ofst) = strdup(arg);
 				} else {
 					*(unsigned char **) ((unsigned char *)
 							  options + opt->ofst) = 0;
@@ -512,7 +512,7 @@ int glopt(unsigned char *s, unsigned char *arg, OPTIONS *options, int set)
 
 		case 9: /* Set syntax */
 			if (arg && options)
-				options->syntax_name = zdup(arg);
+				options->syntax_name = strdup(arg);
 			/* this was causing all syntax files to be loaded...
 			if (arg && options)
 				options->syntax = load_syntax(arg); */
@@ -520,7 +520,7 @@ int glopt(unsigned char *s, unsigned char *arg, OPTIONS *options, int set)
 
 		case 13: /* Set byte mode encoding */
 			if (arg && options)
-				options->map_name = zdup(arg);
+				options->map_name = strdup(arg);
 			break;
 		}
 		/* This is a stupid hack... */
@@ -535,14 +535,14 @@ int glopt(unsigned char *s, unsigned char *arg, OPTIONS *options, int set)
 		if (!zcmp(s, USTR "lmsg")) {
 			if (arg) {
 				if (options)
-					options->lmsg = zdup(arg);
+					options->lmsg = strdup(arg);
 				ret = 2;
 			} else
 				ret = 1;
 		} else if (!zcmp(s, USTR "rmsg")) {
 			if (arg) {
 				if (options)
-					options->rmsg = zdup(arg);
+					options->rmsg = strdup(arg);
 				ret = 2;
 			} else
 				ret = 1;
@@ -554,7 +554,7 @@ int glopt(unsigned char *s, unsigned char *arg, OPTIONS *options, int set)
 				if (!arg[y])
 					arg[y] = 0;
 				if (options && y)
-					options->context = zdup(arg);
+					options->context = strdup(arg);
 				ret = 2;
 			} else
 				ret = 1;
@@ -680,10 +680,10 @@ static int doopt1(BW *bw, unsigned char *s, int *xx, int *notify)
 		break;
 	case 2:
 		if (s[0])
-			*(unsigned char **) glopts[x].set = zdup(s);
+			*(unsigned char **) glopts[x].set = strdup(s);
 		break;
 	case 6:
-		*(unsigned char **)((unsigned char *)&bw->o+glopts[x].ofst) = zdup(s);
+		*(unsigned char **)((unsigned char *)&bw->o+glopts[x].ofst) = strdup(s);
 		break;
 	case 5:
 		v = calc(bw, s);
@@ -891,7 +891,7 @@ struct rc_menu *create_menu(unsigned char *name)
 	if (menu)
 		return menu;
 	menu = (struct rc_menu *)joe_malloc(sizeof(struct rc_menu));
-	menu->name = zdup(name);
+	menu->name = strdup(name);
 	menu->next = menus;
 	menus = menu;
 	menu->last_position = 0;
@@ -904,7 +904,7 @@ void add_menu_entry(struct rc_menu *menu, unsigned char *entry_name, MACRO *m)
 {
 	struct rc_menu_entry *e = (struct rc_menu_entry *)joe_malloc(sizeof(struct rc_menu_entry));
 	e->m = m;
-	e->name = zdup(entry_name);
+	e->name = strdup(entry_name);
 	++menu->size;
 	if (!menu->entries) {
 		menu->entries = (struct rc_menu_entry **)joe_malloc(menu->size * sizeof(struct rc_menu_entry *));
@@ -1235,7 +1235,7 @@ int procrc(CAP *cap, unsigned char *name)
 				buf[x] = 0;
 				o->next = options;
 				options = o;
-				o->name_regex = zdup(buf);
+				o->name_regex = strdup(buf);
 			}
 			break;
 		case '+':	/* Set file contents match regex */
@@ -1245,7 +1245,7 @@ int procrc(CAP *cap, unsigned char *name)
 				for (x = 0; buf[x] && buf[x] != '\n' && buf[x] != '\r'; ++x) ;
 				buf[x] = 0;
 				if (o)
-					o->contents_regex = zdup(buf+1);
+					o->contents_regex = strdup(buf+1);
 			}
 			break;
 		case '-':	/* Set an option */

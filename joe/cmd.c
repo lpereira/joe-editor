@@ -502,7 +502,7 @@ void addcmd(unsigned char *s, MACRO *m)
 
 	if (!cmdhash)
 		izcmds();
-	cmd->name = zdup(s);
+	cmd->name = strdup(s);
 	cmd->flag = 0;
 	cmd->func = NULL;
 	cmd->m = m;

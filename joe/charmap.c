@@ -1044,7 +1044,7 @@ static struct charmap *process_builtin(struct builtin_charmap *builtin)
 	int x;
 	struct charmap *map;
 	map = joe_malloc(sizeof(struct charmap));
-	map->name = zdup(builtin->name);
+	map->name = strdup(builtin->name);
 	map->type = 0;
 	map->is_punct = byte_ispunct;
 	map->is_print = byte_isprint;
@@ -1167,7 +1167,7 @@ struct builtin_charmap *parse_charmap(unsigned char *name,FILE *f)
 
 	b = joe_malloc(sizeof(struct builtin_charmap));
 
-	b->name = zdup(name);
+	b->name = strdup(name);
 
 	for (x=0; x!=256; ++x)
 		b->to_uni[x]= -1;

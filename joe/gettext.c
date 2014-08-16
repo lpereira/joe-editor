@@ -95,7 +95,7 @@ int load_po(FILE *f)
 				/* Convert to locale character map */
 				my_iconv(bf,locale_map,msgstr,po_map);
 				/* Add to hash table */
-				htadd(gettext_ht, zdup(msgid), zdup(bf));
+				htadd(gettext_ht, strdup(msgid), strdup(bf));
 			} else if (!msgid[0] && msgstr[0]) {
 				unsigned char *p = (unsigned char *)strstr((char *)msgstr, "charset=");
 				if (p) {

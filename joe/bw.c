@@ -909,7 +909,7 @@ struct file_pos *find_file_pos(unsigned char *name)
 			return p;
 		}
 	p = (struct file_pos *)malloc(sizeof(struct file_pos));
-	p->name = zdup(name);
+	p->name = strdup(name);
 	p->line = 0;
 	enquef(struct file_pos,link,&file_pos,p);
 	if (++file_pos_count == MAX_FILE_POS) {

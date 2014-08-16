@@ -349,7 +349,7 @@ void joe_locale()
 	}
 
 	if (s)
-		s=zdup(s);
+		s=strdup(s);
 	else
 		s=USTR "ascii";
 
@@ -367,11 +367,11 @@ void joe_locale()
 	}
 
 	if (s)
-		s=zdup(s);
+		s=strdup(s);
 	else
 		s=USTR "ascii";
 
-	u = zdup(s);
+	u = strdup(s);
 
 	if ((t=zrchr(s,'.')))
 		*t = 0;
@@ -380,7 +380,7 @@ void joe_locale()
 
 #ifdef HAVE_SETLOCALE
 	setlocale(LC_ALL,(char *)s);
-	non_utf8_codeset = zdup((unsigned char *)nl_langinfo(CODESET));
+	non_utf8_codeset = strdup((unsigned char *)nl_langinfo(CODESET));
 #else
 	non_utf8_codeset = joe_getcodeset(s);
 #endif
@@ -396,7 +396,7 @@ void joe_locale()
 	textdomain(PACKAGE);
 	/* printf("%s %s %s\n",PACKAGE,LOCALEDIR,joe_gettext("New File")); */
 #endif
-	codeset = zdup((unsigned char *)nl_langinfo(CODESET));
+	codeset = strdup((unsigned char *)nl_langinfo(CODESET));
 #else
 	codeset = joe_getcodeset(u);
 #endif
