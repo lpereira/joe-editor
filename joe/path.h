@@ -8,8 +8,6 @@
 #ifndef _JOE_PATH_H
 #define _JOE_PATH_H 1
 
-unsigned char *joesep(unsigned char *path);
-
 /* char *namprt(char *path);
  * Return name part of a path.  There is no name if the last character
  * in the path is '/'.

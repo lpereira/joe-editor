@@ -2348,7 +2348,6 @@ B *bload(unsigned char *s)
 			mod_time = sbuf.st_mtime;
 		}
 	}
-	joesep(n);
 
 	/* Abort if couldn't open */
 	if (!fi) {
@@ -2402,7 +2401,7 @@ opnerr:
 	}
 
 	/* Set name */
-	b->name = joesep(zdup(s));
+	b->name = zdup(s);
 
 	/* Set flags */
 	if (berror || s[0] == '!' || skip || amnt != MAXLONG) {
@@ -2749,7 +2748,6 @@ int bsave(P *p, unsigned char *s, off_t size, int flag)
 		f = fopen((char *)dequote(s), "w");
 		norm = 1;
 	}
-	joesep(s);
 
 	if (!f) {
 		berror = -4;

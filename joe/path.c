@@ -22,11 +22,6 @@
 #define NAMLEN(dirent) strlen((dirent)->d_name)
 
 /********************************************************************/
-unsigned char *joesep(unsigned char *path)
-{
-	return path;
-}
-/********************************************************************/
 unsigned char *namprt(unsigned char *path)
 {
 	unsigned char *z;

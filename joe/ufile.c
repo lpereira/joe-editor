@@ -325,7 +325,7 @@ static int saver(BW *bw, int c, struct savereq *req, int *notify)
 			bw->b->name = 0;
 		}
 		if (!bw->b->name && req->name[0]!='!' && req->name[0]!='>')
-			bw->b->name = joesep(zdup(req->name));
+			bw->b->name = zdup(req->name);
 		if (bw->b->name && !zcmp(bw->b->name, req->name)) {
 			bw_unlock(bw);
 			bw->b->changed = 0;
