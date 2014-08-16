@@ -282,34 +282,31 @@ CAP *my_getcap(unsigned char *name, unsigned int baud, void (*out) (unsigned cha
 		x = 0;
 		y = cap->sortlen;
 		z = -1;
-		if (!y) {
-			z = 0;
-			goto in;
-		}
-		while (z != (x + y) / 2) {
-			int found;
+		if (y) {
+			while (z != (x + y) / 2) {
+				int found;
 
-			z = (x + y) / 2;
-			found = strcmp(qq, cap->sort[z].name);
-			if(found > 0) {
-				x = z;
-			} else if(found < 0) {
-				y = z;
-			} else {
-				if (c == '@')
-					memmove(cap->sort + z, cap->sort + z + 1, (cap->sortlen-- - (z + 1)) * sizeof(struct sortentry));
+				z = (x + y) / 2;
+				found = strcmp(qq, cap->sort[z].name);
+				if(found > 0) {
+					x = z;
+				} else if(found < 0) {
+					y = z;
+				} else {
+					if (c == '@')
+						memmove(cap->sort + z, cap->sort + z + 1, (cap->sortlen-- - (z + 1)) * sizeof(struct sortentry));
 
-				else if (c && c != ':')
-					cap->sort[z].value = qq + q + 1;
-				else
-					cap->sort[z].value = NULL;
-				if (c == ':')
-					goto loop1;
-				else
-					goto loop;
+					else if (c && c != ':')
+						cap->sort[z].value = qq + q + 1;
+					else
+						cap->sort[z].value = NULL;
+					if (c == ':')
+						goto loop1;
+					else
+						goto loop;
+				}
 			}
 		}
-	      in:
 		if (cap->sortlen == sortsiz)
 			cap->sort = (struct sortentry *) joe_realloc(cap->sort, (sortsiz += 32) * sizeof(struct sortentry));
 		memmove(cap->sort + y + 1, cap->sort + y, (cap->sortlen++ - y) * sizeof(struct sortentry));

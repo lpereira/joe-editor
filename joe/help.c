@@ -249,10 +249,12 @@ void help_display(Screen *t)
 			t->t->updtab[y] = 0;
 		}
 
-		while (*str && *str != '\n')
-			++str;
-		if (*str == '\n')
-			++str;
+		if (str) {
+			while (*str && *str != '\n')
+				++str;
+			if (*str == '\n')
+				++str;
+		}
 	}
 }
 

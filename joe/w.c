@@ -289,13 +289,15 @@ void wfit(Screen *t)
 		} while (w != t->topwin && w->main == w->link.prev->main);
 	} while (w != t->topwin && left >= FITHEIGHT);
 
-	/* We can't use extra space to fit a new family on, so give space to parent of
-	 * previous family */
-	pw->nh += left;
+	if (pw) {
+		/* We can't use extra space to fit a new family on, so give space to parent of
+		 * previous family */
+		pw->nh += left;
 
-	/* Adjust that family's children which are below the parent */
-	while ((pw = pw->link.next) != w)
-		pw->ny += left;
+		/* Adjust that family's children which are below the parent */
+		while ((pw = pw->link.next) != w)
+			pw->ny += left;
+	}
 
 	/* Make sure the cursor window got on the screen */
 	if (!flg) {
