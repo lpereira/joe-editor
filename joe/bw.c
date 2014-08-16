@@ -25,10 +25,8 @@ static P *getto(P *p, P *cur, P *top, long int line)
 			best = cur;
 		}
 		d = (line >= top->line ? line - top->line : top->line - line);
-		if (d < dist) {
-			dist = d;
+		if (d < dist)
 			best = top;
-		}
 		p = pdup(best, USTR "getto");
 		p_goto_bol(p);
 	}
