@@ -8,6 +8,7 @@
 #include <string.h>
 #include <errno.h>
 #include <math.h>
+#include <limits.h>
 
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -67,12 +68,6 @@ typedef int pid_t;
 #define i_printf_3(fmt,a,b,c) (snprintf((char *)(i_msg),sizeof(i_msg),(char *)(fmt),(a),(b),(c)), internal_msg(i_msg))
 #define i_printf_4(fmt,a,b,c,d) (snprintf((char *)(i_msg),sizeof(i_msg),(char *)(fmt),(a),(b),(c),(d)), internal_msg(i_msg))
 
-/* Largest signed integer */
-#define MAXINT  ((((unsigned int)-1)/2)-1)
-
-/* Largest signed long */
-#define MAXLONG ((((unsigned long)-1L)/2)-1)
-
 /* Largest signed long long */
 #define MAXLONGLONG ((((unsigned long long)-1L)/2)-1)
 
@@ -80,9 +75,9 @@ typedef int pid_t;
 /* BSD provides a correct OFF_MAX macro, but AIX provides a broken one,
    so do it ourselves. */
 #if (SIZEOF_OFF_T == SIZEOF_INT)
-#define MAXOFF MAXINT
+#define MAXOFF INT_MAX
 #elif (SIZEOF_OFF_T == SIZEOF_LONG)
-#define MAXOFF MAXLONG
+#define MAXOFF LONG_MAX
 #elif (SIZEOF_OFF_T == SIZEOF_LONG_LONG)
 #define MAXOFF MAXLONGLONG
 #else

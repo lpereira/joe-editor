@@ -16,7 +16,7 @@ static P *getto(P *p, P *cur, P *top, long int line)
 
 	if (p == NULL) {
 		P *best = cur;
-		long dist = MAXLONG;
+		long dist = LONG_MAX;
 		long d;
 
 		d = (line >= cur->line ? line - cur->line : cur->line - line);

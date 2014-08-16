@@ -2139,7 +2139,7 @@ unsigned char *parsens(unsigned char *s, off_t *skip, off_t *amnt)
 	int x;
 
 	*skip = 0;
-	*amnt = MAXLONG;
+	*amnt = LONG_MAX;
 	x = sLEN(n) - 1;
 	if (x > 0 && n[x] >= '0' && n[x] <= '9') {
 		for (x = sLEN(n) - 1; x > 0 && ((n[x] >= '0' && n[x] <= '9') || n[x] == 'x' || n[x] == 'X'); --x) ;
@@ -2404,7 +2404,7 @@ opnerr:
 	b->name = strdup(s);
 
 	/* Set flags */
-	if (berror || s[0] == '!' || skip || amnt != MAXLONG) {
+	if (berror || s[0] == '!' || skip || amnt != LONG_MAX) {
 		b->backup = 1;
 		b->changed = 0;
 	} else if (!strcmp(n, USTR "-")) {
@@ -2701,7 +2701,7 @@ int bsave(P *p, unsigned char *s, off_t size, int flag)
 		nescape(maint->t);
 		ttclsn();
 		f = stdout;
-	} else if (skip || amnt != MAXLONG)
+	} else if (skip || amnt != LONG_MAX)
 		f = fopen((char *)dequote(s), "r+");
 	else {
 		have_stat = !stat((char *)dequote(s), &sbuf);
@@ -2762,7 +2762,7 @@ int bsave(P *p, unsigned char *s, off_t size, int flag)
 
 	bsavefd(p, fileno(f), size);
 
-	if (!berror && force && size && !skip && amnt == MAXLONG) {
+	if (!berror && force && size && !skip && amnt == LONG_MAX) {
 		P *q = pdup(p, USTR "bsave");
 		unsigned char nl = '\n';
 
