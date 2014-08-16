@@ -22,6 +22,9 @@
 #include "utf8.h"
 #include "i18n.h"
 
+/* from mksh */
+#define NELEM(a)       (sizeof(a) / sizeof((a)[0]))
+
 /* From: X11/xc/programs/xterm/wcwidth.c,v 1.8 2014/06/24 19:53:53 tg Exp $ */
 
 struct mb_ucsrange {

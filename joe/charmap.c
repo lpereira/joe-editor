@@ -1142,8 +1142,8 @@ static void load_builtins(void)
 	map->is_punct = joe_iswpunct;
 	map->is_print = joe_iswprint;
 	map->is_space = joe_iswspace;
-	map->is_alpha_ = joe_iswalpha_;
-	map->is_alnum_ = joe_iswalnum_;
+	map->is_alpha_ = joe_iswalpha;
+	map->is_alnum_ = joe_iswalnum;
 	map->to_lower = joe_towlower;
 	map->to_upper = joe_towupper;
 	map->next = charmaps;

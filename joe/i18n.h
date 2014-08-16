@@ -5,10 +5,8 @@ int joe_iswupper(struct charmap *,int c);
 int joe_iswlower(struct charmap *,int c);
 
 int joe_iswalpha(struct charmap *,int c);	/* or _ */
-int joe_iswalpha_(struct charmap *,int c);
 
 int joe_iswalnum(struct charmap *,int c);
-int joe_iswalnum_(struct charmap *,int c);
 
 int joe_iswdigit(struct charmap *,int c);
 int joe_iswspace(struct charmap *,int c);
