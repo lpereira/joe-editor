@@ -19,7 +19,6 @@
 #endif
 
 #include <dirent.h>
-#define NAMLEN(dirent) strlen((dirent)->d_name)
 
 /********************************************************************/
 unsigned char *namprt(unsigned char *path)
