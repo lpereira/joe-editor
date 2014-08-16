@@ -94,11 +94,6 @@ void joe_free(void *ptr)
 	free(ptr);
 }
 
-int zncmp(unsigned char *a, unsigned char *b, size_t len)
-{
-	return strncmp((char *)a, (char *)b, len);
-}
-
 unsigned char *zcpy(unsigned char *a, unsigned char *b)
 {
 	strcpy((char *)a,(char *)b);
