@@ -14,7 +14,7 @@ HASH *gettext_ht;
 
 unsigned char *ignore_prefix(unsigned char *set)
 {
-	unsigned char *s = zrchr(set, '|');
+	unsigned char *s = strrchr(set, '|');
 	if (s)
 		++s;
 	else

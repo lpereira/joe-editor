@@ -84,14 +84,6 @@ ZS raw_mk_zs(GC **gc,unsigned char *s,int len);
 
 void rm_zs(ZS z);
 
-/* Unsigned versions of regular string functions */
-
-/* JOE uses 'unsigned char *', never 'char *'.  This is so that when a
-   character is loaded from a string into an 'int', the codes 0-255 are
-   used, not -128 - 127. */
-
-unsigned char *zrchr(unsigned char *s, int c);
-
 /*
  * Functions which return minimum/maximum of two numbers  
  */

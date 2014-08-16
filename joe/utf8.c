@@ -353,7 +353,7 @@ void joe_locale()
 	else
 		s=USTR "ascii";
 
-	if ((t=zrchr(s,'.')))
+	if ((t=strrchr(s,'.')))
 		*t = 0;
 
 	locale_msgs = s;
@@ -373,7 +373,7 @@ void joe_locale()
 
 	u = strdup(s);
 
-	if ((t=zrchr(s,'.')))
+	if ((t=strrchr(s,'.')))
 		*t = 0;
 
 	locale_lang = s;

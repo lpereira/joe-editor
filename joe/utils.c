@@ -94,11 +94,6 @@ void joe_free(void *ptr)
 	free(ptr);
 }
 
-unsigned char *zrchr(unsigned char *s, int c)
-{
-	return (unsigned char *)strrchr((char *)s,c);
-}
-
 /* Zstrings */
 
 void rm_zs(ZS z)
