@@ -651,7 +651,7 @@ static int set_pattern(BW *bw, unsigned char *s, SRCH *srch, int *notify)
 			binsc(pbw->cursor, fwrd_c(&t));
 		}
 		if (srch->repeat >= 0)
-			joe_snprintf_1(buf, sizeof(buf), "%d", srch->repeat), binss(pbw->cursor, buf);
+			snprintf(buf, sizeof(buf), "%d", srch->repeat), binss(pbw->cursor, buf);
 		pset(pbw->cursor, pbw->b->eof);
 		pbw->cursor->xcol = piscol(pbw->cursor);
 		srch->ignore = 0;
@@ -717,7 +717,7 @@ int dofirst(BW *bw, int back, int repl, unsigned char *hint)
 	srch->wrap_p->owner = &srch->wrap_p;
 	if (pico && globalsrch && globalsrch->pattern) {
 		unesc_genfmt(bf1, sv(globalsrch->pattern), 30);
-		joe_snprintf_1(buf,sizeof(buf),joe_gettext(_("Find (^C to abort) [%s]: ")),bf1);
+		snprintf(buf,sizeof(buf),joe_gettext(_("Find (^C to abort) [%s]: ")),bf1);
 	} else
 		strcpy(buf, joe_gettext(_("Find (^C to abort): ")));
 	if ((pbw=wmkpw(bw->parent, buf, &findhist, set_pattern, srchstr, pfabort, srch_cmplt, srch, NULL, bw->b->o.charmap, 0))) {

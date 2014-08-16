@@ -39,16 +39,16 @@ void genexmsg(BW *bw, int saved, unsigned char *name)
 
 	if (name) {
 		if (saved) {
-			joe_snprintf_1(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("File %s saved")), name);
+			snprintf(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("File %s saved")), name);
 		} else {
-			joe_snprintf_1(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("File %s not saved")), name);
+			snprintf(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("File %s not saved")), name);
 		}
 	} else if (bw->b->changed && bw->b->count == 1) {
-		joe_snprintf_1(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("File %s not saved")), s);
+		snprintf(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("File %s not saved")), s);
 	} else if (saved) {
-		joe_snprintf_1(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("File %s saved")), s);
+		snprintf(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("File %s saved")), s);
 	} else {
-		joe_snprintf_1(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("File %s not changed so no update needed")), s);
+		snprintf(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("File %s not changed so no update needed")), s);
 	}
 	if (exmsg)
 		vsrm(exmsg);
@@ -62,11 +62,11 @@ void genexmsgmulti(BW *bw, int saved, int skipped)
 {
 	if (saved)
 		if (skipped)
-			joe_snprintf_0(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("Some files have not been saved.")));
+			snprintf(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("Some files have not been saved.")));
 		else
-			joe_snprintf_0(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("All modified files have been saved.")));
+			snprintf(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("All modified files have been saved.")));
 	else
-		joe_snprintf_0(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("No modified files, so no updates needed.")));
+		snprintf(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("No modified files, so no updates needed.")));
 
 	msgnw(bw->parent, msgbuf);
 
@@ -184,10 +184,10 @@ static int backup(BW *bw)
 		if (backpath) {
 			unsigned char *t = vsncpy(NULL, 0, sz(backpath));
 			t = canonical(t);
-			joe_snprintf_3(name, sizeof(name), "%s/%s%s", t, namepart(tmp, dequote(bw->b->name)), simple_backup_suffix);
+			snprintf(name, sizeof(name), "%s/%s%s", t, namepart(tmp, dequote(bw->b->name)), simple_backup_suffix);
 			vsrm(t);
 		} else {
-			joe_snprintf_2(name, sizeof(name), "%s%s", dequote(bw->b->name), simple_backup_suffix);
+			snprintf(name, sizeof(name), "%s%s", dequote(bw->b->name), simple_backup_suffix);
 		}
 		
 		/* Attempt to delete backup file first */
@@ -380,7 +380,7 @@ static int dosave(BW *bw, struct savereq *req, int *notify)
 				}
 				brm(tmp);
 				if (!ret) {
-					joe_snprintf_1(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("Block written to file %s")), req->name);
+					snprintf(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("Block written to file %s")), req->name);
 					msgnw(bw->parent, msgbuf);
 				}
 				if (lightoff)
@@ -396,7 +396,7 @@ static int dosave(BW *bw, struct savereq *req, int *notify)
 					ret = -1;
 				}
 				if (!ret) {
-					joe_snprintf_1(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("Block written to file %s")), req->name);
+					snprintf(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("Block written to file %s")), req->name);
 					msgnw(bw->parent, msgbuf);
 				}
 				if (lightoff)
@@ -1067,7 +1067,7 @@ static int doquerysave(BW *bw,int c,struct savereq *req,int *notify)
 		return doquerysave(bw,0,req,notify);
 	} else {
 		unsigned char buf[1024];
-		joe_snprintf_1(buf,1024,joe_gettext(_("File %s has been modified.  Save it (y,n,^C)? ")),bw->b->name ? bw->b->name : USTR "(Unnamed)" );
+		snprintf(buf,1024,joe_gettext(_("File %s has been modified.  Save it (y,n,^C)? ")),bw->b->name ? bw->b->name : USTR "(Unnamed)" );
 		if (mkqw(bw->parent, sz(buf), doquerysave, NULL, req, notify)) {
 			return 0;
 			} else {
@@ -1178,7 +1178,7 @@ int ureload_all(BW *bw)
 		}
 	nredraw(bw->parent->t->t);
 	if (!er) {
-		joe_snprintf_1(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("%d files reloaded")), count);
+		snprintf(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("%d files reloaded")), count);
 		msgnw(bw->parent, msgbuf);
 	}
 	return er;

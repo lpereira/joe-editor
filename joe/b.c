@@ -170,13 +170,13 @@ int udebug_joe(BW *bw)
 
 	for (b = bufs.link.next; b != &bufs; b = b->link.next) {
 		if (b->name)
-			joe_snprintf_1(buf, sizeof(buf), "Buffer %s\n", b->name);
+			snprintf(buf, sizeof(buf), "Buffer %s\n", b->name);
 		else
-			joe_snprintf_1(buf, sizeof(buf), "Buffer 0x%p\n", (void *)b);
+			snprintf(buf, sizeof(buf), "Buffer 0x%p\n", (void *)b);
 		binss(bw->cursor, buf);
 		pnextl(bw->cursor);
 		for (p = b->bof->link.next; p != b->bof; p = p->link.next) {
-			joe_snprintf_1(buf, sizeof(buf), "  Pointer created by %s\n", p->tracker);
+			snprintf(buf, sizeof(buf), "  Pointer created by %s\n", p->tracker);
 			binss(bw->cursor, buf);
 			pnextl(bw->cursor);
 		}
@@ -2954,7 +2954,7 @@ int lock_it(unsigned char *qpath,unsigned char *bf)
 	if (!host) host=USTR "here";
 	lock_name=vsncpy(sv(lock_name),sc(".#"));
 	lock_name=vsncpy(sv(lock_name),sv(name));
-	joe_snprintf_3(buf,sizeof(buf),"%s@%s.%d",user,host,getpid());
+	snprintf(buf,sizeof(buf),"%s@%s.%d",user,host,getpid());
 	/* Fail only if there was an existing lock */
 	if (!symlink((char *)buf,(char *)lock_name) || errno != EEXIST) {
 		vsrm(lock_name);

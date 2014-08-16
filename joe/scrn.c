@@ -166,7 +166,7 @@ int set_attr(SCRN *t, int c)
 			int color = ((c & FG_VALUE) >> FG_SHIFT);
 			if (t->assume_256 && color >= t->Co) {
 				unsigned char bf[32];
-				joe_snprintf_1(bf,sizeof(bf),"\033[38;5;%dm",color);
+				snprintf(bf,sizeof(bf),"\033[38;5;%dm",color);
 				ttputs(bf);
 			} else {
 				if (t->Co & (t->Co - 1))
@@ -182,7 +182,7 @@ int set_attr(SCRN *t, int c)
 			int color = ((c & BG_VALUE) >> BG_SHIFT);
 			if (t->assume_256 && color >= t->Co) {
 				unsigned char bf[32];
-				joe_snprintf_1(bf,sizeof(bf),"\033[48;5;%dm",color);
+				snprintf(bf,sizeof(bf),"\033[48;5;%dm",color);
 				ttputs(bf);
 			} else {
 				if (t->Co & (t->Co - 1))

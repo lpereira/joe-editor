@@ -169,7 +169,7 @@ unsigned char *duplicate_backslashes(unsigned char *s, int len)
 			case 'y':
 				{
 					if (bw->o.syntax) {
-						joe_snprintf_1(buf, sizeof(buf), "(%s)", bw->o.syntax->name);
+						snprintf(buf, sizeof(buf), "(%s)", bw->o.syntax->name);
 						stalin = vsncpy(sv(stalin), sz(buf));
 					}
 				}
@@ -183,7 +183,7 @@ unsigned char *duplicate_backslashes(unsigned char *s, int len)
 					l = (d[11] - '0') * 10 + d[12] - '0';
 					if (l > 12)
 						l -= 12;
-					joe_snprintf_1(buf, sizeof(buf), "%2.2d", l);
+					snprintf(buf, sizeof(buf), "%2.2d", l);
 					if (buf[0] == '0')
 						buf[0] = fill;
 					stalin = vsncpy(sv(stalin), buf, 2);
@@ -193,12 +193,12 @@ unsigned char *duplicate_backslashes(unsigned char *s, int len)
 			case 'd':
 				{
 					if (s[1]) switch (*++s) {
-						case 'd' : joe_snprintf_1(buf, sizeof(buf), "%02d",cas->tm_mday); break;
-						case 'm' : joe_snprintf_1(buf, sizeof(buf), "%02d",cas->tm_mon + 1); break;
-						case 'y' : joe_snprintf_1(buf, sizeof(buf), "%02d",cas->tm_year % 100); break;
-						case 'Y' : joe_snprintf_1(buf, sizeof(buf), "%04d",cas->tm_year + 1900); break;
-						case 'w' : joe_snprintf_1(buf, sizeof(buf), "%d",cas->tm_wday); break;
-						case 'D' : joe_snprintf_1(buf, sizeof(buf), "%03d",cas->tm_yday); break;
+						case 'd' : snprintf(buf, sizeof(buf), "%02d",cas->tm_mday); break;
+						case 'm' : snprintf(buf, sizeof(buf), "%02d",cas->tm_mon + 1); break;
+						case 'y' : snprintf(buf, sizeof(buf), "%02d",cas->tm_year % 100); break;
+						case 'Y' : snprintf(buf, sizeof(buf), "%04d",cas->tm_year + 1900); break;
+						case 'w' : snprintf(buf, sizeof(buf), "%d",cas->tm_wday); break;
+						case 'D' : snprintf(buf, sizeof(buf), "%03d",cas->tm_yday); break;
 						default : buf[0]='d'; buf[1]=*s; buf[2]=0;
 					} else {
 						buf[0]='d'; buf[1]=0;
@@ -297,21 +297,21 @@ unsigned char *duplicate_backslashes(unsigned char *s, int len)
 					stalin = vsadd(stalin, fill);
 				break;
 			case 'r':
-				joe_snprintf_1(buf, sizeof(buf), "%-4ld", bw->cursor->line + 1);
+				snprintf(buf, sizeof(buf), "%-4ld", bw->cursor->line + 1);
 				for (x = 0; buf[x]; ++x)
 					if (buf[x] == ' ')
 						buf[x] = fill;
 				stalin = vsncpy(sv(stalin), sz(buf));
 				break;
 			case 'o':
-				joe_snprintf_1(buf, sizeof(buf), "%-4lld", bw->cursor->byte);
+				snprintf(buf, sizeof(buf), "%-4lld", bw->cursor->byte);
 				for (x = 0; buf[x]; ++x)
 					if (buf[x] == ' ')
 						buf[x] = fill;
 				stalin = vsncpy(sv(stalin), sz(buf));
 				break;
 			case 'O':
-				joe_snprintf_1(buf, sizeof(buf), "%-4llX", bw->cursor->byte);
+				snprintf(buf, sizeof(buf), "%-4llX", bw->cursor->byte);
 				for (x = 0; buf[x]; ++x)
 					if (buf[x] == ' ')
 						buf[x] = fill;
@@ -319,9 +319,9 @@ unsigned char *duplicate_backslashes(unsigned char *s, int len)
 				break;
 			case 'a':
 				if (!piseof(bw->cursor))
-					joe_snprintf_1(buf, sizeof(buf), "%3d", brch(bw->cursor));
+					snprintf(buf, sizeof(buf), "%3d", brch(bw->cursor));
 				else
-					joe_snprintf_0(buf, sizeof(buf), "   ");
+					snprintf(buf, sizeof(buf), "   ");
 				for (x = 0; buf[x]; ++x)
 					if (buf[x] == ' ')
 						buf[x] = fill;
@@ -329,16 +329,16 @@ unsigned char *duplicate_backslashes(unsigned char *s, int len)
 				break;
 			case 'A':
 				if (!piseof(bw->cursor))
-					joe_snprintf_1(buf, sizeof(buf), "%2.2X", brch(bw->cursor));
+					snprintf(buf, sizeof(buf), "%2.2X", brch(bw->cursor));
 				else
-					joe_snprintf_0(buf, sizeof(buf), "  ");
+					snprintf(buf, sizeof(buf), "  ");
 				for (x = 0; buf[x]; ++x)
 					if (buf[x] == ' ')
 						buf[x] = fill;
 				stalin = vsncpy(sv(stalin), sz(buf));
 				break;
 			case 'c':
-				joe_snprintf_1(buf, sizeof(buf), "%-3ld", piscol(bw->cursor) + 1);
+				snprintf(buf, sizeof(buf), "%-3ld", piscol(bw->cursor) + 1);
 				for (x = 0; buf[x]; ++x)
 					if (buf[x] == ' ')
 						buf[x] = fill;
@@ -346,18 +346,18 @@ unsigned char *duplicate_backslashes(unsigned char *s, int len)
 				break;
 			case 'p':
 				if (bw->b->eof->byte >= 1024*1024)
-					joe_snprintf_1(buf, sizeof(buf), "%3lld", (bw->cursor->byte >> 10) * 100 / (bw->b->eof->byte >> 10));
+					snprintf(buf, sizeof(buf), "%3lld", (bw->cursor->byte >> 10) * 100 / (bw->b->eof->byte >> 10));
 				else if (bw->b->eof->byte)
-					joe_snprintf_1(buf, sizeof(buf), "%3lld", bw->cursor->byte * 100 / bw->b->eof->byte);
+					snprintf(buf, sizeof(buf), "%3lld", bw->cursor->byte * 100 / bw->b->eof->byte);
 				else
-					joe_snprintf_0(buf, sizeof(buf), "100");
+					snprintf(buf, sizeof(buf), "100");
 				for (x = 0; buf[x]; ++x)
 					if (buf[x] == ' ')
 						buf[x] = fill;
 				stalin = vsncpy(sv(stalin), sz(buf));
 				break;
 			case 'l':
-				joe_snprintf_1(buf, sizeof(buf), "%-4ld", bw->b->eof->line + 1);
+				snprintf(buf, sizeof(buf), "%-4ld", bw->b->eof->line + 1);
 				for (x = 0; buf[x]; ++x)
 					if (buf[x] == ' ')
 						buf[x] = fill;
@@ -398,7 +398,7 @@ unsigned char *duplicate_backslashes(unsigned char *s, int len)
 				break;
 			case 'M':
 				if (recmac) {
-					joe_snprintf_1(buf, sizeof(buf), joe_gettext(_("(Macro %d recording...)")), recmac->n);
+					snprintf(buf, sizeof(buf), joe_gettext(_("(Macro %d recording...)")), recmac->n);
 					stalin = vsncpy(sv(stalin), sz(buf));
 				}
 				break;

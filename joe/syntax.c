@@ -283,7 +283,7 @@ struct high_color *find_color(struct high_color *colors,unsigned char *name,unsi
 {
 	unsigned char bf[256];
 	struct high_color *color;
-	joe_snprintf_2(bf, sizeof(bf), "%s.%s", syn, name);
+	snprintf(bf, sizeof(bf), "%s.%s", syn, name);
 	for (color = colors; color; color = color->next)
 		if (!strcmp(color->name,bf)) break;
 	if (color)
@@ -338,12 +338,12 @@ void dump_syntax(BW *bw)
 	struct high_syntax *syntax;
 	struct high_param *params;
 	unsigned char buf[1024];
-	joe_snprintf_1(buf, sizeof(buf), "Allocated %d stack frames\n", stack_count);
+	snprintf(buf, sizeof(buf), "Allocated %d stack frames\n", stack_count);
 	binss(bw->cursor, buf);
 	pnextl(bw->cursor);
 	for (syntax = syntax_list; syntax; syntax = syntax->next) {
 		int x;
-		joe_snprintf_3(buf, sizeof(buf), "Syntax name=%s, subr=%s, nstates=%d\n",syntax->name,syntax->subr,syntax->nstates);
+		snprintf(buf, sizeof(buf), "Syntax name=%s, subr=%s, nstates=%d\n",syntax->name,syntax->subr,syntax->nstates);
 		binss(bw->cursor, buf);
 		pnextl(bw->cursor);
 		strcpy(buf, USTR "params=(");
@@ -358,20 +358,20 @@ void dump_syntax(BW *bw)
 			int y;
 			int f = -1;
 			struct high_state *s = syntax->states[x];
-			joe_snprintf_2(buf, sizeof(buf), "   state %s %x\n",s->name,s->color);
+			snprintf(buf, sizeof(buf), "   state %s %x\n",s->name,s->color);
 			binss(bw->cursor, buf);
 			pnextl(bw->cursor);
 			for (y = 0; y != 256; ++y) {
 				if (f == -1)
 					f = y;
 				else if (s->cmd[f]->new_state != s->cmd[y]->new_state) {
-					joe_snprintf_4(buf, sizeof(buf), "     [%d-%d] -> %s %d\n",f,y-1,(s->cmd[f]->new_state ? s->cmd[f]->new_state->name : USTR "ERROR! Unknown state!"),s->cmd[f]->recolor);
+					snprintf(buf, sizeof(buf), "     [%d-%d] -> %s %d\n",f,y-1,(s->cmd[f]->new_state ? s->cmd[f]->new_state->name : USTR "ERROR! Unknown state!"),s->cmd[f]->recolor);
 					binss(bw->cursor, buf);
 					pnextl(bw->cursor);
 					f = y;
 				}
 			}
-			joe_snprintf_4(buf, sizeof(buf), "     [%d-%d] -> %s %d\n",f,y-1,(s->cmd[f]->new_state ? s->cmd[f]->new_state->name : USTR "ERROR! Unknown state!"),s->cmd[f]->recolor);
+			snprintf(buf, sizeof(buf), "     [%d-%d] -> %s %d\n",f,y-1,(s->cmd[f]->new_state ? s->cmd[f]->new_state->name : USTR "ERROR! Unknown state!"),s->cmd[f]->recolor);
 			binss(bw->cursor, buf);
 			pnextl(bw->cursor);
 		}
@@ -566,12 +566,12 @@ struct high_state *load_dfa(struct high_syntax *syntax)
 	/* Load it */
 	p = (unsigned char *)getenv("HOME");
 	if (p) {
-		joe_snprintf_2(name,sizeof(name),"%s/.joe/syntax/%s.jsf",p,syntax->name);
+		snprintf(name,sizeof(name),"%s/.joe/syntax/%s.jsf",p,syntax->name);
 		f = fopen((char *)name,"r");
 	}
 
 	if (!f) {
-		joe_snprintf_2(name,sizeof(name),"%ssyntax/%s.jsf",JOEDATA,syntax->name);
+		snprintf(name,sizeof(name),"%ssyntax/%s.jsf",JOEDATA,syntax->name);
 		f = fopen((char *)name,"r");
 	}
 	if(!f) {

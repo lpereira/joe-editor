@@ -642,7 +642,7 @@ int umacros(BW *bw)
 			mtext(buf, kbdmacro[x]);
 			binss(bw->cursor, buf);
 			p_goto_eol(bw->cursor);
-			joe_snprintf_2(buf, JOE_MSGBUFSIZE, "\t^K %c\tMacro %d", x + '0', x);
+			snprintf(buf, JOE_MSGBUFSIZE, "\t^K %c\tMacro %d", x + '0', x);
 			binss(bw->cursor, buf);
 			p_goto_eol(bw->cursor);
 			binsc(bw->cursor, '\n');
@@ -819,7 +819,7 @@ static int douarg(BW *bw, int c, void *object, int *notify)
 			*notify = 1;
 		return 0;
 	}
-	joe_snprintf_2(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("Repeat %s%d")), negarg ? "-" : "", unaarg);
+	snprintf(msgbuf, JOE_MSGBUFSIZE, joe_gettext(_("Repeat %s%d")), negarg ? "-" : "", unaarg);
 	if (mkqwna(bw->parent, sz(msgbuf), douarg, NULL, NULL, notify))
 		return 0;
 	else

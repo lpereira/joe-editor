@@ -601,7 +601,7 @@ static void gennum(BW *w, int *screen, int *attr, SCRN *t, int y, int *comp)
 	int lin = w->top->line + y - w->y;
 
 	if (lin <= w->b->eof->line)
-		joe_snprintf_1(buf, sizeof(buf), "%9ld ", w->top->line + y - w->y + 1);
+		snprintf(buf, sizeof(buf), "%9ld ", w->top->line + y - w->y + 1);
 	else {
 		int x;
 		for (x = 0; x != LINCOLS; ++x)
@@ -1005,17 +1005,17 @@ int ustat(BW *bw)
 	int c = brch(bw->cursor);
 
 #if SIZEOF_LONG_LONG && SIZEOF_LONG_LONG == SIZEOF_OFF_T
-		joe_snprintf_1(bf1, sizeof(bf1), "%lld", bw->cursor->byte);
-		joe_snprintf_1(bf2, sizeof(bf2), "%llx", bw->cursor->byte);
+		snprintf(bf1, sizeof(bf1), "%lld", bw->cursor->byte);
+		snprintf(bf2, sizeof(bf2), "%llx", bw->cursor->byte);
 #else
-		joe_snprintf_1(bf1, sizeof(bf1), "%ld", bw->cursor->byte);
-		joe_snprintf_1(bf2, sizeof(bf2), "%lx", bw->cursor->byte);
+		snprintf(bf1, sizeof(bf1), "%ld", bw->cursor->byte);
+		snprintf(bf2, sizeof(bf2), "%lx", bw->cursor->byte);
 #endif
 
 	if (c == NO_MORE_DATA)
-		joe_snprintf_4(buf, sizeof(buf), joe_gettext(_("** Line %ld  Col %ld  Offset %s(0x%s) **")), bw->cursor->line + 1, piscol(bw->cursor) + 1, bf1, bf2);
+		snprintf(buf, sizeof(buf), joe_gettext(_("** Line %ld  Col %ld  Offset %s(0x%s) **")), bw->cursor->line + 1, piscol(bw->cursor) + 1, bf1, bf2);
 	else
-		joe_snprintf_9(buf, sizeof(buf), joe_gettext(_("** Line %ld  Col %ld  Offset %s(0x%s)  %s %d(0%o/0x%X) Width %d **")), bw->cursor->line + 1, piscol(bw->cursor) + 1, bf1, bf2, bw->b->o.charmap->name, c, c, c, joe_wcwidth(bw->o.charmap->type,c));
+		snprintf(buf, sizeof(buf), joe_gettext(_("** Line %ld  Col %ld  Offset %s(0x%s)  %s %d(0%o/0x%X) Width %d **")), bw->cursor->line + 1, piscol(bw->cursor) + 1, bf1, bf2, bw->b->o.charmap->name, c, c, c, joe_wcwidth(bw->o.charmap->type,c));
 	msgnw(bw->parent, buf);
 	return 0;
 }
