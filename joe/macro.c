@@ -659,7 +659,7 @@ void save_macros(FILE *f)
 		if(kbdmacro[x]) {
 			mtext(buf, kbdmacro[x]);
 			fprintf(f,"	%d ",x);
-			emit_string(f,buf,zlen(buf));
+			emit_string(f,buf,strlen(buf));
 			fprintf(f,"\n");
 		}
 	fprintf(f,"done\n");

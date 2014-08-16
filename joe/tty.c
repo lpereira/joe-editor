@@ -1036,7 +1036,7 @@ MPX *mpxmk(int *ptyfd, unsigned char *cmd, unsigned char **args, void (*func) (/
 
 					/* If shell didn't execute */
 					joe_snprintf_1(buf,sizeof(buf),joe_gettext(_("Couldn't execute shell '%s'\n")),cmd);
-					write(1,(char *)buf,zlen(buf));
+					write(1,(char *)buf,strlen(buf));
 					sleep(1);
 
 				} else {

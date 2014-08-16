@@ -94,11 +94,6 @@ void joe_free(void *ptr)
 	free(ptr);
 }
 
-size_t zlen(unsigned char *s)
-{
-	return strlen((char *)s);
-}
-
 int zncmp(unsigned char *a, unsigned char *b, size_t len)
 {
 	return strncmp((char *)a, (char *)b, len);

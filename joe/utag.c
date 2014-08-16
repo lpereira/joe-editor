@@ -93,7 +93,7 @@ static int dotag(BW *bw, unsigned char *s, void *obj, int *notify)
 						if (buf[y] == '/' || buf[y] == '?') {
 							int ch = buf[y++];
 							/* Find terminating / or ? */
-							for (x = y + zlen(buf + y); x != y; --x)
+							for (x = y + strlen(buf + y); x != y; --x)
 								if (buf[x] == ch)
 									break;
 							/* Copy characters, convert to JOE regex... */

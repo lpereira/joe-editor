@@ -62,7 +62,7 @@ static void menudisp(MENU *m)
 					 m->y + y,
 					 0,
 					 m->list[index],
-					 zlen(m->list[index]),
+					 strlen(m->list[index]),
 					 atr,
 					 m->width,
 					 0,NULL);
@@ -96,7 +96,7 @@ static void menudisp(MENU *m)
 					 m->y + y,
 					 0,
 					 m->list[index],
-					 zlen(m->list[index]),
+					 strlen(m->list[index]),
 					 atr,
 					 m->width,
 					 0,NULL);
@@ -118,14 +118,14 @@ static void menudisp(MENU *m)
 	}
 	if (transpose) {
 		m->parent->cury = (m->cursor % m->lines) - m->top;
-		col = txtwidth(m->list[m->cursor],zlen(m->list[m->cursor]));
+		col = txtwidth(m->list[m->cursor],strlen(m->list[m->cursor]));
 		if (col < m->width)
 			m->parent->curx = (m->cursor / m->lines) * (m->width + 1) + col;
 		else
 			m->parent->curx = (m->cursor / m->lines) * (m->width + 1) + m->width;
 	} else {
 		m->parent->cury = (m->cursor - m->top) / m->perline;
-		col = txtwidth(m->list[m->cursor],zlen(m->list[m->cursor]));
+		col = txtwidth(m->list[m->cursor],strlen(m->list[m->cursor]));
 		if (col < m->width)
 			m->parent->curx = ((m->cursor - m->top) % m->perline) * (m->width + 1) + col;
 		else
@@ -148,7 +148,7 @@ static int mlines(unsigned char **s, int w)
 	int perline;
 
 	for (x = 0, width = 0; s[x]; ++x) {
-		int d = txtwidth(s[x],zlen(s[x]));
+		int d = txtwidth(s[x],strlen(s[x]));
 		if (d > width)
 			width = d;
 	}
@@ -171,7 +171,7 @@ static void mconfig(MENU *m)
 
 		m->top = 0;
 		for (x = 0, m->width = 0; m->list[x]; ++x) {
-			int d = txtwidth(m->list[x],zlen(m->list[x]));
+			int d = txtwidth(m->list[x],strlen(m->list[x]));
 			if (d > m->width)
 				m->width = d;
 		}

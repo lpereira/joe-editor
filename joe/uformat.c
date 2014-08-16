@@ -312,7 +312,7 @@ void wrapword(BW *bw, P *p, long int indent, int french, int no_over, unsigned c
 			prm(r);
 			if (!bw->o.autoindent) {
 				/* Don't indent second line of single-line paragraphs if autoindent is off */
-				int x = zlen(indents);
+				int x = strlen(indents);
 				int orgx = x;
 				while (x && (indents[x - 1] == ' ' || indents[x - 1] == '\t'))
 					indents[--x] = 0;
@@ -323,7 +323,7 @@ void wrapword(BW *bw, P *p, long int indent, int french, int no_over, unsigned c
 				indent = txtwidth1(bw->o.charmap, bw->o.tab, indents, x);
 			}
 			for (x = 0; indents[x] && (indents[x] == ' ' || indents[x] == '\t'); ++x);
-			y = zlen(indents);
+			y = strlen(indents);
 			while (y && (indents[y - 1] == ' ' || indents[y - 1] == '\t'))
 				--y;
 			/* Fix C comment */
@@ -415,7 +415,7 @@ void wrapword(BW *bw, P *p, long int indent, int french, int no_over, unsigned c
 		/* Indent to left margin */
 		if (indents) {
 			binss(p, indents);
-			to += zlen(indents);
+			to += strlen(indents);
 		} else
 			while (indent--) {
 				binsc(p, ' ');
@@ -487,7 +487,7 @@ int uformat(BW *bw)
 		prm(r);
 		if (!bw->o.autoindent) {
 			/* Don't indent second line of single-line paragraphs if autoindent is off */
-			int x = zlen(indents);
+			int x = strlen(indents);
 			while (x && (indents[x - 1] == ' ' || indents[x - 1] == '\t'))
 				indents[--x] = 0;
 			if ((x) && (x < indents_size)) {
@@ -497,7 +497,7 @@ int uformat(BW *bw)
 			indent = txtwidth1(bw->o.charmap, bw->o.tab, indents, x);
 		}
 		for (x = 0; indents[x] && (indents[x] == ' ' || indents[x] == '\t'); ++x);
-		y = zlen(indents);
+		y = strlen(indents);
 		while (y && (indents[y - 1] == ' ' || indents[y - 1] == '\t'))
 			--y;
 		/* Fix C comment */

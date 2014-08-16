@@ -48,7 +48,7 @@ int help_init(JFILE *fd,unsigned char *bf,int line)
 
 		while ((jfgets(buf, sizeof(buf), fd)) && (buf[0] != '}')) {
 			++line;
-			bfl = zlen(buf);
+			bfl = strlen(buf);
 			if (hlpsiz + bfl > hlpbsz) {
 				if (tmp->text) {
 					tempbuf = (unsigned char *) joe_realloc(tmp->text, hlpbsz + bfl + 1024);

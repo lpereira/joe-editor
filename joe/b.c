@@ -2073,7 +2073,7 @@ P *binsc(P *p, int c)
 /* insert zero-terminated string 's' at 'p' */
 P *binss(P *p, unsigned char *s)
 {
-	return binsm(p, s, zlen(s));
+	return binsm(p, s, strlen(s));
 }
 
 /* Read 'size' bytes from file or stream.  Stops and returns amnt. read

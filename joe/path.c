@@ -36,7 +36,7 @@ unsigned char *namepart(unsigned char *tmp, unsigned char *path)
 {
 	unsigned char *z;
 
-	z = path + zlen(path);
+	z = path + strlen(path);
 	while ((z != path) && (z[-1] != '/'))
 		--z;
 	return zcpy(tmp, z);
@@ -132,7 +132,7 @@ unsigned char *mktmp(unsigned char *where)
 	if (!where)
 		where = USTR _PATH_TMP;
 
-	namesize = zlen(where) + 16;
+	namesize = strlen(where) + 16;
 	name = vsmk(namesize);	/* [G.Ghibo'] we need to use vsmk() and not malloc() as
 				   area returned by mktmp() is destroyed later with
 				   vsrm(); */
@@ -284,11 +284,11 @@ unsigned char *simplify_prefix(unsigned char *s)
 	unsigned char *n;
 
 	/* If current directory is prefixed with home directory, use ~... */
-	if (t && !strncmp((char *)s,(char *)t,zlen(t)) && (!s[zlen(t)] || s[zlen(t)]=='/')) {
+	if (t && !strncmp((char *)s,(char *)t,strlen(t)) && (!s[strlen(t)] || s[strlen(t)]=='/')) {
 		n = vsncpy(NULL,0,sc("~/"));
 		/* If anything more than just the home directory, add it */
-		if (s[zlen(t)]) {
-			n = vsncpy(sv(n),s+zlen(t)+1,zlen(s+zlen(t)+1));
+		if (s[strlen(t)]) {
+			n = vsncpy(sv(n),s+strlen(t)+1,strlen(s+strlen(t)+1));
 		}
 	} else {
 		n = vsncpy(NULL,0,sz(s));

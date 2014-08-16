@@ -944,7 +944,7 @@ void save_file_pos(FILE *f)
 	struct file_pos *p;
 	for (p = file_pos.link.prev; p != &file_pos; p = p->link.prev) {
 		fprintf(f,"	%ld ",p->line);
-		emit_string(f,p->name,zlen(p->name));
+		emit_string(f,p->name,strlen(p->name));
 		fprintf(f,"\n");
 	}
 	fprintf(f,"done\n");

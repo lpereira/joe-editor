@@ -860,7 +860,7 @@ static int domath(BW *bw, unsigned char *s, void *object, int *notify)
 		joe_snprintf_1(msgbuf, JOE_MSGBUFSIZE, "%.16G", result);
 	if (bw->parent->watom->what != TYPETW || mode_ins) {
 		binsm(bw->cursor, sz(msgbuf));
-		pfwrd(bw->cursor, zlen(msgbuf));
+		pfwrd(bw->cursor, strlen(msgbuf));
 		bw->cursor->xcol = piscol(bw->cursor);
 	} else {
 		msgnw(bw->parent, msgbuf);

@@ -249,7 +249,7 @@ void setopt(B *b, unsigned char *parsed_name)
 		if (rmatch(o->name_regex, parsed_name)) {
 			if(o->contents_regex) {
 				P *p = pdup(b->bof, USTR "setopt");
-				if (pmatch(pieces,o->contents_regex,zlen(o->contents_regex),p,0,0)) {
+				if (pmatch(pieces,o->contents_regex,strlen(o->contents_regex),p,0,0)) {
 					prm(p);
 					b->o = *o;
 					lazy_opts(b, &b->o);
