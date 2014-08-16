@@ -274,11 +274,7 @@ unsigned char *pwd(void)
 	static unsigned char buf[PATH_MAX];
 	unsigned char	*ret;
 
-#ifdef HAVE_GETCWD
 	ret = (unsigned char *)getcwd((char *)buf, PATH_MAX - 1);
-#else
-	ret = (unsigned char *)getwd((char *)buf);
-#endif
 	buf[PATH_MAX - 1] = '\0';
 
 	return ret;
