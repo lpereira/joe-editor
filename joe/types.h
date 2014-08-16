@@ -4,41 +4,18 @@
 
 /* Common header files */
 
-#include <stdio.h>
-#include <string.h>
 #include <errno.h>
-#include <math.h>
-#include <limits.h>
-
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#else
-typedef int pid_t;
-#endif
-
-#ifdef HAVE_SIGNAL_H
-#include <signal.h>
-#endif
-
-#ifdef HAVE_FCNTL_H
 #include <fcntl.h>
-#endif
-
-#ifdef HAVE_STDLIB_H
+#include <limits.h>
+#include <math.h>
+#include <signal.h>
+#include <stdio.h>
 #include <stdlib.h>
-#endif
-
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
-#ifdef HAVE_SYS_STAT_H
+#include <string.h>
 #include <sys/stat.h>
-#endif
-
-#ifdef HAVE_TIME_H
+#include <sys/types.h>
 #include <time.h>
-#endif
+#include <unistd.h>
 
 #define joe_gettext(s) my_gettext((unsigned char *)(s))
 
