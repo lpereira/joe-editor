@@ -29,56 +29,13 @@
 #include <libutil.h>
 #endif
 
-#ifdef HAVE_LOGIN_TTY
-#ifdef HAVE_UTMP_H
 #include <utmp.h>
-#endif
-#endif
 
 int idleout = 1;
 
-/* We use the defines in sys/ioctl to determine what type
- * tty interface the system uses and what type of system
- * we actually have.
- */
-#ifdef HAVE_POSIX_TERMIOS
-#  include <termios.h>
-#else
-#  ifdef HAVE_SYSV_TERMIO
-#    include <termio.h>
-#    include <sys/termio.h>
-#  else
-#    include <sgtty.h>
-#  endif
-#endif
-
-#ifdef HAVE_SETITIMER
-#ifdef HAVE_SYS_TIME_H
+#include <termios.h>
 #include <sys/time.h>
-#endif
-#endif
 
-/* I'm not sure if SCO_UNIX and ISC have __svr4__ defined, but I think
-   they might */
-#ifdef M_SYS5
-#ifndef M_XENIX
-#include <sys/stream.h>
-#include <sys/ptem.h>
-#ifndef __svr4__
-#define __svr4__ 1
-#endif
-#endif
-#endif
-
-#ifdef ISC
-#ifndef __svr4__
-#define __svr4__ 1
-#endif
-#endif
-
-#ifdef __svr4__
-#include <stropts.h>
-#endif
 
 /** Aliased defines **/
 
@@ -116,17 +73,7 @@ FILE *termout = NULL;
 
 /* Original state of tty */
 
-#ifdef HAVE_POSIX_TERMIOS
 struct termios oldterm;
-#else /* HAVE_POSIX_TERMIOS */
-#ifdef HAVE_SYSV_TERMIO
-static struct termio oldterm;
-#else /* HAVE_SYSV_TERMIO */
-static struct sgttyb oarg;
-static struct tchars otarg;
-static struct ltchars oltarg;
-#endif /* HAVE_SYSV_TERMIO */
-#endif /* HAVE_POSIX_TERMIOS */
 
 /* Output buffer, index and size */
 
@@ -237,7 +184,7 @@ void ttclose(void)
 
 static int winched = 0;
 int ticked = 0;
-#ifdef SIGWINCH
+
 /* Window size interrupt handler */
 static RETSIGTYPE winchd(int unused)
 {
@@ -245,7 +192,6 @@ static RETSIGTYPE winchd(int unused)
 	ticked = 1;
 	REINSTALL_SIGHANDLER(SIGWINCH, winchd);
 }
-#endif
 
 /* Second ticker */
 
@@ -256,21 +202,16 @@ static RETSIGTYPE dotick(int unused)
 
 void tickoff(void)
 {
-#ifdef HAVE_SETITIMER
 	struct itimerval val;
 	val.it_value.tv_sec = 0;
 	val.it_value.tv_usec = 0;
 	val.it_interval.tv_sec = 0;
 	val.it_interval.tv_usec = 0;
 	setitimer(ITIMER_REAL,&val,NULL);
-#else
-	alarm(0);
-#endif
 }
 
 void tickon(void)
 {
-#ifdef HAVE_SETITIMER
 	struct itimerval val;
 	struct timeval now;
 	gettimeofday(&now, NULL);
@@ -290,11 +231,6 @@ void tickon(void)
 	ticked = 0;
 	joe_set_signal(SIGALRM, dotick);
 	setitimer(ITIMER_REAL,&val,NULL);
-#else
-	ticked = 0;
-	joe_set_signal(SIGALRM, dotick);
-	alarm(1);
-#endif
 }
 
 /* Open terminal */
@@ -303,26 +239,14 @@ void ttopnn(void)
 {
 	int x, bbaud;
 
-#ifdef HAVE_POSIX_TERMIOS
 	struct termios newterm;
-#else
-#ifdef HAVE_SYSV_TERMIO
-	struct termio newterm;
-#else
-	struct sgttyb arg;
-	struct tchars targ;
-	struct ltchars ltarg;
-#endif
-#endif
 
 	if (!termin) {
 		if (idleout ? (!(termin = stdin) || !(termout = stdout)) : (!(termin = fopen("/dev/tty", "r")) || !(termout = fopen("/dev/tty", "w")))) {
 			fprintf(stderr, (char *)joe_gettext(_("Couldn\'t open /dev/tty\n")));
 			exit(1);
 		} else {
-#ifdef SIGWINCH
 			joe_set_signal(SIGWINCH, winchd);
-#endif
 		}
 	}
 
@@ -331,7 +255,6 @@ void ttopnn(void)
 	ttymode = 1;
 	fflush(termout);
 
-#ifdef HAVE_POSIX_TERMIOS
 	tcgetattr(fileno(termin), &oldterm);
 	newterm = oldterm;
 	newterm.c_lflag = 0;
@@ -344,48 +267,6 @@ void ttopnn(void)
 	newterm.c_cc[VTIME] = 0;
 	tcsetattr(fileno(termin), TCSADRAIN, &newterm);
 	bbaud = cfgetospeed(&newterm);
-#else
-#ifdef HAVE_SYSV_TERMIO
-	joe_ioctl(fileno(termin), TCGETA, &oldterm);
-	newterm = oldterm;
-	newterm.c_lflag = 0;
-	if (noxon)
-		newterm.c_iflag &= ~(ICRNL | IGNCR | INLCR | IXON | IXOFF);
-	else
-		newterm.c_iflag &= ~(ICRNL | IGNCR | INLCR);
-	newterm.c_oflag = 0;
-	newterm.c_cc[VMIN] = 1;
-	newterm.c_cc[VTIME] = 0;
-	joe_ioctl(fileno(termin), TCSETAW, &newterm);
-	bbaud = (newterm.c_cflag & CBAUD);
-#else
-	joe_ioctl(fileno(termin), TIOCGETP, &arg);
-	joe_ioctl(fileno(termin), TIOCGETC, &targ);
-	joe_ioctl(fileno(termin), TIOCGLTC, &ltarg);
-	oarg = arg;
-	otarg = targ;
-	oltarg = ltarg;
-	arg.sg_flags = ((arg.sg_flags & ~(ECHO | CRMOD | XTABS | ALLDELAY | TILDE)) | CBREAK);
-	if (noxon) {
-		targ.t_startc = -1;
-		targ.t_stopc = -1;
-	}
-	targ.t_intrc = -1;
-	targ.t_quitc = -1;
-	targ.t_eofc = -1;
-	targ.t_brkc = -1;
-	ltarg.t_suspc = -1;
-	ltarg.t_dsuspc = -1;
-	ltarg.t_rprntc = -1;
-	ltarg.t_flushc = -1;
-	ltarg.t_werasc = -1;
-	ltarg.t_lnextc = -1;
-	joe_ioctl(fileno(termin), TIOCSETN, &arg);
-	joe_ioctl(fileno(termin), TIOCSETC, &targ);
-	joe_ioctl(fileno(termin), TIOCSLTC, &ltarg);
-	bbaud = arg.sg_ospeed;
-#endif
-#endif
 
 	baud = 9600;
 	upc = 0;
@@ -427,18 +308,7 @@ void ttclsn(void)
 
 	ttflsh();
 
-#ifdef HAVE_POSIX_TERMIOS
 	tcsetattr(fileno(termin), TCSADRAIN, &oldterm);
-#else
-#ifdef HAVE_SYSV_TERMIO
-	joe_ioctl(fileno(termin), TCSETAW, &oldterm);
-#else
-	joe_ioctl(fileno(termin), TIOCSETN, &oarg);
-	joe_ioctl(fileno(termin), TIOCSETC, &otarg);
-	joe_ioctl(fileno(termin), TIOCSLTC, &oltarg);
-#endif
-#endif
-
 	leave = oleave;
 }
 
@@ -452,8 +322,6 @@ static RETSIGTYPE dosig(int unused)
 
 /* FLush output and check for typeahead */
 
-#ifdef HAVE_SETITIMER
-#ifdef SIG_SETMASK
 static void maskit(void)
 {
 	sigset_t set;
@@ -479,32 +347,12 @@ static void pauseit(void)
 	sigsuspend(&set);
 }
 
-#else
-static void maskit(void)
-{
-	sigsetmask(sigmask(SIGALRM));
-}
-
-static void unmaskit(void)
-{
-	sigsetmask(0);
-}
-
-static void pauseit(void)
-{
-	sigpause(0);
-}
-
-#endif
-#endif
-
 int ttflsh(void)
 {
 	/* Flush output */
 	if (obufp) {
 		unsigned long usec = obufp * upc;	/* No. usecs this write should take */
 
-#ifdef HAVE_SETITIMER
 		if (usec >= 50000 && baud < 9600) {
 			struct itimerval a, b;
 
@@ -523,17 +371,6 @@ int ttflsh(void)
 			unmaskit();
 		} else
 			joe_write(fileno(termout), obuf, obufp);
-
-#else
-
-		joe_write(fileno(termout), obuf, obufp);
-
-#ifdef FIORDCHK
-		if (baud < 9600 && usec / 1000)
-			nap(usec / 1000);
-#endif
-
-#endif
 
 		obufp = 0;
 	}
@@ -791,7 +628,6 @@ void ttsusp(void)
 {
 	int omode;
 
-#ifdef SIGTSTP
 	omode = ttymode;
 	mpxsusp();
 	ttclsn();
@@ -801,9 +637,6 @@ void ttsusp(void)
 		ttopnn();
 	if (ackkbd!= -1)
 		mpxresume();
-#else
-	ttshell(NULL);
-#endif
 }
 
 /* Stuff for asynchronous I/O multiplexing.  We do not use streams or
@@ -859,10 +692,6 @@ static RETSIGTYPE death(int unused)
 	wait(NULL);
 	dead = 1;
 }
-
-#ifndef SIGCHLD
-#define SIGCHLD SIGCLD
-#endif
 
 /* Build a new environment, but replace one variable */
 
@@ -972,62 +801,20 @@ MPX *mpxmk(int *ptyfd, unsigned char *cmd, unsigned char **args, void (*func) (/
 			   controlling tty (session leader) and starting a new
 			   session.  This is the most non-portable part of UNIX- second
 			   only to pty/tty pair creation. */
-#ifndef HAVE_LOGIN_TTY
-
-#ifdef TIOCNOTTY
-			x = open("/dev/tty", O_RDWR);
-			joe_ioctl(x, TIOCNOTTY, 0);
-#endif
-
-			setsid();	/* I think you do setprgp(0,0) on systems with no setsid() */
-#ifndef SETPGRP_VOID
-			setpgrp(0, 0);
-#else
-			setpgrp();
-#endif
-
-#endif
 
 			/* Close all fds */
 			for (x = (out_only ? 1 : 0); x != 32; ++x)
 				close(x);	/* Yes, this is quite a kludge... all in the
 						   name of portability */
 
-
 			/* Open the TTY */
 			if ((x = open((char *)name, O_RDWR)) != -1) {	/* Standard input */
 				unsigned char **env = newenv(mainenv, USTR "TERM=");
 
-
 				if (!out_only) {
-#ifdef HAVE_LOGIN_TTY
 					login_tty(x);
 
-#else
-				/* This tells the fd that it's a tty (I think) */
-#ifdef __svr4__
-					joe_ioctl(x, I_PUSH, "ptem");
-					joe_ioctl(x, I_PUSH, "ldterm");
-#endif
-
-				/* Open stdout, stderr */
-					dup(x);
-					dup(x);	/* Standard output, standard error */
-					/* (yes, stdin, stdout, and stderr must all be open for reading and
-					 * writing.  On some systems the shell assumes this */
-#endif
-
-#ifdef HAVE_POSIX_TERMIOS
 					tcsetattr(0, TCSADRAIN, &oldterm);
-#else
-#ifdef HAVE_SYSV_TERMIO
-					joe_ioctl(0, TCSETAW, &oldterm);
-#else
-					joe_ioctl(0, TIOCSETN, &oarg);
-					joe_ioctl(0, TIOCSETC, &otarg);
-					joe_ioctl(0, TIOCSLTC, &oltarg);
-#endif
-#endif
 					/* We could probably have a special TTY set-up for JOE, but for now
 					 * we'll just use the TTY setup for the TTY was was run on */
 
