@@ -229,47 +229,6 @@ int isreg(unsigned char *s)
 	return 0;
 }
 /********************************************************************/
-#ifdef __MSDOS__
-#include <dos.h>
-#include <dir.h>
-
-struct direct {
-	unsigned char d_name[16];
-} direc;
-int dirstate = 0;
-struct ffblk ffblk;
-unsigned char *dirpath = NULL;
-
-void *opendir(unsigned char *path)
-{
-	dirstate = 0;
-	return &direc;
-}
-
-void closedir()
-{
-}
-
-struct direct *readdir()
-{
-	int x;
-
-	if (dirstate) {
-		if (findnext(&ffblk))
-			return NULL;
-	} else {
-		if (findfirst("*.*", &ffblk, FA_DIREC))
-			return NULL;
-		dirstate = 1;
-	}
-
-	zcpy(direc.d_name, ffblk.ff_name);
-	for (x = 0; direc.d_name[x]; ++x)
-		direc.d_name[x] = tolower(direc.d_name[x]);
-	return &direc;
-}
-#endif
-/********************************************************************/
 unsigned char **rexpnd(unsigned char *word)
 {
 	void *dir;
@@ -304,34 +263,9 @@ unsigned char **rexpnd_users(unsigned char *word)
 /********************************************************************/
 int chpwd(unsigned char *path)
 {
-#ifdef __MSDOS__
-	unsigned char buf[256];
-	int x;
-
-	if (!path)
-		return 0;
-	if ((path[0]) && (path[1] == ':')) {
-		if (_chdrive(path[0] & 0x1F))
-			return -1;
-		path += 2;
-	}
-	if (!path[0])
-		return 0;
-	zcpy(buf, path);
-	x = zlen(buf);
-	while (x > 1) {
-		--x;
-		if ((buf[x] == '/') || (buf[x] == '\\'))
-			buf[x] = 0;
-		else
-			break;
-	}
-	return chdir(buf);
-#else
 	if ((!path) || (!path[0]))
 		return 0;
 	return chdir((char *)path);
-#endif
 }
 
 /* The pwd function */
