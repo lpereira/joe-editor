@@ -609,13 +609,7 @@ static int set_options(BW *bw, unsigned char *s, SRCH *srch, int *notify)
 	}	
 	vsrm(s);
 	if (srch->replace) {
-		/* if (pico && globalsrch && globalsrch->replacement) {
-			joe_snprintf_1(bf1,30,"%s",globalsrch->replacement);
-			if (zlen(globalsrch->replacement)>29)
-				zcat(bf1,USTR "$");
-			joe_snprintf_1(buf,sizeof(buf),joe_gettext(_("Replace with (^C to abort) [%s]: ")),bf1);
-		} else */
-			zcpy(buf, joe_gettext(_("Replace with (^C to abort): ")));
+		zcpy(buf, joe_gettext(_("Replace with (^C to abort): ")));
 		if (wmkpw(bw->parent, buf, &replhist, set_replace, srchstr, pfabort, srch_cmplt, srch, notify, bw->b->o.charmap, 0))
 			return 0;
 		else
@@ -840,7 +834,7 @@ static int dopfrepl(BW *bw, int c, SRCH *srch, int *notify)
 			return -1;
 		srch->rest = 1;
 		return dopfnext(bw, srch, notify);
-	} else if (/* c == 8 || c == 127 || */ yncheck(backup_key, c)) {
+	} else if (yncheck(backup_key, c)) {
 		W *w = bw->parent;
 		goback(srch, bw);
 		goback(srch, (BW *)w->object);

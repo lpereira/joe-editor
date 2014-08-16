@@ -732,7 +732,6 @@ void setline(B *b, long int line)
 			if (bw->b == b) {
 				long oline = bw->top->line;
 
-				/* pline(bw->top, line); */
 				pline(bw->cursor, line);
 				if (w->y >= 0 && bw->top->line > oline && bw->top->line - oline < bw->h)
 					nscrlup(w->t->t, bw->y, bw->y + bw->h, (int) (bw->top->line - oline));

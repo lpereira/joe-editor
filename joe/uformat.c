@@ -136,23 +136,8 @@ static long prefix(BW *bw, P *p,int up)
 	while (cpara(bw, brch(q)))
 		pgetc(q);
 	while (!pisbol(q)) {
-		/* int c; */
-		if (!joe_isblank(p->b->o.charmap, ( /* c = */ prgetc(q)))) {
-		/*
-			if (up && (c == '*' || c == '-')) {
-				if (!pisbol(q)) {
-					c = prgetc(q);
-					pgetc(q);
-					if (c == ' ' || c == '\t')
-						goto skip;
-				} else
-					goto skip;
-			}
-			pgetc(q);
-		*/
+		if (!joe_isblank(p->b->o.charmap, prgetc(q)))
 			break;
-		/* 	skip:; */
-		}
 	}
 	len = piscol(q);
 	prm(q);
@@ -195,36 +180,11 @@ P *pbop(BW *bw, P *p)
 			break;
 		}
 		if (ind > indent) {
-/*
-			int ok = 1;
-			P *q = pdup(p, USTR "pbop");
-			if (pprevl(q)) {
-				p_goto_bol(q);
-				if (nindent(bw, q, 0) == ind)
-					ok = 0;
-			}
-			prm(q);
-			if (!ok)
-				pnextl(p);
-*/
 			break;
 		}
 		if (ind < indent) {
 			pset(p, last);
 			break;
-			/* if (pisbof(p)) {
-				break;
-			}
-			pprevl(p);
-			p_goto_bol(p);
-			if (pisnpara(bw, p)) {
-				pnextl(p);
-				break;
-			} else {
-				pnextl(p);
-				pnextl(p);
-				break;
-			} */
 		}
 		pset(last, p);
 	}
@@ -366,10 +326,6 @@ void wrapword(BW *bw, P *p, long int indent, int french, int no_over, unsigned c
 			y = zlen(indents);
 			while (y && (indents[y - 1] == ' ' || indents[y - 1] == '\t'))
 				--y;
-			/* Don't duplicate bullet */
-/*			if (y && (indents[y - 1] == '*' || indents[y - 1] == '-') &&
-			    (y == 1 || indents[y - 2] == ' ' || indents[y - 2] == '\t'))
-			    	indents[y - 1] = ' '; */
 			/* Fix C comment */
 			if (indents[x] == '/' && indents[x + 1] == '*')
 				indents[x] = ' ';
@@ -391,29 +347,6 @@ void wrapword(BW *bw, P *p, long int indent, int french, int no_over, unsigned c
 		prm(s);
 	}
 
-
-/*
-	if(!indents) {
-		int f = 0;
-		P *r = pdup(p);
-
-		p_goto_bol(r);
-		q = pdup(r);
-		while(cpara(c = brc(q))) {
-			if(!joe_isblank(c))
-				f = 1;
-			pgetc(q);
-		}
-		if(f) {
-			indents = brs(r, q->byte-r->byte);
-			rmf = 1;
-			if(indents[0] == '/' && indents[1] == '*')
-				indents[0] = ' ';
-		}
-		prm(r);
-		prm(q);
-	}
-*/
 
 	/* Get to beginning of word */
 	while (!pisbol(p) && piscol(p) > indent && !joe_isblank(p->b->o.charmap, prgetc(p)))
@@ -470,11 +403,6 @@ void wrapword(BW *bw, P *p, long int indent, int french, int no_over, unsigned c
 			p_goto_eol(s);
 			
 			/* If s is located behind r then the line goes beyond the right margin and we need to call wordwrap() for that line. */
-/*
-			if (r->byte < s->byte){
-				wrapword(bw, r, indent, french, 1, indents);
-			}
-*/			
 			prm(r);
 			prm(s);
 		}
@@ -572,10 +500,6 @@ int uformat(BW *bw)
 		y = zlen(indents);
 		while (y && (indents[y - 1] == ' ' || indents[y - 1] == '\t'))
 			--y;
-		/* Don't duplicate if it looks like a bullet */
-/*		if (y && (indents[y - 1] == '*' || indents[y - 1] == '-') &&
-		    (y == 1 || indents[y - 2] == ' ' || indents[y - 2] == '\t'))
-			indents[y - 1] = ' '; */
 		/* Fix C comment */
 		if (indents[x] == '/' && indents[x + 1] == '*')
 			indents[x] = ' ';
@@ -655,12 +579,6 @@ int uformat(BW *bw)
 			g=prgetc(d);
 			if (g=='.' || g=='?' || g=='!') {
 				f = 1;
-/*				pset(d,b);
-				pgetc(d);
-				if (c == '\n' || piseol(d) || joe_isspace(bw->b->o.charmap,brch(d))) {
-					f = 1;
-				}
-*/
 			}
 			prm(d);
 			

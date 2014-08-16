@@ -1148,12 +1148,6 @@ static void load_builtins(void)
 	map->to_upper = joe_towupper;
 	map->next = charmaps;
 	charmaps = map;
-
-	/* Load all built-in byte maps */
-	/*
-	for (y=0; y!=sizeof(builtin_charmaps)/sizeof(struct builtin_charmap); ++y)
-		process_builtin(builtin_charmaps + y);
-	*/
 }
 
 /* Parse character map file */
@@ -1205,20 +1199,6 @@ struct builtin_charmap *parse_charmap(unsigned char *name,FILE *f)
 		}
 	}
 
-	/* For generating builtin maps from /usr/share/i18n/charmaps/ * */
-/*
-	printf("	{ \"%s\"\n",name);
-	for (y=0;y!=256;y+=8) {
-		printf("\t");
-		for(x=0;x!=8;++x) {
-			if (b->to_uni[y+x]==-1)
-				printf("    -1, ");
-			else
-				printf("0x%4.4x, ",b->to_uni[y+x]);
-		}
-		printf("\n");
-	}
-*/
 	fclose(f);
 	return b;
 }

@@ -203,24 +203,23 @@ void pinsrect(P *cur, B *tmp, long int width, int usetabs)
 	P *q = pdup(tmp->bof, USTR "pinsrect");	/* These are for scanning through 'tmp' */
 	P *r = pdup(q, USTR "pinsrect");
 
-/*	if (width) */
-		while (pset(r, q), p_goto_eol(q), (q->line != tmp->eof->line || piscol(q))) {
-			pcol(p, cur->xcol);
-			if (piscol(p) < cur->xcol)
-				pfill(p, cur->xcol, usetabs);
-			binsb(p, bcpy(r, q));
-			pfwrd(p, q->byte - r->byte);
-			if (piscol(p) < cur->xcol + width)
-				pfill(p, cur->xcol + width, usetabs);
-			if (piseol(p))
-				pbackws(p);
-			if (!pnextl(p)) {
-				binsc(p, '\n');
-				pgetc(p);
-			}
-			if (pgetc(q) == NO_MORE_DATA)
-				break;
+	while (pset(r, q), p_goto_eol(q), (q->line != tmp->eof->line || piscol(q))) {
+		pcol(p, cur->xcol);
+		if (piscol(p) < cur->xcol)
+			pfill(p, cur->xcol, usetabs);
+		binsb(p, bcpy(r, q));
+		pfwrd(p, q->byte - r->byte);
+		if (piscol(p) < cur->xcol + width)
+			pfill(p, cur->xcol + width, usetabs);
+		if (piseol(p))
+			pbackws(p);
+		if (!pnextl(p)) {
+			binsc(p, '\n');
+			pgetc(p);
 		}
+		if (pgetc(q) == NO_MORE_DATA)
+			break;
+	}
 	prm(p);
 	prm(q);
 	prm(r);
@@ -561,50 +560,6 @@ int ublkcpy(BW *bw)
 		return -1;
 	}
 }
-
-/* Write highlighted block to a file */
-/* This is called by ublksave in ufile.c */
-
-/*int dowrite(BW *bw, unsigned char *s, void *object, int *notify)
-{
-	if (notify)
-		*notify = 1;
-	if (markv(1)) {
-		if (square) {
-			int fl;
-			int ret = 0;
-			B *tmp = pextrect(markb,
-					  markk->line - markb->line + 1,
-					  markk->xcol);
-
-			if ((fl = bsave(tmp->bof, s, tmp->eof->byte, 0)) != 0) {
-				msgnw(bw->parent, joe_gettext(msgs[-fl]));
-				ret = -1;
-			}
-			brm(tmp);
-			if (lightoff)
-				unmark(bw);
-			vsrm(s);
-			return ret;
-		} else {
-			int fl;
-			int ret = 0;
-
-			if ((fl = bsave(markb, s, markk->byte - markb->byte, 0)) != 0) {
-				msgnw(bw->parent, joe_gettext(msgs[-fl]));
-				ret = -1;
-			}
-			if (lightoff)
-				unmark(bw);
-			vsrm(s);
-			return ret;
-		}
-	} else {
-		vsrm(s);
-		msgnw(bw->parent, USTR _(_("No block")));
-		return -1;
-	}
-}*/
 
 /* Set highlighted block on a program block */
 

@@ -543,12 +543,6 @@ int udefmdrag(BW *xx)
 		auto_rate = new_rate;
 		reset_trig_time();
 	} else if (new_rate != auto_rate) {
-/*
-		int left = auto_trig_time - mnow();
-		if (left > 0) {
-			left = left * auto_rate / new_rate;
-		}
-*/
 		auto_rate = new_rate;
 	}
 

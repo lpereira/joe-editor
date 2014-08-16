@@ -1223,28 +1223,6 @@ docv:
 				++t->x;
 			}
 		}
-
-		/* if (t->cRI < x - t->x) { */
-/*		} else {
-			int *s = t->scrn + t->x + t->y * t->co;
-			int *a = t->attr + t->x + t->y * t->co;
-
-			if (t->ins)
-				clrins(t);
-			while (x > t->x) {
-				int atr, c;
-				if(*s==-1) c=' ', atr=0;
-				else c= *s, atr= *a;
-
-				if (atr != t->attrib)
-					set_attr(t, atr);
-				utf8_putc(c);
-				++s;
-				++a;
-				++t->x;
-			}
-		}
-*/
 	}
 }
 

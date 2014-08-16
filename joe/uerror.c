@@ -186,10 +186,7 @@ static void parseone(struct charmap *map,unsigned char *s,unsigned char **rtn_na
 	/* Look for ':' */
 	flg = 0;
 	while (s[y]) {
-	/* Allow : anywhere on line: works for MIPS C compiler */
-/*
-	for (y = 0; s[y];)
-*/
+		/* Allow : anywhere on line: works for MIPS C compiler */
 		if (s[y]==':') {
 			flg = 1;
 			break;

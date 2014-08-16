@@ -89,7 +89,6 @@ int cstart(BW *bw, unsigned char *name, unsigned char **s, void *obj, int *notif
 		varm(s);
 		return -1;
 	}
-	/* p_goto_eof(bw->cursor); */
 
 	if (!(m = mpxmk(&bw->b->out, name, s, cdata, bw->b, build ? cdone_parse : cdone, bw->b, out_only))) {
 		varm(s);

@@ -167,12 +167,10 @@ static unsigned char **treload(TAB *tab,MENU *m, BW *bw, int flg,int *defer)
 	if (defer) {
 		*defer = which;
 		/* bash */
-		/* insnam(bw, tab->path, tab->pattern, 0, tab->ofst); */
 		return tab->list;
 	} else {
 		ldmenu(m, tab->list, which);
 		/* bash */
-		/* insnam(bw, tab->path, tab->pattern, 0, tab->ofst); */
 		return tab->list;
 	}
 }
@@ -199,13 +197,8 @@ static int tabrtn(MENU *m, int cursor, TAB *tab)
 		unsigned char *orgpattern = tab->pattern;
 		unsigned char *e = endprt(tab->path);
 
-		/* if (!zcmp(tab->files[cursor], USTR "..") && sLEN(e)
-		    && !(e[0] == '.' && e[1] == '.' && (!e[2] || e[2] == '/')))
-			tab->path = begprt(tab->path);
-		else */ {
-			tab->path = vsncpy(NULL, 0, sv(tab->path));
-			tab->path = vsncpy(sv(tab->path), sv(m->list[cursor]));
-		}
+		tab->path = vsncpy(NULL, 0, sv(tab->path));
+		tab->path = vsncpy(sv(tab->path), sv(m->list[cursor]));
 		vsrm(e);
 		tab->pattern = vsncpy(NULL, 0, sc("*"));
 		if (!treload(m->object, m, m->parent->win->object, 0, NULL)) {
@@ -332,7 +325,6 @@ int cmplt(BW *bw)
 
 	cline = brvs(p, (int) (q->byte - p->byte));
 	/* Don't do it so soon... */
-	/* cline = canonical(cline); */
 	prm(p);
 	prm(q);
 
@@ -381,13 +373,11 @@ int cmplt(BW *bw)
 			insnam(bw, tab->orgpath, tab->orgnam, 0, tab->ofst);
 			wabort(new->parent);
 			smode = 2;
-			/* if(joe_beep) */
-				ttputc(7);
+			ttputc(7);
 			return 0;
 		}
 	} else {
-		/* if(joe_beep) */
-			ttputc(7);
+		ttputc(7);
 		rmtab(tab);
 		return -1;
 	}

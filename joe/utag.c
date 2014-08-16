@@ -175,10 +175,6 @@ static unsigned char **tag_word_list;
 
 static int tag_cmplt(BW *bw)
 {
-	/* Reload every time: we should really check date of tags file...
-	if (tag_word_list)
-		varm(tag_word_list); */
-
 	if (!tag_word_list)
 		tag_word_list = get_tag_list();
 

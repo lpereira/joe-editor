@@ -1008,12 +1008,6 @@ static int bufedcmplt(BW *bw)
 
 static int dobufed(BW *bw, unsigned char *s, void *object, int *notify)
 {
-/* not understanding this...
-	int *notify = bw->parent->notify;
-
-	bw->parent->notify = 0;
-	wabort(bw->parent);
-*/
 	return dorepl(bw, s, NULL, notify);
 }
 

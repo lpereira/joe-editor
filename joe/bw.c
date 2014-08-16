@@ -792,17 +792,6 @@ void bwgen(BW *w, int linums)
 			gennum(w, screen, attr, t, y, t->compose);
 		if (t->updtab[y]) {
 			p = getto(p, w->cursor, w->top, w->top->line + y - w->y);
-/*			if (t->insdel && !w->x) {
-				pset(q, p);
-				if (dosquare)
-					if (w->top->line + y - w->y >= fromline && w->top->line + y - w->y <= toline)
-						lgena(t, y, t->compose, w->x, w->x + w->w, q, w->offset, from, to);
-					else
-						lgena(t, y, t->compose, w->x, w->x + w->w, q, w->offset, 0L, 0L);
-				else
-					lgena(t, y, t->compose, w->x, w->x + w->w, q, w->offset, from, to);
-				magic(t, y, screen, attr, t->compose, (int) (w->cursor->xcol - w->offset + w->x));
-			} */
 			if (dosquare)
 				if (w->top->line + y - w->y >= fromline && w->top->line + y - w->y <= toline)
 					t->updtab[y] = lgen(t, y, screen, attr, w->x, w->x + w->w, p, w->offset, from, to, get_highlight_state(w,p,w->top->line+y-w->y),w);
@@ -822,17 +811,6 @@ void bwgen(BW *w, int linums)
 			gennum(w, screen, attr, t, y, t->compose);
 		if (t->updtab[y]) {
 			p = getto(p, w->cursor, w->top, w->top->line + y - w->y);
-/*			if (t->insdel && !w->x) {
-				pset(q, p);
-				if (dosquare)
-					if (w->top->line + y - w->y >= fromline && w->top->line + y - w->y <= toline)
-						lgena(t, y, t->compose, w->x, w->x + w->w, q, w->offset, from, to);
-					else
-						lgena(t, y, t->compose, w->x, w->x + w->w, q, w->offset, 0L, 0L);
-				else
-					lgena(t, y, t->compose, w->x, w->x + w->w, q, w->offset, from, to);
-				magic(t, y, screen, attr, t->compose, (int) (w->cursor->xcol - w->offset + w->x));
-			} */
 			if (dosquare)
 				if (w->top->line + y - w->y >= fromline && w->top->line + y - w->y <= toline)
 					t->updtab[y] = lgen(t, y, screen, attr, w->x, w->x + w->w, p, w->offset, from, to, get_highlight_state(w,p,w->top->line+y-w->y),w);

@@ -205,14 +205,6 @@ CAP *my_getcap(unsigned char *name, unsigned int baud, void (*out) (unsigned cha
 
       nextfile:
 	if (!npbuf[y]) {
-/*
- varm(npbuf);
- vsrm(name);
- vsrm(cap->tbuf);
- joe_free(cap->sort);
- joe_free(cap);
- return 0;
-*/
 		fprintf(stderr, (char *)joe_gettext(_("Couldn't load termcap entry.  Using ansi default\n")));
 		ti = 0;
 		cap->tbuf = vsncpy(cap->tbuf, 0, sc(defentry));
@@ -349,10 +341,6 @@ CAP *my_getcap(unsigned char *name, unsigned int baud, void (*out) (unsigned cha
 	else
 		cap->dopadding = 0;
 
-/* show sorted entries
-	for(x=0;x!=cap->sortlen;++x)
-		printf("%s = %s\n",cap->sort[x].name,cap->sort[x].value);
-*/
 	return setcap(cap, baud, out, outptr);
 }
 

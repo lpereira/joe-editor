@@ -790,7 +790,6 @@ struct high_syntax *load_syntax_subr(unsigned char *name,unsigned char *subr,str
 	syntax_list = syntax;
 
 	if (load_dfa(syntax)) {
-		/* dump_syntax(syntax); */
 		return syntax;
 	} else {
 		if(syntax_list == syntax)

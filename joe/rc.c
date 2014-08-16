@@ -1021,7 +1021,6 @@ static int doabrt(MENU *m, int x, struct menu_instance *mi)
 	mi->menu->last_position = x;
 	for (x = 0; mi->s[x]; ++x)
 		vsrm(mi->s[x]);
-		/* joe_free(mi->s[x]); */
 	joe_free(mi->s);
 	joe_free(mi);
 	return -1;
@@ -1046,7 +1045,6 @@ int display_menu(BW *bw, struct rc_menu *menu, int *notify)
 	unsigned char **s = (unsigned char **)joe_malloc(sizeof(unsigned char *) * (menu->size + 1));
 	int x;
 	for (x = 0; x != menu->size; ++x) {
-		/* s[x] = zdup(menu->entries[x]->name); */
 		s[x] = stagen(NULL, bw, menu->entries[x]->name, ' ');
 	}
 	s[x] = 0;
@@ -1387,8 +1385,6 @@ int procrc(CAP *cap, unsigned char *name)
 					} else {
 						context = kmap_getcontext(buf + 1);
 						current_menu = 0;
-						/* err = 1;
-						fprintf(stderr, (char *)joe_gettext(_("\n%s %d: unknown :command")), name, line);*/
 					}
 				else {
 					err = 1;
