@@ -161,7 +161,7 @@ static unsigned char **get_tag_list()
 				}
 			}
 			if (pos > 0) {
-				zncpy(tag, buf, pos);
+				strncpy(tag, buf, pos);
 				tag[pos] = '\0';
 			}
 			lst = vaadd(lst, vsncpy(NULL, 0, sz(tag)));

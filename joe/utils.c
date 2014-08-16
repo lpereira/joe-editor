@@ -99,12 +99,6 @@ unsigned char *zstr(unsigned char *a, unsigned char *b)
 	return (unsigned char *)strstr((char *)a,(char *)b);
 }
 
-unsigned char *zncpy(unsigned char *a, unsigned char *b, size_t len)
-{
-	strncpy((char *)a,(char *)b,len);
-	return a;
-}
-
 unsigned char *zcat(unsigned char *a, unsigned char *b)
 {
 	strcat((char *)a,(char *)b);
