@@ -64,7 +64,6 @@
 #define NO_MORE_DATA EOF
 
 #define physical(a) ((unsigned long)(a))
-#define normalize(a) (a)
 
 #define SEGSIZ 1024
 #define PGSIZE 1024
