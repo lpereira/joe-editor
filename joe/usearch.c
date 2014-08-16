@@ -609,7 +609,7 @@ static int set_options(BW *bw, unsigned char *s, SRCH *srch, int *notify)
 	}	
 	vsrm(s);
 	if (srch->replace) {
-		zcpy(buf, joe_gettext(_("Replace with (^C to abort): ")));
+		strcpy(buf, joe_gettext(_("Replace with (^C to abort): ")));
 		if (wmkpw(bw->parent, buf, &replhist, set_replace, srchstr, pfabort, srch_cmplt, srch, notify, bw->b->o.charmap, 0))
 			return 0;
 		else
@@ -719,7 +719,7 @@ int dofirst(BW *bw, int back, int repl, unsigned char *hint)
 		unesc_genfmt(bf1, sv(globalsrch->pattern), 30);
 		joe_snprintf_1(buf,sizeof(buf),joe_gettext(_("Find (^C to abort) [%s]: ")),bf1);
 	} else
-		zcpy(buf, joe_gettext(_("Find (^C to abort): ")));
+		strcpy(buf, joe_gettext(_("Find (^C to abort): ")));
 	if ((pbw=wmkpw(bw->parent, buf, &findhist, set_pattern, srchstr, pfabort, srch_cmplt, srch, NULL, bw->b->o.charmap, 0))) {
 		if (hint) {
 			binss(pbw->cursor, hint);

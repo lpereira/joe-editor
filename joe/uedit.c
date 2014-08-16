@@ -2293,7 +2293,7 @@ static int domsg(BASE *b, unsigned char *s, void *object, int *notify)
 {
 	if (notify)
 		*notify = 1;
-	zcpy(msgbuf, s);
+	strcpy(msgbuf, s);
 	vsrm(s);
 	msgnw(b->parent, msgbuf);
 	return 0;

@@ -90,7 +90,7 @@ unsigned char *get_context(BW *bw)
 			    (stdbuf[0]=='B' && stdbuf[1]=='E' && stdbuf[2]=='G' && stdbuf[3]=='I' && stdbuf[4]=='N') ||
 			    (stdbuf[0]=='-' && stdbuf[1]=='-') ||
 			    stdbuf[0]==';')) {
-			    	/* zcpy(buf1,stdbuf); */
+			    	/* strcpy(buf1,stdbuf); */
  				/* replace tabs to spaces and remove adjoining spaces */
  				for (i=0,j=0,spc=0; stdbuf[i]; i++) {
  					if (stdbuf[i]=='\t' || stdbuf[i]==' ') {

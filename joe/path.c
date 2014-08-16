@@ -39,7 +39,7 @@ unsigned char *namepart(unsigned char *tmp, unsigned char *path)
 	z = path + strlen(path);
 	while ((z != path) && (z[-1] != '/'))
 		--z;
-	return zcpy(tmp, z);
+	return strcpy(tmp, z);
 }
 /********************************************************************/
 unsigned char *dirprt(unsigned char *path)

@@ -448,7 +448,7 @@ void my_iconv(unsigned char *dest,struct charmap *dest_map,
               unsigned char *src,struct charmap *src_map)
 {
 	if (dest_map == src_map) {
-		zcpy (dest, src);
+		strcpy (dest, src);
 		return;
 	}
 
@@ -456,7 +456,7 @@ void my_iconv(unsigned char *dest,struct charmap *dest_map,
 		/* src is UTF-8 */
 		if (dest_map->type) {
 			/* UTF-8 to UTF-8? */
-			zcpy (dest, src);
+			strcpy (dest, src);
 		} else {
 			/* UTF-8 to non-UTF-8 */
 			while (*src) {

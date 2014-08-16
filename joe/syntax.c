@@ -80,10 +80,10 @@ HIGHLIGHT_STATE parse(struct high_syntax *syntax,P *line,HIGHLIGHT_STATE h_state
 
 			/* Lowerize strings for case-insensitive matching */
 			if (cmd->ignore) {
-				zcpy(lbuf,buf);
+				strcpy(lbuf,buf);
 				lowerize(lbuf);
 				if (cmd->delim) {
-					zcpy(lsaved_s,h_state.saved_s);
+					strcpy(lsaved_s,h_state.saved_s);
 					lowerize(lsaved_s);
 				}
 			}
@@ -151,7 +151,7 @@ HIGHLIGHT_STATE parse(struct high_syntax *syntax,P *line,HIGHLIGHT_STATE h_state
 
 			/* Save string? */
 			if (cmd->save_s)
-				zcpy(h_state.saved_s,buf);
+				strcpy(h_state.saved_s,buf);
 
 			/* Save character? */
 			if (cmd->save_c) {
@@ -346,7 +346,7 @@ void dump_syntax(BW *bw)
 		joe_snprintf_3(buf, sizeof(buf), "Syntax name=%s, subr=%s, nstates=%d\n",syntax->name,syntax->subr,syntax->nstates);
 		binss(bw->cursor, buf);
 		pnextl(bw->cursor);
-		zcpy(buf, USTR "params=(");
+		strcpy(buf, USTR "params=(");
 		for(params = syntax->params; params; params = params->next) {
 			zcat(buf, USTR " ");
 			zcat(buf, params->name);
@@ -474,7 +474,7 @@ void parse_options(struct high_syntax *syntax,struct high_cmd *cmd,FILE *f,unsig
 			if(!parse_char(&p,'=')) {
 				parse_ws(&p,'#');
 				if (!parse_char(&p,'.')) {
-					zcpy(bf,syntax->name);
+					strcpy(bf,syntax->name);
 					goto subr;
 				} else if (parse_ident(&p,bf,sizeof(bf)))
 					i_printf_2((char *)joe_gettext(_("%s %d: Missing value for option\n")),name,line);
