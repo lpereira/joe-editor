@@ -119,9 +119,6 @@ int mkpath(unsigned char *path)
 /********************************************************************/
 unsigned char *mktmp(unsigned char *where)
 {
-#ifndef HAVE_MKSTEMP
-	static unsigned seq = 0;
-#endif
 	unsigned char *name;
 	int fd;
 	unsigned namesize;
@@ -135,7 +132,6 @@ unsigned char *mktmp(unsigned char *where)
 	name = vsmk(namesize);	/* [G.Ghibo'] we need to use vsmk() and not malloc() as
 				   area returned by mktmp() is destroyed later with
 				   vsrm(); */
-#ifdef HAVE_MKSTEMP
 	snprintf(name, namesize, "%s/joe.tmp.XXXXXX", where);
 	if((fd = mkstemp((char *)name)) == -1)
 		return NULL;	/* FIXME: vflsh() and vflshf() */
@@ -146,19 +142,6 @@ unsigned char *mktmp(unsigned char *where)
 				/* else sees content of temporary file */
 	close(fd);
 
-#else
-      loop:
-	seq = (seq + 1) % 1000;
-	snprintf(name, namesize, "%s/joe.tmp.%03u%03u", where, seq, (unsigned) time(NULL) % 1000);
-	if ((fd = open(name, O_RDONLY)) != -1) {
-		close(fd);
-		goto loop;	/* FIXME: possible endless loop --> DoS attack */
-	}
-	if ((fd = open(name, O_RDWR | O_CREAT | O_EXCL, 0600)) == -1)
-		return NULL;	/* FIXME: see above */
-	else
-		close(fd);
-#endif
 	return name;
 }
 /********************************************************************/
