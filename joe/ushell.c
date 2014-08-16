@@ -111,7 +111,7 @@ int ubknd(BW *bw)
 
         sh=(unsigned char *)getenv("SHELL");
 
-        if (file_exists(sh) && zcmp(sh,USTR "/bin/sh")) goto ok;
+        if (file_exists(sh) && strcmp(sh,USTR "/bin/sh")) goto ok;
         if (file_exists(sh=USTR "/bin/bash")) goto ok;
         if (file_exists(sh=USTR "/usr/bin/bash")) goto ok;
         if (file_exists(sh=USTR "/bin/sh")) goto ok;

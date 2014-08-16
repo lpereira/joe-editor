@@ -91,7 +91,6 @@ void rm_zs(ZS z);
    used, not -128 - 127. */
 
 size_t zlen(unsigned char *s);
-int zcmp(unsigned char *a, unsigned char *b);
 int zncmp(unsigned char *a, unsigned char *b, size_t len);
 unsigned char *zcpy(unsigned char *a, unsigned char *b);
 unsigned char *zncpy(unsigned char *a, unsigned char *b,size_t len);

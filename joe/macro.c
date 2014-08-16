@@ -292,7 +292,7 @@ static void domtext(MACRO *m)
 		for (x = 0; x != m->n; ++x)
 			domtext(m->steps[x]);
 	else {
-		if (instr && zcmp(m->cmd->name, USTR "type")) {
+		if (instr && strcmp(m->cmd->name, USTR "type")) {
 			*ptr++ = '\"';
 			instr = 0;
 		}
@@ -300,7 +300,7 @@ static void domtext(MACRO *m)
 			first = 0;
 		else if (!instr)
 			*ptr++ = ',';
-		if (!zcmp(m->cmd->name, USTR "type")) {
+		if (!strcmp(m->cmd->name, USTR "type")) {
 			if (!instr) {
 				*ptr++ = '\"';
 				instr = 1;
@@ -309,7 +309,7 @@ static void domtext(MACRO *m)
 		} else {
 			for (x = 0; m->cmd->name[x]; ++x)
 				*ptr++ = m->cmd->name[x];
-			if (!zcmp(m->cmd->name, USTR "play") || !zcmp(m->cmd->name, USTR "gomark") || !zcmp(m->cmd->name, USTR "setmark") || !zcmp(m->cmd->name, USTR "record") || !zcmp(m->cmd->name, USTR "uarg")) {
+			if (!strcmp(m->cmd->name, USTR "play") || !strcmp(m->cmd->name, USTR "gomark") || !strcmp(m->cmd->name, USTR "setmark") || !strcmp(m->cmd->name, USTR "record") || !strcmp(m->cmd->name, USTR "uarg")) {
 				*ptr++ = ',';
 				*ptr++ = '"';
 				ptr = unescape(ptr, m->k);
@@ -669,7 +669,7 @@ void load_macros(FILE *f)
 {
 	unsigned char buf[1024];
 	unsigned char bf[1024];
-	while(fgets((char *)buf,1023,f) && zcmp(buf,USTR "done\n")) {
+	while(fgets((char *)buf,1023,f) && strcmp(buf,USTR "done\n")) {
 		unsigned char *p = buf;
 		int n;
 		int len;

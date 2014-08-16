@@ -2330,7 +2330,7 @@ B *bload(unsigned char *s)
 		nescape(maint->t);
 		ttclsn();
 		fi = popen((char *)dequote(n + 1), "r");
-	} else if (!zcmp(n, USTR "-")) {
+	} else if (!strcmp(n, USTR "-")) {
 		/* Now we always just create an empty buffer for "-" */
 		b = bmk(NULL);
 		goto empty;
@@ -2391,7 +2391,7 @@ B *bload(unsigned char *s)
 err:
 	if (s[0] == '!')
 		pclose(fi);
-	else if (zcmp(n, USTR "-"))
+	else if (strcmp(n, USTR "-"))
 		fclose(fi);
 
 opnerr:
@@ -2407,7 +2407,7 @@ opnerr:
 	if (berror || s[0] == '!' || skip || amnt != MAXLONG) {
 		b->backup = 1;
 		b->changed = 0;
-	} else if (!zcmp(n, USTR "-")) {
+	} else if (!strcmp(n, USTR "-")) {
 		b->backup = 1;
 		b->changed = 1;
 	} else {
@@ -2525,7 +2525,7 @@ B *bfind(unsigned char *s)
 		return b;
 	}
 	for (b = bufs.link.next; b != &bufs; b = b->link.next)
-		if (b->name && !zcmp(s, b->name)) {
+		if (b->name && !strcmp(s, b->name)) {
 			if (!b->orphan)
 				++b->count; /* Assumes caller is going to put this in a window! */
 			else
@@ -2554,7 +2554,7 @@ B *bfind_scratch(unsigned char *s)
 		return b;
 	}
 	for (b = bufs.link.next; b != &bufs; b = b->link.next)
-		if (b->name && !zcmp(s, b->name)) {
+		if (b->name && !strcmp(s, b->name)) {
 			if (!b->orphan)
 				++b->count;
 			else
@@ -2590,7 +2590,7 @@ B *bcheck_loaded(unsigned char *s)
 		return NULL;
 	}
 	for (b = bufs.link.next; b != &bufs; b = b->link.next)
-		if (b->name && !zcmp(s, b->name)) {
+		if (b->name && !strcmp(s, b->name)) {
 			return b;
 		}
 
@@ -2697,7 +2697,7 @@ int bsave(P *p, unsigned char *s, off_t size, int flag)
 		f = popen((char *)dequote(s + 1), "w");
 	} else if (s[0] == '>' && s[1] == '>')
 		f = fopen((char *)dequote(s + 2), "a");
-	else if (!zcmp(s, USTR "-")) {
+	else if (!strcmp(s, USTR "-")) {
 		nescape(maint->t);
 		ttclsn();
 		f = stdout;
@@ -2780,20 +2780,20 @@ int bsave(P *p, unsigned char *s, off_t size, int flag)
 err:
 	if (s[0] == '!')
 		pclose(f);
-	else if (zcmp(s, USTR "-"))
+	else if (strcmp(s, USTR "-"))
 		fclose(f);
 	else
 		fflush(f);
 
 	/* Update orignal date of file */
 	/* If it's not named, it's about to be */
-	if (!berror && norm && flag && (!p->b->name || flag == 2 || !zcmp(s,p->b->name))) {
+	if (!berror && norm && flag && (!p->b->name || flag == 2 || !strcmp(s,p->b->name))) {
 		if (!stat((char *)dequote(s),&sbuf))
 			p->b->mod_time = sbuf.st_mtime;
 	}
 
 opnerr:
-	if (s[0] == '!' || !zcmp(s,USTR "-")) {
+	if (s[0] == '!' || !strcmp(s,USTR "-")) {
 		ttopnn();
 		nreturn(maint->t);
 	}
@@ -2987,7 +2987,7 @@ void unlock_it(unsigned char *qpath)
 
 int plain_file(B *b)
 {
-	if (b->name && zcmp(b->name,USTR "-") && b->name[0]!='!' && b->name[0]!='>' &&
+	if (b->name && strcmp(b->name,USTR "-") && b->name[0]!='!' && b->name[0]!='>' &&
 	    !b->scratch)
 		return 1;
 	else

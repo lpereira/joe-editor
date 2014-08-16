@@ -1742,83 +1742,83 @@ void nredraw(SCRN *t)
 
 int meta_color_single(unsigned char *s)
 {
-	if(!zcmp(s,USTR "inverse"))
+	if(!strcmp(s,USTR "inverse"))
 		return INVERSE;
-	else if(!zcmp(s,USTR "underline"))
+	else if(!strcmp(s,USTR "underline"))
 		return UNDERLINE;
-	else if(!zcmp(s,USTR "bold"))
+	else if(!strcmp(s,USTR "bold"))
 		return BOLD;
-	else if(!zcmp(s,USTR "blink"))
+	else if(!strcmp(s,USTR "blink"))
 		return BLINK;
-	else if(!zcmp(s,USTR "dim"))
+	else if(!strcmp(s,USTR "dim"))
 		return DIM;
 
 	/* ISO colors */
-	else if(!zcmp(s,USTR "white"))
+	else if(!strcmp(s,USTR "white"))
 		return FG_WHITE;
-	else if(!zcmp(s,USTR "cyan"))
+	else if(!strcmp(s,USTR "cyan"))
 		return FG_CYAN;
-	else if(!zcmp(s,USTR "magenta"))
+	else if(!strcmp(s,USTR "magenta"))
 		return FG_MAGENTA;
-	else if(!zcmp(s,USTR "blue"))
+	else if(!strcmp(s,USTR "blue"))
 		return FG_BLUE;
-	else if(!zcmp(s,USTR "yellow"))
+	else if(!strcmp(s,USTR "yellow"))
 		return FG_YELLOW;
-	else if(!zcmp(s,USTR "green"))
+	else if(!strcmp(s,USTR "green"))
 		return FG_GREEN;
-	else if(!zcmp(s,USTR "red"))
+	else if(!strcmp(s,USTR "red"))
 		return FG_RED;
-	else if(!zcmp(s,USTR "black"))
+	else if(!strcmp(s,USTR "black"))
 		return FG_BLACK;
-	else if(!zcmp(s,USTR "bg_white"))
+	else if(!strcmp(s,USTR "bg_white"))
 		return BG_WHITE;
-	else if(!zcmp(s,USTR "bg_cyan"))
+	else if(!strcmp(s,USTR "bg_cyan"))
 		return BG_CYAN;
-	else if(!zcmp(s,USTR "bg_magenta"))
+	else if(!strcmp(s,USTR "bg_magenta"))
 		return BG_MAGENTA;
-	else if(!zcmp(s,USTR "bg_blue"))
+	else if(!strcmp(s,USTR "bg_blue"))
 		return BG_BLUE;
-	else if(!zcmp(s,USTR "bg_yellow"))
+	else if(!strcmp(s,USTR "bg_yellow"))
 		return BG_YELLOW;
-	else if(!zcmp(s,USTR "bg_green"))
+	else if(!strcmp(s,USTR "bg_green"))
 		return BG_GREEN;
-	else if(!zcmp(s,USTR "bg_red"))
+	else if(!strcmp(s,USTR "bg_red"))
 		return BG_RED;
-	else if(!zcmp(s,USTR "bg_black"))
+	else if(!strcmp(s,USTR "bg_black"))
 		return BG_BLACK;
 
 	/* 16 color xterm support: codes 8 - 15 are brighter versions of above */
-	else if(!zcmp(s,USTR "WHITE"))
+	else if(!strcmp(s,USTR "WHITE"))
 		return FG_BWHITE;
-	else if(!zcmp(s,USTR "CYAN"))
+	else if(!strcmp(s,USTR "CYAN"))
 		return FG_BCYAN;
-	else if(!zcmp(s,USTR "MAGENTA"))
+	else if(!strcmp(s,USTR "MAGENTA"))
 		return FG_BMAGENTA;
-	else if(!zcmp(s,USTR "BLUE"))
+	else if(!strcmp(s,USTR "BLUE"))
 		return FG_BBLUE;
-	else if(!zcmp(s,USTR "YELLOW"))
+	else if(!strcmp(s,USTR "YELLOW"))
 		return FG_BYELLOW;
-	else if(!zcmp(s,USTR "GREEN"))
+	else if(!strcmp(s,USTR "GREEN"))
 		return FG_BGREEN;
-	else if(!zcmp(s,USTR "RED"))
+	else if(!strcmp(s,USTR "RED"))
 		return FG_BRED;
-	else if(!zcmp(s,USTR "BLACK"))
+	else if(!strcmp(s,USTR "BLACK"))
 		return FG_BBLACK;
-	else if(!zcmp(s,USTR "bg_WHITE"))
+	else if(!strcmp(s,USTR "bg_WHITE"))
 		return BG_BWHITE;
-	else if(!zcmp(s,USTR "bg_CYAN"))
+	else if(!strcmp(s,USTR "bg_CYAN"))
 		return BG_BCYAN;
-	else if(!zcmp(s,USTR "bg_MAGENTA"))
+	else if(!strcmp(s,USTR "bg_MAGENTA"))
 		return BG_BMAGENTA;
-	else if(!zcmp(s,USTR "bg_BLUE"))
+	else if(!strcmp(s,USTR "bg_BLUE"))
 		return BG_BBLUE;
-	else if(!zcmp(s,USTR "bg_YELLOW"))
+	else if(!strcmp(s,USTR "bg_YELLOW"))
 		return BG_BYELLOW;
-	else if(!zcmp(s,USTR "bg_GREEN"))
+	else if(!strcmp(s,USTR "bg_GREEN"))
 		return BG_BGREEN;
-	else if(!zcmp(s,USTR "bg_RED"))
+	else if(!strcmp(s,USTR "bg_RED"))
 		return BG_BRED;
-	else if(!zcmp(s,USTR "bg_BLACK"))
+	else if(!strcmp(s,USTR "bg_BLACK"))
 		return BG_BBLACK;
 
 	/* Look at the "256colres.pl" PERL script in the xterm source

@@ -326,7 +326,7 @@ static int saver(BW *bw, int c, struct savereq *req, int *notify)
 		}
 		if (!bw->b->name && req->name[0]!='!' && req->name[0]!='>')
 			bw->b->name = strdup(req->name);
-		if (bw->b->name && !zcmp(bw->b->name, req->name)) {
+		if (bw->b->name && !strcmp(bw->b->name, req->name)) {
 			bw_unlock(bw);
 			bw->b->changed = 0;
 			saverr(bw->b->name);
@@ -452,7 +452,7 @@ static int dosave1(BW *bw, unsigned char *s, struct savereq *req, int *notify)
 
 	if (s[0] != '!' && !(s[0] == '>' && s[1] == '>')) {
 		/* It's a normal file: not a pipe or append */
-		if (!bw->b->name || zcmp(s, bw->b->name)) {
+		if (!bw->b->name || strcmp(s, bw->b->name)) {
 			/* Newly named file or name is different than buffer */
 			f = open((char *)dequote(s), O_RDONLY);
 			if (f != -1) {

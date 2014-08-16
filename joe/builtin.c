@@ -12,7 +12,7 @@ JFILE *jfopen(unsigned char *name, char *mode)
 	if (name[0] == '*') {
 		int x;
 		for (x = 0; builtins[x]; x += 2) {
-			if (!zcmp(builtins[x], name + 1)) {
+			if (!strcmp(builtins[x], name + 1)) {
 				JFILE *j = (JFILE *)joe_malloc(sizeof(JFILE));
 				j->f = 0;
 				j->p = builtins[x + 1];

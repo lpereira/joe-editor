@@ -36,7 +36,7 @@ static struct var *get(unsigned char *str)
 	struct var *v;
 
 	for (v = vars; v; v = v->next) {
-		if (!zcmp(v->name, str)) {
+		if (!strcmp(v->name, str)) {
 			return v;
 		}
 	}
@@ -78,7 +78,7 @@ static double expr(int prec, int en,struct var **rtv)
 		}
 		c = *ptr;
 		*ptr = 0;
-		if (!zcmp(s,USTR "joe")) {
+		if (!strcmp(s,USTR "joe")) {
 			*ptr = c;
 			v = 0;
 			x = 0.0;
@@ -116,39 +116,39 @@ static double expr(int prec, int en,struct var **rtv)
 		} else if (!en) {
 			v = 0;
 			x = 0.0;
-		} else if (!zcmp(s,USTR "hex")) {
+		} else if (!strcmp(s,USTR "hex")) {
 			mode_hex = 1;
 			mode_eng = 0;
 			v = get(USTR "ans");
 			x = v->val;
-		} else if (!zcmp(s,USTR "dec")) {
+		} else if (!strcmp(s,USTR "dec")) {
 			mode_hex = 0;
 			mode_eng = 0;
 			v = get(USTR "ans");
 			x = v->val;
-		} else if (!zcmp(s,USTR "eng")) {
+		} else if (!strcmp(s,USTR "eng")) {
 			mode_hex = 0;
 			mode_eng = 1;
 			v = get(USTR "ans");
 			x = v->val;
-		} else if (!zcmp(s,USTR "ins")) {
+		} else if (!strcmp(s,USTR "ins")) {
 			mode_ins = 1;
 			v = get(USTR "ans");
 			x = v->val;
-		} else if (!zcmp(s,USTR "sum")) {
+		} else if (!strcmp(s,USTR "sum")) {
 			double xsq;
 			int cnt = blksum(&x, &xsq);
 			if (!merr && cnt<=0)
 				merr = joe_gettext(_("No numbers in block"));
 			v = 0;
-		} else if (!zcmp(s,USTR "cnt")) {
+		} else if (!strcmp(s,USTR "cnt")) {
 			double xsq;
 			int cnt = blksum(&x, &xsq);
 			if (!merr && cnt<=0)
 				merr = joe_gettext(_("No numbers in block"));
 			v = 0;
 			x = cnt;
-		} else if (!zcmp(s,USTR "avg")) {
+		} else if (!strcmp(s,USTR "avg")) {
 			double xsq;
 			int cnt = blksum(&x, &xsq);
 			if (!merr && cnt<=0)
@@ -156,7 +156,7 @@ static double expr(int prec, int en,struct var **rtv)
 			v = 0;
 			if (cnt)
 				x /= (double)cnt;
-		} else if (!zcmp(s,USTR "dev")) {
+		} else if (!strcmp(s,USTR "dev")) {
 			double xsq;
 			double avg;
 			int cnt = blksum(&x, &xsq);
@@ -167,7 +167,7 @@ static double expr(int prec, int en,struct var **rtv)
 				avg = x / (double)cnt;
 				x = sqrt(xsq + (double)cnt*avg*avg - 2.0*avg*x);
 			}
-		} else if (!zcmp(s,USTR "eval")) {
+		} else if (!strcmp(s,USTR "eval")) {
 			unsigned char *save = ptr;
 			unsigned char *e = blkget();
 			if (e) {

@@ -111,7 +111,7 @@ void *htfind(HASH *ht, unsigned char *name)
 	HENTRY *e;
 
 	for (e = ht->tab[hash(name) & (ht->len - 1)]; e; e = e->next) {
-		if (!zcmp(e->name, name)) {
+		if (!strcmp(e->name, name)) {
 			return e->val;
 		}
 	}

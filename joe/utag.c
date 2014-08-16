@@ -45,7 +45,7 @@ static int dotag(BW *bw, unsigned char *s, void *obj, int *notify)
 		for (x = 0; buf[x] && buf[x] != ' ' && buf[x] != '\t'; ++x) ;
 		c = buf[x];
 		buf[x] = 0;
-		if (!zcmp(s, buf) || (t && !zcmp(t, buf))) {
+		if (!strcmp(s, buf) || (t && !strcmp(t, buf))) {
 			buf[x] = c;
 			while (buf[x] == ' ' || buf[x] == '\t') {
 				++x;

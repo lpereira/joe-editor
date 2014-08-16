@@ -904,7 +904,7 @@ struct file_pos *find_file_pos(unsigned char *name)
 {
 	struct file_pos *p;
 	for (p = file_pos.link.next; p != &file_pos; p = p->link.next)
-		if (!zcmp(p->name, name)) {
+		if (!strcmp(p->name, name)) {
 			promote(struct file_pos,link,&file_pos,p);
 			return p;
 		}
@@ -953,7 +953,7 @@ void save_file_pos(FILE *f)
 void load_file_pos(FILE *f)
 {
 	unsigned char buf[1024];
-	while (fgets((char *)buf,sizeof(buf)-1,f) && zcmp(buf,USTR "done\n")) {
+	while (fgets((char *)buf,sizeof(buf)-1,f) && strcmp(buf,USTR "done\n")) {
 		unsigned char *p = buf;
 		long pos;
 		unsigned char name[1024];

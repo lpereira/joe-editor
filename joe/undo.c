@@ -490,7 +490,7 @@ void load_yank(FILE *f)
 	UNDOREC *rec;
 	unsigned char buf[SMALL*4+80];
 	unsigned char bf[SMALL+1];
-	while(fgets((char *)buf,sizeof(buf)-1,f) && zcmp(buf,USTR "done\n")) {
+	while(fgets((char *)buf,sizeof(buf)-1,f) && strcmp(buf,USTR "done\n")) {
 		unsigned char *p = buf;
 		int len;
 		parse_ws(&p,'#');

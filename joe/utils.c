@@ -99,11 +99,6 @@ size_t zlen(unsigned char *s)
 	return strlen((char *)s);
 }
 
-int zcmp(unsigned char *a, unsigned char *b)
-{
-	return strcmp((char *)a, (char *)b);
-}
-
 int zncmp(unsigned char *a, unsigned char *b, size_t len)
 {
 	return strncmp((char *)a, (char *)b, len);

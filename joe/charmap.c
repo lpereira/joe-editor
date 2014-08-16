@@ -1177,16 +1177,16 @@ struct builtin_charmap *parse_charmap(unsigned char *name,FILE *f)
 		unsigned char *p = buf;
 		parse_ws(&p, comment_char);
 		parse_tows(&p, bf1);
-		if (!zcmp(bf1,USTR "<comment_char>")) {
+		if (!strcmp(bf1,USTR "<comment_char>")) {
 			parse_ws(&p, comment_char);
 			parse_tows(&p, bf1);
 			comment_char = bf1[0];
-		} else if (!zcmp(bf1,USTR "<escape_char>")) {
+		} else if (!strcmp(bf1,USTR "<escape_char>")) {
 			parse_ws(&p, comment_char);
 			parse_tows(&p, bf1);
-		} else if (!zcmp(bf1,USTR "CHARMAP")) {
+		} else if (!strcmp(bf1,USTR "CHARMAP")) {
 			in_map = 1;
-		} else if (!zcmp(bf1,USTR "END")) {
+		} else if (!strcmp(bf1,USTR "END")) {
 			in_map = 0;
 		} else if (in_map && bf1[0]=='<' && bf1[1]=='U') {
 			int uni;
@@ -1324,9 +1324,9 @@ unsigned char **get_encodings()
 		joe_snprintf_1(buf,sizeof(buf),"%s/.joe/charmaps",p);
 		if (!chpwd(buf) && (t = rexpnd(USTR "*"))) {
 			for (x = 0; x != aLEN(t); ++x)
-				if (zcmp(t[x],USTR "..")) {
+				if (strcmp(t[x],USTR "..")) {
 					for (y = 0; y != aLEN(encodings); ++y)
-						if (!zcmp(t[x],encodings[y]))
+						if (!strcmp(t[x],encodings[y]))
 							break;
 					if (y == aLEN(encodings)) {
 						r = vsncpy(NULL,0,sv(t[x]));
@@ -1339,9 +1339,9 @@ unsigned char **get_encodings()
 
 	if (!chpwd(USTR (JOEDATA "charmaps")) && (t = rexpnd(USTR "*"))) {
 		for (x = 0; x != aLEN(t); ++x)
-			if (zcmp(t[x],USTR "..")) {
+			if (strcmp(t[x],USTR "..")) {
 				for (y = 0; y != aLEN(encodings); ++y)
-					if (!zcmp(t[x],encodings[y]))
+					if (!strcmp(t[x],encodings[y]))
 						break;
 				if (y == aLEN(encodings)) {
 					r = vsncpy(NULL,0,sv(t[x]));

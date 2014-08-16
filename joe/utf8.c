@@ -261,7 +261,7 @@ unsigned char *joe_getcodeset(unsigned char *l)
       ((l = (unsigned char *)getenv("LANG"))     && *l)) {
 
     /* check standardized locales */
-    if (!zcmp(l, USTR "C") || !zcmp(l, USTR "POSIX"))
+    if (!strcmp(l, USTR "C") || !strcmp(l, USTR "POSIX"))
       return USTR "ascii";
 
     /* check for encoding name fragment */

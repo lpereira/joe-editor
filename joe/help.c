@@ -91,7 +91,7 @@ struct help *find_context_help(unsigned char *name)
 	while (tmp->prev != NULL)	/* find the first help entry */
 		tmp = tmp->prev;
 
-	while (tmp != NULL && zcmp(tmp->name, name) != 0)
+	while (tmp != NULL && strcmp(tmp->name, name) != 0)
 		tmp = tmp->next;
 
 	return tmp;

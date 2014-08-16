@@ -631,7 +631,7 @@ int tomatch_word(BW *bw,unsigned char *set,unsigned char *group)
 					}
 				} else if(is_in_group(last_of_set,buf)) {
 					/* VHDL hack */
-					if (bw->o.vhdl_comment && (!zcmp(buf,USTR "end") || !zcmp(buf,USTR "END")))
+					if (bw->o.vhdl_comment && (!strcmp(buf,USTR "end") || !strcmp(buf,USTR "END")))
 						while((c=pgetc(p))!=NO_MORE_DATA)
 							if (c==';' || c=='\n')
 								break;
@@ -691,7 +691,7 @@ int tomatch_xml(BW *bw,unsigned char *word,int dir)
 					buf[x] = buf[len-x-1];
 					buf[len-x-1] = d;
 				}
-				if (!zcmp(word,buf) && !xml_startend(p)) {
+				if (!strcmp(word,buf) && !xml_startend(p)) {
 					if (c=='<') {
 						if (!--cnt) {
 							pset(bw->cursor,p);
@@ -733,7 +733,7 @@ int tomatch_xml(BW *bw,unsigned char *word,int dir)
 					if (c!=NO_MORE_DATA)
 						prgetc(p);
 					buf[len]=0;
-					if (!zcmp(word,buf) && !xml_startend(p)) {
+					if (!strcmp(word,buf) && !xml_startend(p)) {
 						if (e) {
 							++cnt;
 						}

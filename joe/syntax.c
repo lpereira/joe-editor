@@ -90,7 +90,7 @@ HIGHLIGHT_STATE parse(struct high_syntax *syntax,P *line,HIGHLIGHT_STATE h_state
 
 			/* Check for delimiter or keyword matches */
 			recolor_delimiter_or_keyword = 0;
-			if (cmd->delim && (cmd->ignore ? !zcmp(lsaved_s,lbuf) : !zcmp(h_state.saved_s,buf))) {
+			if (cmd->delim && (cmd->ignore ? !strcmp(lsaved_s,lbuf) : !strcmp(h_state.saved_s,buf))) {
 				cmd = cmd->delim;
 				recolor_delimiter_or_keyword = 1;
 			} else if (cmd->keywords && (cmd->ignore ? (kw_cmd=htfind(cmd->keywords,lbuf)) : (kw_cmd=htfind(cmd->keywords,buf)))) {
@@ -285,11 +285,11 @@ struct high_color *find_color(struct high_color *colors,unsigned char *name,unsi
 	struct high_color *color;
 	joe_snprintf_2(bf, sizeof(bf), "%s.%s", syn, name);
 	for (color = colors; color; color = color->next)
-		if (!zcmp(color->name,bf)) break;
+		if (!strcmp(color->name,bf)) break;
 	if (color)
 		return color;
 	for (color = colors; color; color = color->next)
-		if (!zcmp(color->name,name)) break;
+		if (!strcmp(color->name,name)) break;
 	return color;
 }
 
@@ -406,7 +406,7 @@ struct high_param *parse_params(struct high_param *current_params,unsigned char 
 					int cmp = 0;
 					param_ptr = &params;
 					/* Parameters are sorted */
-					while (*param_ptr && (cmp = zcmp(bf,(*param_ptr)->name)) > 0)
+					while (*param_ptr && (cmp = strcmp(bf,(*param_ptr)->name)) > 0)
 						param_ptr = &(*param_ptr)->next;
 					if (*param_ptr && !cmp) {
 						/* Remove this parameter */
@@ -421,7 +421,7 @@ struct high_param *parse_params(struct high_param *current_params,unsigned char 
 				int cmp = 0;
 				param_ptr = &params;
 				/* Keep parameters sorted */
-				while (*param_ptr && (cmp = zcmp(bf,(*param_ptr)->name)) > 0)
+				while (*param_ptr && (cmp = strcmp(bf,(*param_ptr)->name)) > 0)
 					param_ptr = &(*param_ptr)->next;
 				/* Discard duplicates */
 				if (!*param_ptr || cmp) {
@@ -453,15 +453,15 @@ void parse_options(struct high_syntax *syntax,struct high_cmd *cmd,FILE *f,unsig
 	unsigned char bf1[256];
 
 	while (parse_ws(&p,'#'), !parse_ident(&p,bf,sizeof(bf)))
-		if(!zcmp(bf,USTR "buffer")) {
+		if(!strcmp(bf,USTR "buffer")) {
 			cmd->start_buffering = 1;
-		} else if(!zcmp(bf,USTR "hold")) {
+		} else if(!strcmp(bf,USTR "hold")) {
 			cmd->stop_buffering = 1;
-		} else if(!zcmp(bf,USTR "save_c")) {
+		} else if(!strcmp(bf,USTR "save_c")) {
 			cmd->save_c = 1;
-		} else if(!zcmp(bf,USTR "save_s")) {
+		} else if(!strcmp(bf,USTR "save_s")) {
 			cmd->save_s = 1;
-		} else if(!zcmp(bf,USTR "recolor")) {
+		} else if(!strcmp(bf,USTR "recolor")) {
 			parse_ws(&p,'#');
 			if(!parse_char(&p,'=')) {
 				parse_ws(&p,'#');
@@ -469,7 +469,7 @@ void parse_options(struct high_syntax *syntax,struct high_cmd *cmd,FILE *f,unsig
 					i_printf_2((char *)joe_gettext(_("%s %d: Missing value for option\n")),name,line);
 			} else
 				i_printf_2((char *)joe_gettext(_("%s %d: Missing value for option\n")),name,line);
-		} else if(!zcmp(bf,USTR "call")) {
+		} else if(!strcmp(bf,USTR "call")) {
 			parse_ws(&p,'#');
 			if(!parse_char(&p,'=')) {
 				parse_ws(&p,'#');
@@ -489,11 +489,11 @@ void parse_options(struct high_syntax *syntax,struct high_cmd *cmd,FILE *f,unsig
 				}
 			} else
 				i_printf_2((char *)joe_gettext(_("%s %d: Missing value for option\n")),name,line);
-		} else if(!zcmp(bf,USTR "return")) {
+		} else if(!strcmp(bf,USTR "return")) {
 			cmd->rtn = 1;
-		} else if(!zcmp(bf,USTR "reset")) {
+		} else if(!strcmp(bf,USTR "reset")) {
 			cmd->reset = 1;
-		} else if(!parsing_strings && (!zcmp(bf,USTR "strings") || !zcmp(bf,USTR "istrings"))) {
+		} else if(!parsing_strings && (!strcmp(bf,USTR "strings") || !strcmp(bf,USTR "istrings"))) {
 			if (bf[0]=='i')
 				cmd->ignore = 1;
 			while(fgets((char *)buf,1023,f)) {
@@ -511,7 +511,7 @@ void parse_options(struct high_syntax *syntax,struct high_cmd *cmd,FILE *f,unsig
 							struct high_cmd *kw_cmd=mkcmd();
 							kw_cmd->noeat=1;
 							kw_cmd->new_state = find_state(syntax,bf1);
-							if (!zcmp(bf, USTR "&")) {
+							if (!strcmp(bf, USTR "&")) {
 								cmd->delim = kw_cmd;
 							} else {
 								if(!cmd->keywords)
@@ -525,13 +525,13 @@ void parse_options(struct high_syntax *syntax,struct high_cmd *cmd,FILE *f,unsig
 						i_printf_2((char *)joe_gettext(_("%s %d: Missing string\n")),name,line);
 				}
 			}
-		} else if(!zcmp(bf,USTR "noeat")) {
+		} else if(!strcmp(bf,USTR "noeat")) {
 			cmd->noeat = 1;
-		} else if(!zcmp(bf,USTR "mark")) {
+		} else if(!strcmp(bf,USTR "mark")) {
 			cmd->start_mark = 1;
-		} else if(!zcmp(bf,USTR "markend")) {
+		} else if(!strcmp(bf,USTR "markend")) {
 			cmd->stop_mark = 1;
-		} else if(!zcmp(bf,USTR "recolormark")) {
+		} else if(!strcmp(bf,USTR "recolormark")) {
 			cmd->recolor_mark = 1;
 		} else
 			i_printf_2((char *)joe_gettext(_("%s %d: Unknown option\n")),name,line);
@@ -585,7 +585,7 @@ struct high_state *load_dfa(struct high_syntax *syntax)
 		c = parse_ws(&p,'#');
 		if (!parse_char(&p, '.')) {
 			if (!parse_ident(&p, bf, sizeof(bf))) {
-				if (!zcmp(bf, USTR "ifdef")) {
+				if (!strcmp(bf, USTR "ifdef")) {
 					struct ifstack *st = joe_malloc(sizeof(struct ifstack));
 					st->next = stack;
 					st->else_part = 0;
@@ -597,7 +597,7 @@ struct high_state *load_dfa(struct high_syntax *syntax)
 						if (!parse_ident(&p, bf, sizeof(bf))) {
 							struct high_param *param;
 							for (param = syntax->params; param; param = param->next)
-								if (!zcmp(param->name, bf)) {
+								if (!strcmp(param->name, bf)) {
 									st->ignore = 0;
 									break;
 								}
@@ -607,21 +607,21 @@ struct high_state *load_dfa(struct high_syntax *syntax)
 						}
 					}
 					stack = st;
-				} else if (!zcmp(bf, USTR "else")) {
+				} else if (!strcmp(bf, USTR "else")) {
 					if (stack && !stack->else_part) {
 						stack->else_part = 1;
 						if (!stack->skip)
 							stack->ignore = !stack->ignore;
 					} else
 						i_printf_2((char *)joe_gettext(_("%s %d: else with no matching if\n")),name,line);
-				} else if (!zcmp(bf, USTR "endif")) {
+				} else if (!strcmp(bf, USTR "endif")) {
 					if (stack) {
 						struct ifstack *st = stack;
 						stack = st->next;
 						joe_free(st);
 					} else
 						i_printf_2((char *)joe_gettext(_("%s %d: endif with no matching if\n")),name,line);
-				} else if (!zcmp(bf, USTR "subr")) {
+				} else if (!strcmp(bf, USTR "subr")) {
 					parse_ws(&p, '#');
 					if (parse_ident(&p, bf, sizeof(bf))) {
 						i_printf_2((char *)joe_gettext(_("%s %d: Missing subroutine name\n")),name,line);
@@ -629,11 +629,11 @@ struct high_state *load_dfa(struct high_syntax *syntax)
 						if (!stack || !stack->ignore) {
 							inside_subr = 1;
 							this_one = 0;
-							if (syntax->subr && !zcmp(bf, syntax->subr))
+							if (syntax->subr && !strcmp(bf, syntax->subr))
 								this_one = 1;
 						}
 					}
-				} else if (!zcmp(bf, USTR "end")) {
+				} else if (!strcmp(bf, USTR "end")) {
 					if (!stack || !stack->ignore) {
 						this_one = 0;
 						inside_subr = 0;
@@ -663,7 +663,7 @@ struct high_state *load_dfa(struct high_syntax *syntax)
 				if(!parse_tows(&p,bf)) {
 					struct high_color *color;
 					for(color=syntax->color;color;color=color->next)
-						if(!zcmp(color->name,bf))
+						if(!strcmp(color->name,bf))
 							break;
 					if(color)
 						state->color=color->color;
@@ -747,15 +747,15 @@ struct high_state *load_dfa(struct high_syntax *syntax)
 int syntax_match(struct high_syntax *syntax,unsigned char *name,unsigned char *subr,struct high_param *params)
 {
 	struct high_param *syntax_params;
-	if (zcmp(syntax->name,name))
+	if (strcmp(syntax->name,name))
 		return 0;
 	if (!syntax->subr ^ !subr)
 		return 0;
-	if (subr && zcmp(syntax->subr,subr))
+	if (subr && strcmp(syntax->subr,subr))
 		return 0;
 	syntax_params = syntax->params;
 	while (syntax_params && params) {
-		if (zcmp(syntax_params->name,params->name))
+		if (strcmp(syntax_params->name,params->name))
 			return 0;
 		syntax_params = syntax_params->next;
 		params = params->next;
