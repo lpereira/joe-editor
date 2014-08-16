@@ -19,12 +19,12 @@ int joe_iswprint(struct charmap *,int c);
 int joe_iswxdigit(struct charmap *,int c);
 int joe_iswblank(struct charmap *,int c);
 
-int joe_wcwidth(int wide,int c);
+int joe_wcwidth(int wide,unsigned int c);
 /* Looking for wswidth? Take a look at scrn.c/txtwidth() */
 
 int joe_towupper(struct charmap *,int c);
 int joe_towlower(struct charmap *,int c);
 
-int unictrl(int c);
+int unictrl(unsigned int c);
 
 #endif

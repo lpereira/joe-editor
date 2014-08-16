@@ -48,7 +48,7 @@ void joe_locale();
 void to_utf8(struct charmap *map,unsigned char *s,int c);
 int from_utf8(struct charmap *map,unsigned char *s);
 
-int unictrl(int ucs);
+int unictrl(unsigned int ucs);
 int mk_wcwidth(int wide,int c);
 
 extern struct charmap *locale_map;	/* Default bytemap of terminal */
