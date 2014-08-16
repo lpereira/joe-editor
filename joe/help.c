@@ -59,7 +59,8 @@ int help_init(JFILE *fd,unsigned char *bf,int line)
 				}
 				hlpbsz += bfl + 1024;
 			}
-			strcpy(tmp->text + hlpsiz, buf);
+			if (tmp->text)
+				strcpy(tmp->text + hlpsiz, buf);
 			hlpsiz += bfl;
 			++tmp->lines;
 		}
