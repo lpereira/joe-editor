@@ -7,18 +7,10 @@
  */
 #include "types.h"
 
-#ifdef HAVE_PWD_H
-#include <pwd.h>
-#endif
-
-#ifdef HAVE_PATHS_H
-#  include <paths.h>	/* for _PATH_TMP */
-#endif
-#ifdef HAVE_LIMITS_H
-#include <limits.h>
-#endif
-
 #include <dirent.h>
+#include <limits.h>
+#include <paths.h>	/* for _PATH_TMP */
+#include <pwd.h>
 
 /********************************************************************/
 unsigned char *namprt(unsigned char *path)
