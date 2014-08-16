@@ -39,11 +39,7 @@
 /* Doubly-linked list node */
 #define LINK(type) struct { type *next; type *prev; }
 
-#define i_printf_0(fmt) (snprintf((char *)(i_msg),sizeof(i_msg),(char *)(fmt)), internal_msg(i_msg))
-#define i_printf_1(fmt,a) (snprintf((char *)(i_msg),sizeof(i_msg),(char *)(fmt),(a)), internal_msg(i_msg))
-#define i_printf_2(fmt,a,b) (snprintf((char *)(i_msg),sizeof(i_msg),(char *)(fmt),(a),(b)), internal_msg(i_msg))
-#define i_printf_3(fmt,a,b,c) (snprintf((char *)(i_msg),sizeof(i_msg),(char *)(fmt),(a),(b),(c)), internal_msg(i_msg))
-#define i_printf_4(fmt,a,b,c,d) (snprintf((char *)(i_msg),sizeof(i_msg),(char *)(fmt),(a),(b),(c),(d)), internal_msg(i_msg))
+#define i_printf(fmt, ...) (snprintf((char *)(i_msg),sizeof(i_msg),(char *)(fmt)), internal_msg(i_msg), ##__VA_ARGS__)
 
 /* Largest signed long long */
 #define MAXLONGLONG ((((unsigned long long)-1L)/2)-1)
