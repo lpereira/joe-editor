@@ -80,7 +80,7 @@ int mkpath(unsigned char *path)
 	unsigned char *s;
 
 	if (path[0] == '/') {
-		if (chddir("/"))
+		if (chdir("/"))
 			return 1;
 		s = path;
 		goto in;
@@ -92,10 +92,10 @@ int mkpath(unsigned char *path)
 		for (s = path; (*s) && (*s != '/'); s++) ;
 		c = *s;
 		*s = 0;
-		if (chddir((char *)path)) {
+		if (chdir((char *)path)) {
 			if (mkdir((char *)path, 0777))
 				return 1;
-			if (chddir((char *)path))
+			if (chdir((char *)path))
 				return 1;
 		}
 		*s = c;

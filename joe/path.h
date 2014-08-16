@@ -64,9 +64,6 @@ int mkpath(unsigned char *path);
 */
 unsigned char *mktmp(unsigned char *where);
 
-/* Change drive and directory */
-#define chddir chdir
-
 /* int rmatch(char *pattern,char *string);
  * Return true if string matches pattern
  *
