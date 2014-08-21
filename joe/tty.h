@@ -138,10 +138,9 @@ void ttsusp(void);
  */
 int ttflsh(void);
 
-extern int have; /* Set if we have typeahead */
-extern int leave; /* Set if we're exiting (so don't check for typeahead) */
+int tthave(void);
 
-#define ifhave have
+extern int leave; /* Set if we're exiting (so don't check for typeahead) */
 
 /* void ttsig(int n);  Signal handler you provide.  This is called if the
  * editor gets a hangup signal, termination signal or if the input closes.

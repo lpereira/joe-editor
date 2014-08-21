@@ -498,7 +498,7 @@ static int lgen(SCRN *t, int y, int *screen, int *attr, int x, int w, P *p, long
 			      dota:
 				do {
 					outatr(bw->b->o.charmap, t, screen + x, attr + x, x, y, tach, c1|atr);
-					if (ifhave)
+					if (tthave())
 						goto bye;
 					if (++x == w)
 						goto eosl;
@@ -546,7 +546,7 @@ static int lgen(SCRN *t, int y, int *screen, int *attr, int x, int w, P *p, long
 				} else
 					--idx;
 
-				if (ifhave)
+				if (tthave())
 					goto bye;
 				if (x >= w)
 					goto eosl;
@@ -608,7 +608,7 @@ static void gennum(BW *w, int *screen, int *attr, SCRN *t, int y, int *comp)
 	}
 	for (z = 0; buf[z]; ++z) {
 		outatr(w->b->o.charmap, t, screen + z, attr + z, z, y, buf[z], BG_COLOR(bg_text)); 
-		if (ifhave)
+		if (tthave())
 			return;
 		comp[z] = buf[z];
 	}
@@ -784,7 +784,7 @@ void bwgen(BW *w, int linums)
 	y = w->cursor->line - w->top->line + w->y;
 	attr = t->attr + y*w->t->w;
 	for (screen = t->scrn + y * w->t->w; y != bot; ++y, (screen += w->t->w), (attr += w->t->w)) {
-		if (ifhave && !linums)
+		if (tthave() && !linums)
 			break;
 		if (linums)
 			gennum(w, screen, attr, t, y, t->compose);
@@ -803,7 +803,7 @@ void bwgen(BW *w, int linums)
 	y = w->y;
 	attr = t->attr + w->y * w->t->w;
 	for (screen = t->scrn + w->y * w->t->w; y != w->y + w->cursor->line - w->top->line; ++y, (screen += w->t->w), (attr += w->t->w)) {
-		if (ifhave && !linums)
+		if (tthave() && !linums)
 			break;
 		if (linums)
 			gennum(w, screen, attr, t, y, t->compose);

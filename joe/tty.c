@@ -110,7 +110,7 @@ static int speeds[] = {
 
 /* Input buffer */
 
-int have = 0;			/* Set if we have pending input */
+static int have = 0;		/* Set if we have pending input */
 static unsigned char havec;	/* Character read in during pending input check */
 int leave = 0;			/* When set, typeahead checking is disabled */
 
@@ -180,6 +180,11 @@ void ttclose(void)
 {
 	ttclsn();
 	signrm();
+}
+
+int tthave(void)
+{
+        return have;
 }
 
 static int winched = 0;

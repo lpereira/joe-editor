@@ -1577,7 +1577,7 @@ void nscroll(SCRN *t,int atr)
 
 	for (y = 0; y != t->li; ++y) {
 		q = t->sary[y];
-		if (ifhave)
+		if (tthave())
 			return;
 		if (q && q != t->li) {
 			if (q > 0) {

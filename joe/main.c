@@ -104,7 +104,7 @@ int edloop(int flg)
 			exmsg = NULL;
 		}
 		edupd(1);
-		if (!ahead && !have)
+		if (!ahead && !tthave())
 			ahead = 1;
 		if (ungot) {
 			c = ungotc;
