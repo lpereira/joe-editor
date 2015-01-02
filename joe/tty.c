@@ -422,12 +422,12 @@ int ttflsh(void)
 
 void mpxdied(MPX *m);
 
-long last_time;
+static time_t last_time;
 
 int ttgetc(void)
 {
 	int stat;
-	long new_time;
+	time_t new_time;
 	int flg;
 
 

@@ -190,7 +190,6 @@ extern int Baud;			/* Baud rate from joerc, cmd line or environment */
 void tickoff(void);
 void tickon(void);
 
-extern long last_time; /* Current time in seconds */
 extern int idleout; /* Clear to use /dev/tty for screen */
 
 #endif

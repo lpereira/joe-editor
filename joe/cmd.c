@@ -312,8 +312,9 @@ int nomodcheck;
 
 int modify_logic(BW *bw,B *b)
 {
-	if (last_time > b->check_time + CHECK_INTERVAL) {
-		b->check_time = last_time;
+	time_t now = time(NULL);
+	if (now > b->check_time + CHECK_INTERVAL) {
+		b->check_time = now;
 		if (!nomodcheck && !b->gave_notice && check_mod(b)) {
 			file_changed(bw,0,b,NULL);
 			return 0;
