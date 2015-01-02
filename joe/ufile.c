@@ -7,13 +7,7 @@
  */
 #include "types.h"
 
-#ifdef HAVE_UTIME_H
 #include <utime.h>
-#else
-#ifdef HAVE_SYS_UTIME_H
-#include <sys/utime.h>
-#endif
-#endif
 
 #ifdef WITH_SELINUX
 int copy_security_context(const char *from_file, const char *to_file);
@@ -114,14 +108,7 @@ static int cp(unsigned char *from, unsigned char *to)
 {
 	int f, g, amnt;
 	struct stat sbuf;
-
-#ifdef HAVE_UTIME
-#ifdef NeXT
-	time_t utbuf[2];
-#else
 	struct utimbuf utbuf;
-#endif
-#endif
 
 	f = open((char *)from, O_RDONLY);
 	if (f < 0) {
@@ -146,16 +133,9 @@ static int cp(unsigned char *from, unsigned char *to)
 		return -1;
 	}
 
-#ifdef HAVE_UTIME
-#ifdef NeXT
-	utbuf[0] = (time_t) sbuf.st_atime;
-	utbuf[1] = (time_t) sbuf.st_mtime;
-#else
 	utbuf.actime = sbuf.st_atime;
 	utbuf.modtime = sbuf.st_mtime;
-#endif
 	utime((char *)to, &utbuf);
-#endif
 
 #ifdef WITH_SELINUX
 	copy_security_context(from,to);
