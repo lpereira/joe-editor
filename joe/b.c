@@ -2311,7 +2311,7 @@ B *bload(unsigned char *s)
 	int nowrite = 0;
 	P *p;
 	int x;
-	long mod_time = 0;
+	time_t mod_time = 0;
 	struct stat sbuf;
 
 	if (!s || !s[0]) {

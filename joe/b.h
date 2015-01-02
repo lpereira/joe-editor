@@ -107,8 +107,8 @@ struct buffer {
 	int locked;		/* Set if we created a lock for this file */
 	int ignored_lock;	/* Set if we didn't create a lock and we don't care (locked set in this case) */
 	int didfirst;		/* Set after user attempted first change */
-	long    mod_time;	/* Last modification time for file */
-	long	check_time;	/* Last time we checked the file on disk */
+	time_t    mod_time;	/* Last modification time for file */
+	time_t	check_time;	/* Last time we checked the file on disk */
 	int	gave_notice;	/* Set if we already gave file changed notice for this file */
 	int	orphan;		/* Set if buffer is orphaned: refcount is bumped up by one in this case */
 	int	count;		/* Reference count.  Buffer is deleted if brm decrements count to 0 */

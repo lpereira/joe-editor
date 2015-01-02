@@ -154,7 +154,7 @@ int main(int argc, char **real_argv, char **envv)
 	struct stat sbuf;
 	unsigned char *s;
 	unsigned char *t;
-	long time_rc;
+	time_t time_rc;
 	unsigned char *run;
 	SCRN *n;
 	int opened = 0;
