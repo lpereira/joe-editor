@@ -914,3 +914,9 @@ void mpxdied(MPX *m)
 	m->func = NULL;
 	edupd(1);
 }
+
+void ttputc(unsigned char c) {
+        obuf[obufp++] = c;
+        if (obufp == obufsiz)
+                ttflsh();
+}
