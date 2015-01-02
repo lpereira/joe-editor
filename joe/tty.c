@@ -77,9 +77,9 @@ struct termios oldterm;
 
 /* Output buffer, index and size */
 
-unsigned char *obuf = NULL;
-int obufp = 0;
-int obufsiz;
+static unsigned char *obuf = NULL;
+static int obufp = 0;
+static int obufsiz;
 
 /* The baud rate */
 
