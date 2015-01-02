@@ -19,6 +19,8 @@ JOE; see the file COPYING.  If not, write to the Free Software Foundation,
 #ifndef _Imouse
 #define _Imouse 1
 
+#include <sys/time.h>
+
 /* maximum number of milliseconds that can elapse between
    double/triple clicks */
 #define MOUSE_MULTI_THRESH	300
@@ -53,7 +55,7 @@ int udefm3down(BW *);
 int udefm3up(BW *);
 int udefm3drag(BW *);
 
-int mnow();
+time_t mnow();
 void reset_trig_time();
 
 /* options */
@@ -61,7 +63,7 @@ extern int floatmouse;	/* Allow mouse to set cursor past end of lines */
 extern int rtbutton; /* Use button 3 instead of button 1 */
 
 extern int auto_scroll; /* Set for autoscroll */
-extern int auto_trig_time; /* Time of next scroll */
+extern time_t auto_trig_time; /* Time of next scroll */
 extern int joexterm; /* Set if xterm can do base64 paste */
 
 #endif

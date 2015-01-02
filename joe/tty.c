@@ -223,9 +223,8 @@ void tickon(void)
 	val.it_interval.tv_sec = 0;
 	val.it_interval.tv_usec = 0;
 	if (auto_scroll) {
-		int tim = auto_trig_time - mnow();
-		if (tim < 0)
-			tim = 1;
+		time_t now = mnow();
+		time_t tim = (now > auto_trig_time) ? 1 : auto_trig_time - now;
 		tim *= 1000;
 		val.it_value.tv_sec = 0;
 		val.it_value.tv_usec = tim;

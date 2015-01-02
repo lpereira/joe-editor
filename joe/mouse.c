@@ -18,13 +18,11 @@ JOE; see the file COPYING.  If not, write to the Free Software Foundation,
 
 #include "types.h"
 
-#ifdef HAVE_SYS_TIME_H
-#include <sys/time.h>
-#endif
+#include "mouse.h"
 
 int auto_scroll = 0;		/* Set for autoscroll */
 int auto_rate;			/* Rate */
-int auto_trig_time;		/* Time of next scroll */
+time_t auto_trig_time;		/* Time of next scroll */
 
 int rtbutton=0;			/* use button 3 instead of 1 */
 int floatmouse=0;		/* don't fix xcol after tomouse */
@@ -33,7 +31,7 @@ int joexterm=0;			/* set if we're using Joe's modified xterm */
 static int selecting = 0;	/* Set if we did any selecting */
 
 static int Cb, Cx, Cy;
-static int last_msec=0;		/* time in ms when event occurred */
+static time_t last_msec=0;		/* time in ms when event occurred */
 static int clicks;
 
 static void fake_key(int c)
@@ -103,7 +101,7 @@ int uxtmouse(BW *bw)
 	return 0;
 }
 
-int mnow()
+time_t mnow()
 {
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
