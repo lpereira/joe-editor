@@ -87,10 +87,6 @@ int ttgetc(void);
 /* void ttputc(char c);  Write a character to the output buffer.  If it becomes
  * full, call ttflsh()
  */
-extern int obufp; /* Output buffer index */
-extern int obufsiz; /* Output buffer size */
-extern unsigned char *obuf; /* Output buffer */
-
 void ttputc(unsigned char c);
 
 /* void ttputs(char *s);  Write a string to the output buffer.  Any time the
