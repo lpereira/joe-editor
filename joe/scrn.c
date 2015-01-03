@@ -434,17 +434,6 @@ int eraeol(SCRN *t, int x, int y, int atr)
 
 static void outatri(SCRN *t, int x, int y, int c, int a)
 {
-/*
-	if (c == -1)
-		c = ' ';
-	if (a != t->attrib)
-		set_attr(t, a);
-	if (t->haz && c == '~')
-		c = '\\';
-	utf8_putc(c);
-	t->x+=joe_wcwidth(1,c);
-*/
-	/* ++t->x; */
 }
 
 static void out(unsigned char *t, unsigned char c)
