@@ -624,8 +624,8 @@ static unsigned char *getpty(int *ptyfd)
 /* Shell dies signal handler.  Puts pty in non-block mode so
  * that read returns with <1 when all data from process has
  * been read. */
-int dead = 0;
-int death_fd;
+static int dead = 0;
+static int death_fd;
 static RETSIGTYPE death(int unused)
 {
 	fcntl(death_fd,F_SETFL,O_NDELAY);
