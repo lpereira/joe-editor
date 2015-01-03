@@ -172,8 +172,6 @@ int main(int argc, char **real_argv, char **envv)
 		sscanf((char *)s, "%d", &lines);
 	if ((s = (unsigned char *)getenv("COLUMNS")) != NULL)
 		sscanf((char *)s, "%d", &columns);
-	if ((s = (unsigned char *)getenv("BAUD")) != NULL)
-		sscanf((char *)s, "%u", (unsigned *)&Baud);
 	if (getenv("DOPADDING"))
 		dopadding = 1;
 	if (getenv("NOXON"))

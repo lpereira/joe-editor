@@ -460,7 +460,7 @@ SCRN *nopen(CAP *cap)
 	ttopen();
 
 	t->cap = cap;
-	setcap(cap, baud, out, NULL);
+	setcap(cap, 38400, out, NULL);
 
 	t->li = getnum(t->cap,"li");
 	if (t->li < 1)
@@ -600,30 +600,16 @@ SCRN *nopen(CAP *cap)
 	if (!getflag(t->cap,"ns") && !t->sf)
 		t->sf ="\12";
 
-	if (!getflag(t->cap,"in") && baud < 38400) {
-		t->dc = jgetstr(t->cap,"dc");
-		t->DC = jgetstr(t->cap,"DC");
-		t->dm = jgetstr(t->cap,"dm");
-		t->ed = jgetstr(t->cap,"ed");
-
-		t->im = jgetstr(t->cap,"im");
-		t->ei = jgetstr(t->cap,"ei");
-		t->ic = jgetstr(t->cap,"ic");
-		t->IC = jgetstr(t->cap,"IC");
-		t->ip = jgetstr(t->cap,"ip");
-		t->mi = getflag(t->cap,"mi");
-	} else {
-		t->dm = NULL;
-		t->dc = NULL;
-		t->DC = NULL;
-		t->ed = NULL;
-		t->im = NULL;
-		t->ic = NULL;
-		t->IC = NULL;
-		t->ip = NULL;
-		t->ei = NULL;
-		t->mi = 1;
-	}
+	t->dm = NULL;
+	t->dc = NULL;
+	t->DC = NULL;
+	t->ed = NULL;
+	t->im = NULL;
+	t->ic = NULL;
+	t->IC = NULL;
+	t->ip = NULL;
+	t->ei = NULL;
+	t->mi = 1;
 
 	t->bs = NULL;
 	if (jgetstr(t->cap,"bc"))
@@ -716,8 +702,6 @@ SCRN *nopen(CAP *cap)
 		t->scroll = 1;
 	else {
 		t->scroll = 0;
-		if (baud < 38400)
-			mid = 1;
 	}
 
 /* Determine if we can ins/del within lines */
@@ -727,10 +711,8 @@ SCRN *nopen(CAP *cap)
 		t->insdel = 0;
 
 /* Adjust for high baud rates */
-	if (baud >= 38400) {
-		t->scroll = 0;
-		t->insdel = 0;
-	}
+	t->scroll = 0;
+	t->insdel = 0;
 
 /* Send out terminal initialization string */
 	if (t->ti)

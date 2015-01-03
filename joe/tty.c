@@ -64,7 +64,6 @@ int idleout = 1;
 /* Global configuration variables */
 
 int noxon = 0;			/* Set if ^S/^Q processing should be disabled */
-int Baud = 0;			/* Baud rate from joerc, cmd line or environment */
 
 /* The terminal */
 
@@ -80,33 +79,6 @@ struct termios oldterm;
 static unsigned char *obuf = NULL;
 static int obufp = 0;
 static int obufsiz;
-
-/* The baud rate */
-
-unsigned baud;			/* Bits per second */
-unsigned long upc;		/* Microseconds per character */
-
-/* TTY Speed code to baud-rate conversion table (this is dumb- is it really
- * too much to ask for them to just use an integer for the baud-rate?)
- */
-
-static int speeds[] = {
-	B50, 50, B75, 75, B110, 110, B134, 134, B150, 150, B200, 200, B300,
-	300, B600, 600,
-	B1200, 1200, B1800, 1800, B2400, 2400, B4800, 4800, B9600, 9600
-#ifdef EXTA
-	    , EXTA, 19200
-#endif
-#ifdef EXTB
-	    , EXTB, 38400
-#endif
-#ifdef B19200
-	    , B19200, 19200
-#endif
-#ifdef B38400
-	    , B38400, 38400
-#endif
-};
 
 /* Input buffer */
 
@@ -256,7 +228,7 @@ static int open_terminal_handles(void)
 /* Open terminal */
 void ttopnn(void)
 {
-	int x, bbaud;
+	int x;
 	struct termios newterm;
 
 	if (!open_terminal_handles()) {
@@ -282,28 +254,9 @@ void ttopnn(void)
 	newterm.c_cc[VMIN] = 1;
 	newterm.c_cc[VTIME] = 0;
 	tcsetattr(fileno(termin), TCSADRAIN, &newterm);
-	bbaud = cfgetospeed(&newterm);
 
-	baud = 9600;
-	upc = 0;
-	for (x = 0; x != 30; x += 2)
-		if (bbaud == speeds[x]) {
-			baud = speeds[x + 1];
-			break;
-		}
-	if (Baud)
-		baud = Baud;
-	upc = DIVIDEND / baud;
 	free(obuf);
-	if (!(TIMES * upc))
-		obufsiz = 4096;
-	else {
-		obufsiz = 1000000 / (TIMES * upc);
-		if (obufsiz > 4096)
-			obufsiz = 4096;
-	}
-	if (!obufsiz)
-		obufsiz = 1;
+	obufsiz = 4096;
 	obuf = (unsigned char *) joe_malloc(obufsiz);
 }
 
@@ -325,14 +278,6 @@ void ttclsn(void)
 
 	tcsetattr(fileno(termin), TCSADRAIN, &oldterm);
 	leave = oleave;
-}
-
-/* Timer interrupt handler */
-
-static int yep;
-static RETSIGTYPE dosig(int unused)
-{
-	yep = 1;
 }
 
 /* FLush output and check for typeahead */
@@ -366,27 +311,7 @@ int ttflsh(void)
 {
 	/* Flush output */
 	if (obufp) {
-		unsigned long usec = obufp * upc;	/* No. usecs this write should take */
-
-		if (usec >= 50000 && baud < 9600) {
-			struct itimerval a, b;
-
-			a.it_value.tv_sec = usec / 1000000;
-			a.it_value.tv_usec = usec % 1000000;
-			a.it_interval.tv_usec = 0;
-			a.it_interval.tv_sec = 0;
-			alarm(0);
-			joe_set_signal(SIGALRM, dosig);
-			yep = 0;
-			maskit();
-			setitimer(ITIMER_REAL, &a, &b);
-			joe_write(fileno(termout), obuf, obufp);
-			while (!yep)
-				pauseit();
-			unmaskit();
-		} else
-			joe_write(fileno(termout), obuf, obufp);
-
+	        joe_write(fileno(termout), obuf, obufp);
 		obufp = 0;
 	}
 

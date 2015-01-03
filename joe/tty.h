@@ -35,27 +35,9 @@ struct mpx {
  *
  * (4) Set this new tty state without loosing any typeahead (by using the
  *     proper ioctl).
- *
- * (5) Store the baud rate in the global variable 'baud'
- *
- * (6) Divide the baud rate into the constant DIVIDEND and store the result
- *     in the global variable 'upc'.  This should come out to the number
- *     of microseconds needed to send each character.  The constant 'DIVIDEND'
- *     should be chosen so that 'upc' reflects the real throughput of the
- *     tty, not the theoretical best throughput.
- *
- * (7) Create an output buffer of a size which depends on 'upc' and the
- *     constant 'TIMES'.  'TIMES' is the number of times per second JOE
- *     should check for typeahead.  Since we only check for typehead after
- *     the output buffer is flushed, 'upc' and the size of the output buffer
- *     determine how often this occurs.  So for example if 'upc'==1000 (~9600
- *     baud) and 'TIMES'==3, the output buffer size is set to 333 characters.
- *     Each time this buffer is completely flushed, 1/3 of a second will go by.
  */
 void ttopen(void);
 void ttopnn(void);
-extern unsigned long upc; /* Microseconds per character */
-extern unsigned baud; /* Baud rate */
 
 #define TIMES 3
 #define DIVIDEND 10000000
@@ -185,7 +167,6 @@ MPX *mpxmk(int *ptyfd, unsigned char *cmd, unsigned char **args, void (*func) (/
 int subshell();
 
 extern int noxon;			/* Set if ^S/^Q processing should be disabled */
-extern int Baud;			/* Baud rate from joerc, cmd line or environment */
 
 void tickoff(void);
 void tickon(void);

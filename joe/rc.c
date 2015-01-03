@@ -374,7 +374,6 @@ struct glopts {
 	{"help",	0, &help, NULL, 0, 0, 0 },
 	{"dopadding",	0, &dopadding, NULL, 0, 0, 0 },
 	{"lines",	1, &lines, NULL, 0, 0, 0, 0, 2, 1024 },
-	{"baud",	1, &Baud, NULL, 0, 0, 0, 0, 50, 32767 },
 	{"columns",	1, &columns, NULL, 0, 0, 0, 0, 2, 1024 },
 	{"skiptop",	1, &skiptop, NULL, 0, 0, 0, 0, 0, 64 },
 	{"notite",	0, &notite, NULL, 0, 0, 0 },
