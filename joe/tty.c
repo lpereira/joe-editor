@@ -8,58 +8,15 @@
 #include "types.h"
 
 /* Needed for TIOCGWINSZ detection below */
-#ifdef GWINSZ_IN_SYS_IOCTL
-#ifdef HAVE_SYS_IOCTL_H
 #include <sys/ioctl.h>
-#endif
-#endif
-
-#ifdef HAVE_SYS_WAIT_H
 #include <sys/wait.h>
-#endif
-#ifdef HAVE_SYS_PARAM_H
 #include <sys/param.h>
-#endif
-
-#ifdef HAVE_PTY_H
 #include <pty.h>
-#endif
-
-#ifdef HAVE_LIBUTIL_H
-#include <libutil.h>
-#endif
-
 #include <utmp.h>
-
-int idleout = 1;
-
 #include <termios.h>
 #include <sys/time.h>
 
-
-/** Aliased defines **/
-
-/* O_NDELAY, O_NONBLOCK, and FNDELAY are all synonyms for placing a descriptor
- * in non-blocking mode; we make whichever one we have look like O_NDELAY
- */
-#ifndef O_NDELAY
-#ifdef O_NONBLOCK
-#define O_NDELAY O_NONBLOCK
-#endif
-#ifdef FNDELAY
-#define O_NDELAY FNDELAY
-#endif
-#endif
-
-/* Some systems define this, some don't */
-#ifndef sigmask
-#define sigmask(x) (1<<((x)-1))
-#endif
-
-/* Some BSDs don't have TILDE */
-#ifndef TILDE
-#define TILDE 0
-#endif
+int idleout = 1;
 
 /* Global configuration variables */
 
