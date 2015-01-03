@@ -282,31 +282,6 @@ void ttclsn(void)
 
 /* FLush output and check for typeahead */
 
-static void maskit(void)
-{
-	sigset_t set;
-
-	sigemptyset(&set);
-	sigaddset(&set, SIGALRM);
-	sigprocmask(SIG_SETMASK, &set, NULL);
-}
-
-static void unmaskit(void)
-{
-	sigset_t set;
-
-	sigemptyset(&set);
-	sigprocmask(SIG_SETMASK, &set, NULL);
-}
-
-static void pauseit(void)
-{
-	sigset_t set;
-
-	sigemptyset(&set);
-	sigsuspend(&set);
-}
-
 int ttflsh(void)
 {
 	/* Flush output */
