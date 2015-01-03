@@ -97,7 +97,7 @@ int uxtmouse(BW *bw)
 	else if ((maint->curwin->watom->what & TYPETW ||
 	          maint->curwin->watom->what & TYPEPW) &&
 	          joexterm && (Cb & 3) == 1)		/* Paste */
-		ttputs(USTR "\33]52;;?\33\\");
+		ttputs("\33]52;;?\33\\");
 	return 0;
 }
 
@@ -213,10 +213,10 @@ void select_done(struct charmap *map)
 	if (joexterm && markv(1)) {
 		long left = markb->xcol;
 		long right = markk->xcol;
-		P *q = pdup(markb, USTR "select_done");
+		P *q = pdup(markb, "select_done");
 		int c;
-		/* ttputs(USTR "\33[?2P"); JOE's xterm */
-		ttputs(USTR "\33]52;;"); /* New xterm */
+		/* ttputs("\33[?2P"); JOE's xterm */
+		ttputs("\33]52;;"); /* New xterm */
 		while (q->byte < markk->byte) {
 			unsigned char buf[16];
 			int len;
@@ -261,7 +261,7 @@ void select_done(struct charmap *map)
 			}
 		}
 		ttputs64_flush();
-		ttputs(USTR "\33\\");
+		ttputs("\33\\");
 		prm(q);
 	}
 }
@@ -554,7 +554,7 @@ int udefmdrag(BW *xx)
 	else
 		umarkk(bw);
 	if ((!reversed && bw->cursor->byte < anchor) || (reversed && bw->cursor->byte > anchor)) {
-		P *q = pdup(markb, USTR "udefmdrag");
+		P *q = pdup(markb, "udefmdrag");
 		int tmp = markb->xcol;
 		pset(markb,markk);
 		pset(markk,q);
@@ -674,9 +674,9 @@ void mouseopen()
 {
 #ifdef MOUSE_XTERM
 	if (usexmouse) {
-		ttputs(USTR "\33[?1002h");
+		ttputs("\33[?1002h");
 		if (joexterm)
-			ttputs(USTR "\33[?2007h");
+			ttputs("\33[?2007h");
 		ttflsh();
 	}
 #endif
@@ -687,8 +687,8 @@ void mouseclose()
 #ifdef MOUSE_XTERM
 	if (usexmouse) {
 		if (joexterm)
-			ttputs(USTR "\33[?2007l");
-		ttputs(USTR "\33[?1002l");
+			ttputs("\33[?2007l");
+		ttputs("\33[?1002l");
 		ttflsh();
 	}
 #endif

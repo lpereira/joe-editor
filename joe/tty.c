@@ -569,7 +569,7 @@ int ttshell(unsigned char *cmd)
 	unsigned char *s = (unsigned char *)getenv("SHELL");
 
 	if (!s) {
-		s = USTR "/bin/sh";
+		s = "/bin/sh";
 		/* return; */
 	}
 	ttclsn();
@@ -825,7 +825,7 @@ MPX *mpxmk(int *ptyfd, unsigned char *cmd, unsigned char **args, void (*func) (/
 
 			/* Open the TTY */
 			if ((x = open((char *)name, O_RDWR)) != -1) {	/* Standard input */
-				unsigned char **env = newenv(mainenv, USTR "TERM=");
+				unsigned char **env = newenv(mainenv, "TERM=");
 
 				if (!out_only) {
 					login_tty(x);

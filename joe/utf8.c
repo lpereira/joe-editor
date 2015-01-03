@@ -261,14 +261,14 @@ unsigned char *joe_getcodeset(unsigned char *l)
       ((l = (unsigned char *)getenv("LANG"))     && *l)) {
 
     /* check standardized locales */
-    if (!strcmp(l, USTR "C") || !strcmp(l, USTR "POSIX"))
-      return USTR "ascii";
+    if (!strcmp(l, "C") || !strcmp(l, "POSIX"))
+      return "ascii";
 
     /* check for encoding name fragment */
-    if (strstr(l, USTR "UTF") || strstr(l, USTR "utf"))
-      return USTR "UTF-8";
+    if (strstr(l, "UTF") || strstr(l, "utf"))
+      return "UTF-8";
 
-    if ((p = strstr(l, USTR "8859-"))) {
+    if ((p = strstr(l, "8859-"))) {
       memcpy((char *)buf, "ISO-8859-\0\0", 12);
       p += 5;
       if (*p >= '0' && *p <= '9') {
@@ -278,43 +278,43 @@ unsigned char *joe_getcodeset(unsigned char *l)
       }
     }
 
-    if (strstr(l, USTR "KOI8-R")) return USTR "KOI8-R";
-    if (strstr(l, USTR "KOI8-U")) return USTR "KOI8-U";
-    if (strstr(l, USTR "620")) return USTR "TIS-620";
-    if (strstr(l, USTR "2312")) return USTR "GB2312";
-    if (strstr(l, USTR "HKSCS")) return USTR "Big5HKSCS";   /* no MIME charset */
-    if (strstr(l, USTR "Big5") || strstr(l, USTR "BIG5")) return USTR "Big5";
-    if (strstr(l, USTR "GBK")) return USTR "GBK";           /* no MIME charset */
-    if (strstr(l, USTR "18030")) return USTR "GB18030";     /* no MIME charset */
-    if (strstr(l, USTR "Shift_JIS") || strstr(l, USTR "SJIS")) return USTR "Shift_JIS";
+    if (strstr(l, "KOI8-R")) return "KOI8-R";
+    if (strstr(l, "KOI8-U")) return "KOI8-U";
+    if (strstr(l, "620")) return "TIS-620";
+    if (strstr(l, "2312")) return "GB2312";
+    if (strstr(l, "HKSCS")) return "Big5HKSCS";   /* no MIME charset */
+    if (strstr(l, "Big5") || strstr(l, "BIG5")) return "Big5";
+    if (strstr(l, "GBK")) return "GBK";           /* no MIME charset */
+    if (strstr(l, "18030")) return "GB18030";     /* no MIME charset */
+    if (strstr(l, "Shift_JIS") || strstr(l, "SJIS")) return "Shift_JIS";
     /* check for conclusive modifier */
-    if (strstr(l, USTR "euro")) return USTR "ISO-8859-15";
+    if (strstr(l, "euro")) return "ISO-8859-15";
     /* check for language (and perhaps country) codes */
-    if (strstr(l, USTR "zh_TW")) return USTR "Big5";
-    if (strstr(l, USTR "zh_HK")) return USTR "Big5HKSCS";   /* no MIME charset */
-    if (strstr(l, USTR "zh")) return USTR "GB2312";
-    if (strstr(l, USTR "ja")) return USTR "EUC-JP";
-    if (strstr(l, USTR "ko")) return USTR "EUC-KR";
-    if (strstr(l, USTR "ru")) return USTR "KOI8-R";
-    if (strstr(l, USTR "uk")) return USTR "KOI8-U";
-    if (strstr(l, USTR "pl") || strstr(l, USTR "hr") ||
-	strstr(l, USTR "hu") || strstr(l, USTR "cs") ||
-	strstr(l, USTR "sk") || strstr(l, USTR "sl")) return USTR "ISO-8859-2";
-    if (strstr(l, USTR "eo") || strstr(l, USTR "mt")) return USTR "ISO-8859-3";
-    if (strstr(l, USTR "el")) return USTR "ISO-8859-7";
-    if (strstr(l, USTR "he")) return USTR "ISO-8859-8";
-    if (strstr(l, USTR "tr")) return USTR "ISO-8859-9";
-    if (strstr(l, USTR "th")) return USTR "TIS-620";      /* or ISO-8859-11 */
-    if (strstr(l, USTR "lt")) return USTR "ISO-8859-13";
-    if (strstr(l, USTR "cy")) return USTR "ISO-8859-14";
-    if (strstr(l, USTR "ro")) return USTR "ISO-8859-2";   /* or ISO-8859-16 */
-    if (strstr(l, USTR "am") || strstr(l, USTR "vi")) return USTR "UTF-8";
+    if (strstr(l, "zh_TW")) return "Big5";
+    if (strstr(l, "zh_HK")) return "Big5HKSCS";   /* no MIME charset */
+    if (strstr(l, "zh")) return "GB2312";
+    if (strstr(l, "ja")) return "EUC-JP";
+    if (strstr(l, "ko")) return "EUC-KR";
+    if (strstr(l, "ru")) return "KOI8-R";
+    if (strstr(l, "uk")) return "KOI8-U";
+    if (strstr(l, "pl") || strstr(l, "hr") ||
+	strstr(l, "hu") || strstr(l, "cs") ||
+	strstr(l, "sk") || strstr(l, "sl")) return "ISO-8859-2";
+    if (strstr(l, "eo") || strstr(l, "mt")) return "ISO-8859-3";
+    if (strstr(l, "el")) return "ISO-8859-7";
+    if (strstr(l, "he")) return "ISO-8859-8";
+    if (strstr(l, "tr")) return "ISO-8859-9";
+    if (strstr(l, "th")) return "TIS-620";      /* or ISO-8859-11 */
+    if (strstr(l, "lt")) return "ISO-8859-13";
+    if (strstr(l, "cy")) return "ISO-8859-14";
+    if (strstr(l, "ro")) return "ISO-8859-2";   /* or ISO-8859-16 */
+    if (strstr(l, "am") || strstr(l, "vi")) return "UTF-8";
     /* Send me further rules if you like, but don't forget that we are
      * *only* interested in locale naming conventions on platforms
      * that do not already provide an nl_langinfo(CODESET) implementation. */
-    return USTR "ISO-8859-1"; /* should perhaps be "UTF-8" instead */
+    return "ISO-8859-1"; /* should perhaps be "UTF-8" instead */
   }
-  return USTR "ascii";
+  return "ascii";
 }
 
 /* Initialize locale for JOE */
@@ -351,7 +351,7 @@ void joe_locale()
 	if (s)
 		s=strdup(s);
 	else
-		s=USTR "ascii";
+		s="ascii";
 
 	if ((t=strrchr(s,'.')))
 		*t = 0;
@@ -369,7 +369,7 @@ void joe_locale()
 	if (s)
 		s=strdup(s);
 	else
-		s=USTR "ascii";
+		s="ascii";
 
 	u = strdup(s);
 
@@ -403,11 +403,11 @@ void joe_locale()
 
 	locale_map = find_charmap(codeset);
 	if (!locale_map)
-		locale_map = find_charmap(USTR "ascii");
+		locale_map = find_charmap("ascii");
 
 	locale_map_non_utf8 = find_charmap(non_utf8_codeset);
 	if (!locale_map_non_utf8)
-		locale_map_non_utf8 = find_charmap(USTR "ascii");
+		locale_map_non_utf8 = find_charmap("ascii");
 
 	fdefault.charmap = locale_map;
 	pdefault.charmap = locale_map;
@@ -542,7 +542,7 @@ struct charmap *guess_map(unsigned char *buf, int len)
 		if (locale_map->type || !guess_utf8)
 			return locale_map;
 		else
-			return find_charmap(USTR "utf-8");
+			return find_charmap("utf-8");
 	}
 
 	if (!flag || !guess_non_utf8) {

@@ -118,7 +118,7 @@ unsigned char *mktmp(unsigned char *where)
 	if (!where)
 		where = (unsigned char *)getenv("TEMP");
 	if (!where)
-		where = USTR _PATH_TMP;
+		where = _PATH_TMP;
 
 	namesize = strlen(where) + 16;
 	name = vsmk(namesize);	/* [G.Ghibo'] we need to use vsmk() and not malloc() as

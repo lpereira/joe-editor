@@ -21,7 +21,7 @@ struct high_color {
 
 struct high_state {
 	int no;				/* State number */
-	unsigned char *name;		/* Highlight state name */
+	char *name;			/* Highlight state name */
 	int color;			/* Color for this state */
 	struct high_cmd *cmd[256];	/* Character table */
 	struct high_cmd *delim;		/* Matching delimiter */

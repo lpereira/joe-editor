@@ -70,17 +70,17 @@ static int keyval(unsigned char *s)
 		 && (s[1] == 'P' || s[1] == 'p') && !s[2])
 		return ' ';
 	else if((s[0]=='M'||s[0]=='m') && s[1]) {
-		if(!strcmp(s,USTR "MDOWN")) return KEY_MDOWN;
-		else if(!strcmp(s,USTR "MWDOWN")) return KEY_MWDOWN;
-		else if(!strcmp(s,USTR "MWUP")) return KEY_MWUP;
-		else if(!strcmp(s,USTR "MUP")) return KEY_MUP;
-		else if(!strcmp(s,USTR "MDRAG")) return KEY_MDRAG;
-		else if(!strcmp(s,USTR "M2DOWN")) return KEY_M2DOWN;
-		else if(!strcmp(s,USTR "M2UP")) return KEY_M2UP;
-		else if(!strcmp(s,USTR "M2DRAG")) return KEY_M2DRAG;
-		else if(!strcmp(s,USTR "M3DOWN")) return KEY_M3DOWN;
-		else if(!strcmp(s,USTR "M3UP")) return KEY_M3UP;
-		else if(!strcmp(s,USTR "M3DRAG")) return KEY_M3DRAG;
+		if(!strcmp(s,"MDOWN")) return KEY_MDOWN;
+		else if(!strcmp(s,"MWDOWN")) return KEY_MWDOWN;
+		else if(!strcmp(s,"MWUP")) return KEY_MWUP;
+		else if(!strcmp(s,"MUP")) return KEY_MUP;
+		else if(!strcmp(s,"MDRAG")) return KEY_MDRAG;
+		else if(!strcmp(s,"M2DOWN")) return KEY_M2DOWN;
+		else if(!strcmp(s,"M2UP")) return KEY_M2UP;
+		else if(!strcmp(s,"M2DRAG")) return KEY_M2DRAG;
+		else if(!strcmp(s,"M3DOWN")) return KEY_M3DOWN;
+		else if(!strcmp(s,"M3UP")) return KEY_M3UP;
+		else if(!strcmp(s,"M3DRAG")) return KEY_M3DRAG;
 		else return s[0];
 	} else if (s[1] || !s[0])
 		return -1;
@@ -309,6 +309,6 @@ static int keymap_cmplt(BW *bw)
 
 int ukeymap(BASE *bw)
 {
-	if (wmkpw(bw->parent,joe_gettext(_("Change keymap: ")),&keymaphist,dokeymap,USTR "keymap",NULL,keymap_cmplt,NULL,NULL,locale_map,0)) return 0;
+	if (wmkpw(bw->parent,joe_gettext(_("Change keymap: ")),&keymaphist,dokeymap,"keymap",NULL,keymap_cmplt,NULL,NULL,locale_map,0)) return 0;
 	else return -1;
 }

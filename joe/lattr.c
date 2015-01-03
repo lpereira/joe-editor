@@ -267,7 +267,7 @@ HIGHLIGHT_STATE lattr_get(struct lattr_db *db, struct high_syntax *y, P *p, long
 		long ln;
 		P *tmp = 0;
 		HIGHLIGHT_STATE state;
-		tmp = pdup(p, USTR "lattr_get");
+		tmp = pdup(p, "lattr_get");
 		ln = db->first_invalid; /* First line with known good state */
 		state = lattr_lvalue(db, ln - 1); /* Known good state */
 		/* Compute up to requested line */

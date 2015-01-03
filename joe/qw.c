@@ -176,7 +176,7 @@ static int abortqw(QW *qw)
 }
 
 static WATOM watomqw = {
-	USTR "query",
+	"query",
 	dispqw,
 	NULL,
 	abortqw,
@@ -190,7 +190,7 @@ static WATOM watomqw = {
 };
 
 static WATOM watqwn = {
-	USTR "querya",
+	"querya",
 	dispqwn,
 	NULL,
 	abortqw,
@@ -204,7 +204,7 @@ static WATOM watqwn = {
 };
 
 static WATOM watqwsr = {
-	USTR "querysr",
+	"querysr",
 	dispqwn,
 	NULL,
 	abortqw,

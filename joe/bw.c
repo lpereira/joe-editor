@@ -27,7 +27,7 @@ static P *getto(P *p, P *cur, P *top, long int line)
 		d = (line >= top->line ? line - top->line : top->line - line);
 		if (d < dist)
 			best = top;
-		p = pdup(best, USTR "getto");
+		p = pdup(best, "getto");
 		p_goto_bol(p);
 	}
 	while (line > p->line)
@@ -107,7 +107,7 @@ void bwfllwt(BW *w)
 	}
 
 	if (w->cursor->line < w->top->line) {
-		newtop = pdup(w->cursor, USTR "bwfllwt");
+		newtop = pdup(w->cursor, "bwfllwt");
 		p_goto_bol(newtop);
 		if (mid) {
 			if (newtop->line >= w->h / 2)
@@ -297,7 +297,7 @@ static int lgen(SCRN *t, int y, int *screen, int *attr, int x, int w, P *p, long
 	utf8_init(&utf8_sm);
 
 	if(st.state!=-1) {
-		tmp=pdup(p, USTR "lgen");
+		tmp=pdup(p, "lgen");
 		p_goto_bol(tmp);
 		parse(bw->o.syntax,tmp,st);
 		syn = attr_buf;
@@ -618,7 +618,7 @@ void bwgenh(BW *w)
 {
 	int *screen;
 	int *attr;
-	P *q = pdup(w->top, USTR "bwgenh");
+	P *q = pdup(w->top, "bwgenh");
 	int bot = w->h + w->y;
 	int y;
 	SCRN *t = w->t->t;
@@ -746,7 +746,7 @@ void bwgen(BW *w, int linums)
 	fromline = toline = from = to = 0;
 
 	if (w->b == errbuf) {
-		P *tmp = pdup(w->cursor, USTR "bwgen");
+		P *tmp = pdup(w->cursor, "bwgen");
 		p_goto_bol(tmp);
 		from = tmp->byte;
 		pnextl(tmp);
@@ -779,7 +779,7 @@ void bwgen(BW *w, int linums)
 	if (marking && w == (BW *)maint->curwin->object)
 		msetI(t->updtab + w->y, 1, w->h);
 
-	q = pdup(w->cursor, USTR "bwgen");
+	q = pdup(w->cursor, "bwgen");
 
 	y = w->cursor->line - w->top->line + w->y;
 	attr = t->attr + y*w->t->w;
@@ -859,8 +859,8 @@ BW *bwmk(W *window, B *b, int prompt)
 		b->oldcur = NULL;
 		w->cursor->owner = NULL;
 	} else {
-		w->top = pdup(b->bof, USTR "bwmk");
-		w->cursor = pdup(b->bof, USTR "bwmk");
+		w->top = pdup(b->bof, "bwmk");
+		w->cursor = pdup(b->bof, "bwmk");
 	}
 	w->t = window->t;
 	w->object = NULL;
@@ -951,7 +951,7 @@ void save_file_pos(FILE *f)
 void load_file_pos(FILE *f)
 {
 	unsigned char buf[1024];
-	while (fgets((char *)buf,sizeof(buf)-1,f) && strcmp(buf,USTR "done\n")) {
+	while (fgets((char *)buf,sizeof(buf)-1,f) && strcmp(buf,"done\n")) {
 		unsigned char *p = buf;
 		long pos;
 		unsigned char name[1024];
@@ -1056,6 +1056,6 @@ void orphit(BW *bw)
 {
 	++bw->b->count; /* Assumes bwrm() is abour to be called */
 	bw->b->orphan = 1;
-	pdupown(bw->cursor, &bw->b->oldcur, USTR "orphit");
-	pdupown(bw->top, &bw->b->oldtop, USTR "orphit");
+	pdupown(bw->cursor, &bw->b->oldcur, "orphit");
+	pdupown(bw->top, &bw->b->oldtop, "orphit");
 }

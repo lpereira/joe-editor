@@ -140,7 +140,7 @@ unsigned char i_msg[128];
 
 void internal_msg(unsigned char *s)
 {
-	P *t = pdup(startup_log->eof, USTR "internal_msg");
+	P *t = pdup(startup_log->eof, "internal_msg");
 	binss(t, s);
 	prm(t);
 }
@@ -337,7 +337,7 @@ int main(int argc, char **real_argv, char **envv)
 	maint = screate(n);
 	vmem = vtmp();
 
-	startup_log = bfind_scratch(USTR "* Startup Log *");
+	startup_log = bfind_scratch("* Startup Log *");
 	startup_log->internal = 1;
 
 	load_state();
@@ -376,13 +376,13 @@ int main(int argc, char **real_argv, char **envv)
 			} else {
 				long line;
 				b->orphan = 1;
-				b->oldcur = pdup(b->bof, USTR "main");
+				b->oldcur = pdup(b->bof, "main");
 				pline(b->oldcur, get_file_pos(b->name));
 				p_goto_bol(b->oldcur);
 				line = b->oldcur->line - (maint->h - 1) / 2;
 				if (line < 0)
 					line = 0;
-				b->oldtop = pdup(b->oldcur, USTR "main");
+				b->oldtop = pdup(b->oldcur, "main");
 				pline(b->oldtop, line);
 				p_goto_bol(b->oldtop);
 			}
@@ -437,7 +437,7 @@ int main(int argc, char **real_argv, char **envv)
 		dofollows();
 		mid = omid;
 	} else {
-		BW *bw = wmktw(maint, bfind(USTR ""));
+		BW *bw = wmktw(maint, bfind(""));
 
 		if (bw->o.mnew)
 			exmacro(bw->o.mnew,1);
@@ -475,7 +475,7 @@ int main(int argc, char **real_argv, char **envv)
 			cmd = vsncpy(NULL, 0, sc("/bin/cat"));
 			a = vaadd(a, cmd);
 			
-			cstart (maint->curwin->object, USTR "/bin/sh", a, NULL, NULL, 0, 1);
+			cstart (maint->curwin->object, "/bin/sh", a, NULL, NULL, 0, 1);
 		}
 	}
 
