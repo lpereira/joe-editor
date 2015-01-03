@@ -237,22 +237,34 @@ void tickon(void)
 	setitimer(ITIMER_REAL,&val,NULL);
 }
 
-/* Open terminal */
+static int open_terminal_handles(void)
+{
+        if (termin && termout)
+                return 1;
 
+        if (idleout) {
+                termin = stdin;
+                termout = stdout;
+        } else {
+                termin = fopen("/dev/tty", "r");
+                termout = fopen("/dev/tty", "w");
+        }
+
+        return termin && termout;
+}
+
+/* Open terminal */
 void ttopnn(void)
 {
 	int x, bbaud;
-
 	struct termios newterm;
 
-	if (!termin) {
-		if (idleout ? (!(termin = stdin) || !(termout = stdout)) : (!(termin = fopen("/dev/tty", "r")) || !(termout = fopen("/dev/tty", "w")))) {
-			fprintf(stderr, (char *)joe_gettext(_("Couldn\'t open /dev/tty\n")));
-			exit(1);
-		} else {
-			joe_set_signal(SIGWINCH, winchd);
-		}
+	if (!open_terminal_handles()) {
+                fprintf(stderr, (char *)joe_gettext(_("Couldn\'t open /dev/tty\n")));
+                exit(1);
 	}
+
+        joe_set_signal(SIGWINCH, winchd);
 
 	if (ttymode)
 		return;
