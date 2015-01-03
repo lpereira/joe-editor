@@ -32,10 +32,8 @@ FILE *termout = NULL;
 struct termios oldterm;
 
 /* Output buffer, index and size */
-
-static unsigned char *obuf = NULL;
+static unsigned char obuf[4096];
 static int obufp = 0;
-static int obufsiz;
 
 /* Input buffer */
 
@@ -211,10 +209,6 @@ void ttopnn(void)
 	newterm.c_cc[VMIN] = 1;
 	newterm.c_cc[VTIME] = 0;
 	tcsetattr(fileno(termin), TCSADRAIN, &newterm);
-
-	free(obuf);
-	obufsiz = 4096;
-	obuf = (unsigned char *) joe_malloc(obufsiz);
 }
 
 /* Close terminal */
@@ -383,7 +377,7 @@ void ttputs(unsigned char *s)
 {
 	while (*s) {
 		obuf[obufp++] = *s++;
-		if (obufp == obufsiz)
+		if (obufp == sizeof(obuf))
 			ttflsh();
 	}
 }
@@ -784,6 +778,6 @@ void mpxdied(MPX *m)
 
 void ttputc(unsigned char c) {
         obuf[obufp++] = c;
-        if (obufp == obufsiz)
+        if (obufp == sizeof(obuf))
                 ttflsh();
 }
