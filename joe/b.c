@@ -294,8 +294,7 @@ void brm(B *b)
 				prm(b->bof->link.next);
 			prm(b->bof);
 		}
-		if (b->name)
-			free(b->name);
+		free(b->name);
 		if (b->db)
 			rm_all_lattr_db(b->db);
 		demote(B, link, &frebufs, b);
@@ -342,8 +341,7 @@ void breplace(B *b, B *n)
 	hfreechn(b->eof->hdr);
 
 	/* Delete file name */
-	if (b->name)
-		free(b->name);
+	free(b->name);
 
 	reset_all_lattr_db(b->db);
 	

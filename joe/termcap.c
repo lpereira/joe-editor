@@ -417,10 +417,8 @@ int getnum(CAP *cap, unsigned char *name)
 void rmcap(CAP *cap)
 {
 	vsrm(cap->tbuf);
-	if (cap->abuf)
-		free(cap->abuf);
-	if (cap->sort)
-		free(cap->sort);
+	free(cap->abuf);
+	free(cap->sort);
 	free(cap);
 }
 

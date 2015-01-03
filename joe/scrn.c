@@ -766,20 +766,13 @@ void nresize(SCRN *t, int w, int h)
 		w = 8;
 	t->li = h;
 	t->co = w;
-	if (t->sary)
-		free(t->sary);
-	if (t->updtab)
-		free(t->updtab);
-	if (t->scrn)
-		free(t->scrn);
-	if (t->attr)
-		free(t->attr);
-	if (t->compose)
-		free(t->compose);
-	if (t->ofst)
-		free(t->ofst);
-	if (t->ary)
-		free(t->ary);
+	free(t->sary);
+	free(t->updtab);
+	free(t->scrn);
+	free(t->attr);
+	free(t->compose);
+	free(t->ofst);
+	free(t->ary);
 	t->scrn = (int *) joe_malloc(t->li * t->co * sizeof(int));
 	t->attr = (int *) joe_malloc(t->li * t->co * sizeof(int));
 	t->sary = (int *) joe_calloc(t->li, sizeof(int));

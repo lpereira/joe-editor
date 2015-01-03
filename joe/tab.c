@@ -76,8 +76,7 @@ static int get_entries(TAB *tab, int prv)
 	varm(tab->files);
 	tab->files = files;
 	vasort(files, tab->len);
-	if (tab->type)
-		free(tab->type);
+	free(tab->type);
 	tab->type = (unsigned char *) joe_malloc(tab->len);
 	for (a = 0; a != tab->len; a++)
 		if(users_flg) {
@@ -183,8 +182,7 @@ static void rmtab(TAB *tab)
 	vsrm(tab->path);
 	vsrm(tab->pattern);
 	varm(tab->files);
-	if (tab->type)
-		free(tab->type);
+	free(tab->type);
 	free(tab);
 }
 /*****************************************************************************/
