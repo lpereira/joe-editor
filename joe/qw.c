@@ -152,7 +152,7 @@ static int utypeqw(QW *qw, int c)
 	win = qw->parent->win;
 	func = qw->func;
 	vsrm(qw->prompt);
-	joe_free(qw);
+	free(qw);
 	w->object = NULL;
 	w->notify = NULL;
 	wabort(w);
@@ -168,7 +168,7 @@ static int abortqw(QW *qw)
 	int (*abrt) () = qw->abrt;
 
 	vsrm(qw->prompt);
-	joe_free(qw);
+	free(qw);
 	if (abrt)
 		return abrt(win->object, object);
 	else

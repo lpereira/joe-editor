@@ -214,7 +214,7 @@ struct savereq *mksavereq(int (*callback)(), unsigned char *name, B *first,int r
 static void rmsavereq(struct savereq *req)
 {
 	vsrm(req->name);
-	joe_free(req);
+	free(req);
 }
 
 /* Check if character 'c' is in the set.
@@ -301,7 +301,7 @@ static int saver(BW *bw, int c, struct savereq *req, int *notify)
 	} else {
 		if (req->rename && req->name[0] != '!' && req->name[0] != '>') {
 			bw_unlock(bw);
-			joe_free(bw->b->name);
+			free(bw->b->name);
 			bw->b->name = 0;
 		}
 		if (!bw->b->name && req->name[0]!='!' && req->name[0]!='>')
@@ -1018,7 +1018,7 @@ static int doquerysave(BW *bw,int c,struct savereq *req,int *notify)
 			if (pbw) {
 				return 0;
 			} else {
-				joe_free(req);
+				free(req);
 				return -1;
 			}
 		}

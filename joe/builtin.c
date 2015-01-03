@@ -38,7 +38,7 @@ int jfclose(JFILE *f)
 	int rtn = 0;
 	if (f->f)
 		rtn = fclose(f->f);
-	joe_free(f);
+	free(f);
 	return rtn;
 }
 

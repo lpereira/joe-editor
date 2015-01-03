@@ -295,7 +295,7 @@ void brm(B *b)
 			prm(b->bof);
 		}
 		if (b->name)
-			joe_free(b->name);
+			free(b->name);
 		if (b->db)
 			rm_all_lattr_db(b->db);
 		demote(B, link, &frebufs, b);
@@ -343,7 +343,7 @@ void breplace(B *b, B *n)
 
 	/* Delete file name */
 	if (b->name)
-		joe_free(b->name);
+		free(b->name);
 
 	reset_all_lattr_db(b->db);
 	

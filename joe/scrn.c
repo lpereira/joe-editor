@@ -767,19 +767,19 @@ void nresize(SCRN *t, int w, int h)
 	t->li = h;
 	t->co = w;
 	if (t->sary)
-		joe_free(t->sary);
+		free(t->sary);
 	if (t->updtab)
-		joe_free(t->updtab);
+		free(t->updtab);
 	if (t->scrn)
-		joe_free(t->scrn);
+		free(t->scrn);
 	if (t->attr)
-		joe_free(t->attr);
+		free(t->attr);
 	if (t->compose)
-		joe_free(t->compose);
+		free(t->compose);
 	if (t->ofst)
-		joe_free(t->ofst);
+		free(t->ofst);
 	if (t->ary)
-		joe_free(t->ary);
+		free(t->ary);
 	t->scrn = (int *) joe_malloc(t->li * t->co * sizeof(int));
 	t->attr = (int *) joe_malloc(t->li * t->co * sizeof(int));
 	t->sary = (int *) joe_calloc(t->li, sizeof(int));
@@ -1642,13 +1642,13 @@ void nclose(SCRN *t)
 		texec(t->cap, t->te, 1, 0, 0, 0, 0);
 	ttclose();
 	rmcap(t->cap);
-	joe_free(t->scrn);
-	joe_free(t->attr);
-	joe_free(t->sary);
-	joe_free(t->ofst);
-	joe_free(t->htab);
-	joe_free(t->ary);
-	joe_free(t);
+	free(t->scrn);
+	free(t->attr);
+	free(t->sary);
+	free(t->ofst);
+	free(t->htab);
+	free(t->ary);
+	free(t);
 }
 
 void nscrldn(SCRN *t, int top, int bot, int amnt)

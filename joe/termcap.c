@@ -161,7 +161,7 @@ CAP *my_getcap(unsigned char *name, unsigned int baud, void (*out) (unsigned cha
 	if (tgetent((char *)cap->tbuf, (char *)name) == 1)
 		return setcap(cap, baud, out, outptr);
 	else {
-		joe_free(cap->abuf);
+		free(cap->abuf);
 		cap->abuf = NULL;
 	}
 #endif
@@ -418,10 +418,10 @@ void rmcap(CAP *cap)
 {
 	vsrm(cap->tbuf);
 	if (cap->abuf)
-		joe_free(cap->abuf);
+		free(cap->abuf);
 	if (cap->sort)
-		joe_free(cap->sort);
-	joe_free(cap);
+		free(cap->sort);
+	free(cap);
 }
 
 static unsigned char escape1(unsigned char **s)

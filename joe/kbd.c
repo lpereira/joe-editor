@@ -23,7 +23,7 @@ KBD *mkkbd(KMAP *kmap)
 
 void rmkbd(KBD *k)
 {
-	joe_free(k);
+	free(k);
 }
 
 /* Process next key for KBD */
@@ -108,7 +108,7 @@ void rmkmap(KMAP *kmap)
 	for (x = 0; x != KEYS; ++x)
 		if (kmap->keys[x].k == 1)
 			rmkmap(kmap->keys[x].value.submap);
-	joe_free(kmap);
+	free(kmap);
 }
 
 /* Parse a range */

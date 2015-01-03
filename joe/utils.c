@@ -89,16 +89,11 @@ void *joe_realloc(void *ptr,size_t size)
 	return p;
 }
 
-void joe_free(void *ptr)
-{
-	free(ptr);
-}
-
 /* Zstrings */
 
 void rm_zs(ZS z)
 {
-	joe_free(z.s);
+	free(z.s);
 }
 
 ZS raw_mk_zs(GC **gc,unsigned char *s,int len)

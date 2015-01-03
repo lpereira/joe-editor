@@ -147,7 +147,7 @@ unsigned char *vlock(VFILE *vfile, off_t addr)
 					memmove(vheaders + amnt, t, vheadsz * sizeof(VPAGE *));
 					vheadsz += amnt;
 					vbase = vp->data;
-					joe_free(t);
+					free(t);
 				} else if (((physical(vp->data + PGSIZE * INC) - physical(vbase)) >> LPGSIZE) > vheadsz) {
 					vheaders = (VPAGE **)
 					    joe_realloc(vheaders, (vheadsz = (((physical(vp->data + PGSIZE * INC) - physical(vbase)) >> LPGSIZE))) * sizeof(VPAGE *));
@@ -161,7 +161,7 @@ unsigned char *vlock(VFILE *vfile, off_t addr)
 				vheader(vp->data) = vp;
 				goto gotit;
 			}
-			joe_free(vp);
+			free(vp);
 			vp = NULL;
 		}
 	}
@@ -245,7 +245,7 @@ void vclose(VFILE *vfile)
 	}
 	if (vfile->fd)
 		close(vfile->fd);
-	joe_free(deque_f(VFILE, link, vfile));
+	free(deque_f(VFILE, link, vfile));
 	for (x = 0; x != HTSIZE; x++)
 		for (pp = (VPAGE *) (htab + x), vp = pp->next; vp;)
 			if (vp->vfile == vfile) {

@@ -102,7 +102,6 @@ void *joe_malloc(size_t size);
 unsigned char *joe_strdup(unsigned char *ptr);
 void *joe_calloc(size_t nmemb, size_t size);
 void *joe_realloc(void *ptr, size_t size);
-void joe_free(void *ptr);
 
 #ifndef HAVE_SIGHANDLER_T
 typedef RETSIGTYPE (*sighandler_t)(int);

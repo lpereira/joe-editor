@@ -654,7 +654,7 @@ int glopt(unsigned char *s, unsigned char *arg, OPTIONS *options, int set)
 
 static int doabrt1(BW *bw, int *xx)
 {
-	joe_free(xx);
+	free(xx);
 	return -1;
 }
 
@@ -664,7 +664,7 @@ static int doopt1(BW *bw, unsigned char *s, int *xx, int *notify)
 	int x = *xx;
 	int v;
 
-	joe_free(xx);
+	free(xx);
 	switch (glopts[x].type) {
 	case 1:
 		v = calc(bw, s);
@@ -1021,8 +1021,8 @@ static int doabrt(MENU *m, int x, struct menu_instance *mi)
 	mi->menu->last_position = x;
 	for (x = 0; mi->s[x]; ++x)
 		vsrm(mi->s[x]);
-	joe_free(mi->s);
-	joe_free(mi);
+	free(mi->s);
+	free(mi);
 	return -1;
 }
 

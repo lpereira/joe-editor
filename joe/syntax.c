@@ -412,7 +412,7 @@ struct high_param *parse_params(struct high_param *current_params,unsigned char 
 						/* Remove this parameter */
 						struct high_param *param = *param_ptr;
 						*param_ptr = param->next;
-						joe_free(param);
+						free(param);
 					}
 				} else {
 					i_printf((char *)joe_gettext(_("%s %d: Missing parameter name\n")),name,line);
@@ -618,7 +618,7 @@ struct high_state *load_dfa(struct high_syntax *syntax)
 					if (stack) {
 						struct ifstack *st = stack;
 						stack = st->next;
-						joe_free(st);
+						free(st);
 					} else
 						i_printf((char *)joe_gettext(_("%s %d: endif with no matching if\n")),name,line);
 				} else if (!strcmp(bf, USTR "subr")) {
@@ -736,7 +736,7 @@ struct high_state *load_dfa(struct high_syntax *syntax)
 		struct ifstack *st = stack;
 		stack = st->next;
 		i_printf((char *)joe_gettext(_("%s %d: ifdef with no matching endif\n")),name,st->line);
-		joe_free(st);
+		free(st);
 	}
 
 	fclose(f);
@@ -800,9 +800,9 @@ struct high_syntax *load_syntax_subr(unsigned char *name,unsigned char *subr,str
 			syn->next = syntax->next;
 		}
 		htrm(syntax->ht_states);
-		joe_free(syntax->name);
-		joe_free(syntax->states);
-		joe_free(syntax);
+		free(syntax->name);
+		free(syntax->states);
+		free(syntax);
 		return 0;
 	}
 }

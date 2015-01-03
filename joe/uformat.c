@@ -334,7 +334,7 @@ void wrapword(BW *bw, P *p, long int indent, int french, int no_over, unsigned c
 			int x;
 			for (x = 0; indents[x] == ' ' || indents[x] == '\t'; ++x);
 			if (!indents[x]) {
-				joe_free(indents);
+				free(indents);
 				indent = bw->o.lmargin;
 				indents = joe_malloc(indent+1);
 				for (x = 0; x != indent; ++x)
@@ -423,13 +423,13 @@ void wrapword(BW *bw, P *p, long int indent, int french, int no_over, unsigned c
 			}
 
 		if (rmf)
-			joe_free(indents);
+			free(indents);
 	}
 
 	/* Move cursor back to original position */
 	pfwrd(p, to - p->byte);
 	if (my_indents)
-		joe_free(indents);
+		free(indents);
 }
 
 /* Reformat paragraph */
@@ -511,7 +511,7 @@ int uformat(BW *bw)
 		int x;
 		for (x = 0; indents[x] == ' ' || indents[x] == '\t'; ++x);
 		if (!indents[x]) {
-			joe_free(indents);
+			free(indents);
 			indent = bw->o.lmargin;
 			indents = joe_malloc(indent+1);
 			for (x = 0; x != indent; ++x)
@@ -627,7 +627,7 @@ int uformat(BW *bw)
 	binsc(p, '\n');
 	prm(p);
 	brm(buf);
-	joe_free(indents);
+	free(indents);
 	return 0;
 }
 

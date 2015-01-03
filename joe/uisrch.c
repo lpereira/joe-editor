@@ -48,7 +48,7 @@ static void rmisrch(struct isrch *isrch)
 		vsrm(isrch->pattern);
 		vsrm(isrch->prompt);
 		frchn(&fri, &isrch->irecs);
-		joe_free(isrch);
+		free(isrch);
 	}
 }
 

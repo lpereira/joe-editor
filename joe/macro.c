@@ -45,7 +45,7 @@ void rmmacro(MACRO *macro)
 
 			for (x = 0; x != macro->n; ++x)
 				rmmacro(macro->steps[x]);
-			joe_free(macro->steps);
+			free(macro->steps);
 		}
 		macro->steps = (MACRO **) freemacros;
 		freemacros = macro;
@@ -606,7 +606,7 @@ int ustop(void)
 		kbdmacro[r->n] = r->m;
 		if (recmac)
 			record(m = mkmacro(r->n + '0', 0, 0, findcmd(USTR "play"))), rmmacro(m);
-		joe_free(r);
+		free(r);
 	}
 	return 0;
 }

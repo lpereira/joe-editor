@@ -435,7 +435,7 @@ void rmsrch(SRCH *srch)
 	vsrm(srch->pattern);
 	vsrm(srch->replacement);
 	vsrm(srch->entire);
-	joe_free(srch);
+	free(srch);
 	updall();
 }
 

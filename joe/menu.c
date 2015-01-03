@@ -563,7 +563,7 @@ static int menuabort(MENU *m)
 	int x = m->cursor;
 	W *win = w->win;
 
-	joe_free(m);
+	free(m);
 	if (func)
 		return func(win->object, x, object);
 	else

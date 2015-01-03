@@ -992,7 +992,7 @@ void bwrm(BW *w)
 	prm(w->top);
 	prm(w->cursor);
 	brm(w->b);
-	joe_free(w);
+	free(w);
 }
 
 int ustat(BW *bw)

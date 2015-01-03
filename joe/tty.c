@@ -295,7 +295,7 @@ void ttopnn(void)
 		baud = Baud;
 	upc = DIVIDEND / baud;
 	if (obuf)
-		joe_free(obuf);
+		free(obuf);
 	if (!(TIMES * upc))
 		obufsiz = 4096;
 	else {

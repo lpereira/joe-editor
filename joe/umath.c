@@ -173,7 +173,7 @@ static double expr(int prec, int en,struct var **rtv)
 			if (e) {
 				v = 0;
 				x = eval(e);
-				joe_free(e);
+				free(e);
 				ptr = save;
 			} else if (!merr) {
 				merr = joe_gettext(_("No block"));

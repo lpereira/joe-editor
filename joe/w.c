@@ -604,7 +604,7 @@ W *wcreate(Screen *t, WATOM *watom, W *where, W *target, W *original, int height
 	if (original) {
 		if (original->h - height <= 2) {
 			/* Not enough space for window */
-			joe_free(new);
+			free(new);
 			return NULL;
 		} else
 			seth(original, original->h - height);
@@ -676,7 +676,7 @@ static int doabort(W *w, int *ret)
 			*w->notify = 1;
 	}
 	rmkbd(w->kbd);
-	joe_free(w);
+	free(w);
 	windie(w);
 	return amnt;
 }

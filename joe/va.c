@@ -21,7 +21,7 @@ void varm(aELEMENT *vary)
 {
 	if (vary) {
 		vazap(vary, 0, aLen(vary));
-		joe_free((int *) vary - 2);
+		free((int *) vary - 2);
 	}
 }
 

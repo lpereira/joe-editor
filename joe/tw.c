@@ -583,7 +583,7 @@ int abortit(BW *bw)
 		}
 	bwrm(bw);
 	vsrm(tw->stalin);
-	joe_free(tw);
+	free(tw);
 	w->object = NULL;
 	wabort(w);	/* Eliminate this window and it's children */
 	return 0;

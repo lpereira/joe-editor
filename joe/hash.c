@@ -47,8 +47,8 @@ void htrm(HASH *ht)
 			freentry = p;
 		}
 	}
-	joe_free(ht->tab);
-	joe_free(ht);
+	free(ht->tab);
+	free(ht);
 }
 
 /* Expand hash table */

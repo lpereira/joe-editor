@@ -37,7 +37,7 @@ static void frrec(UNDOREC *rec)
 {
 	if (rec->del) {
 		if (rec->len < SMALL)
-			joe_free(rec->small);
+			free(rec->small);
 		else {
 			B *b = rec->big;
 
@@ -271,7 +271,7 @@ static void yankdel(long where, B *b)
 					rec->big = bmk(NULL);
 					binsm(rec->big->bof, rec->small, (int) rec->len);
 					boffline(rec->big);
-					joe_free(rec->small);
+					free(rec->small);
 				}
 				bonline(rec->big);
 				binsb(rec->big->eof, bcpy(b->bof, b->eof));
@@ -287,7 +287,7 @@ static void yankdel(long where, B *b)
 					rec->big = bmk(NULL);
 					binsm(rec->big->bof, rec->small, (int) rec->len);
 					boffline(rec->big);
-					joe_free(rec->small);
+					free(rec->small);
 				}
 				bonline(rec->big);
 				binsb(rec->big->bof, bcpy(b->bof, b->eof));
@@ -343,7 +343,7 @@ void undodel(UNDO *undo, long where, B *b)
 				rec->big = bmk(NULL);
 				binsm(rec->big->bof, rec->small, (int) rec->len);
 				boffline(rec->big);
-				joe_free(rec->small);
+				free(rec->small);
 			}
 			bonline(rec->big);
 			binsb(rec->big->eof, b);
@@ -360,7 +360,7 @@ void undodel(UNDO *undo, long where, B *b)
 				rec->big = bmk(NULL);
 				binsm(rec->big->bof, rec->small, (int) rec->len);
 				boffline(rec->big);
-				joe_free(rec->small);
+				free(rec->small);
 			}
 			bonline(rec->big);
 			binsb(rec->big->bof, b);
