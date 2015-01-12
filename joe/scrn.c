@@ -432,10 +432,6 @@ int eraeol(SCRN *t, int x, int y, int atr)
 /* As above but useable in insert mode */
 /* The cursor position must already be correct */
 
-static void outatri(SCRN *t, int x, int y, int c, int a)
-{
-}
-
 static void out(unsigned char *t, unsigned char c)
 {
 	ttputc(c);
@@ -1246,15 +1242,12 @@ static void doinschr(SCRN *t, int x, int y, int *s, int *as, int n)
 				setins(t, x);
 			for (a = 0; a != n; ++a) {
 				texec(t->cap, t->ic, 1, x, 0, 0, 0);
-				outatri(t, x + a, y, s[a], as[a]);
 				texec(t->cap, t->ip, 1, x, 0, 0, 0);
 			}
 			if (!t->mi)
 				clrins(t);
 		} else {
 			texec(t->cap, t->IC, 1, n, 0, 0, 0);
-			for (a = 0; a != n; ++a)
-				outatri(t, x + a, y, s[a], as[a]);
 		}
 	}
 	memmove(t->scrn + x + t->co * y + n, t->scrn + x + t->co * y, (t->co - (x + n)) * sizeof(int));
