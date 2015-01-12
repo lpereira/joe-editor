@@ -24,8 +24,8 @@ int noxon = 0;			/* Set if ^S/^Q processing should be disabled */
 
 /* The terminal */
 
-FILE *termin = NULL;
-FILE *termout = NULL;
+static FILE *termin = NULL;
+static FILE *termout = NULL;
 
 /* Original state of tty */
 
