@@ -375,11 +375,8 @@ int ttgetc(void)
 
 void ttputs(unsigned char *s)
 {
-	while (*s) {
-		obuf[obufp++] = *s++;
-		if (obufp == sizeof(obuf))
-			ttflsh();
-	}
+	while (*s)
+	        ttputc(*s++);
 }
 
 /* Get window size */
