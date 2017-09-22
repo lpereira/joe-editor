@@ -2,11 +2,21 @@ data_joedir = $(datadir)/joe
 
 data_syntaxdir = $(data_joedir)/syntax
 
-data_syntax_DATA = c.jsf perl.jsf verilog.jsf conf.jsf python.jsf php.jsf sh.jsf \
-	mail.jsf pascal.jsf html.jsf vhdl.jsf fortran.jsf java.jsf xml.jsf tcl.jsf \
-	lisp.jsf csh.jsf mason.jsf diff.jsf asm.jsf tex.jsf css.jsf ocaml.jsf \
-	4gl.jsf sml.jsf sql.jsf awk.jsf cobol.jsf sed.jsf ps.jsf ada.jsf \
-	troff.jsf haskell.jsf rexx.jsf skill.jsf lua.jsf ruby.jsf m4.jsf joerc.jsf \
-	spec.jsf matlab.jsf jsf.jsf jsf_check.jsf
+data_syntax_DATA = \
+	4gl.jsf erb.jsf jsf.jsf php.jsf spec.jsf \
+	ada.jsf erlang.jsf js.jsf powershell.jsf sql.jsf \
+	ant.jsf fortran.jsf json.jsf prolog.jsf tcl.jsf \
+	asm.jsf git-commit.jsf lisp.jsf properties.jsf tex.jsf \
+	awk.jsf go.jsf lsl.jsf ps.jsf troff.jsf \
+	c.jsf haml.jsf lua.jsf puppet.jsf verilog.jsf \
+	cobol.jsf haskell.jsf m4.jsf python.jsf vhdl.jsf \
+	htmlerb.jsf mail.jsf rexx.jsf whitespace.jsf \
+	conf.jsf html.jsf mason.jsf ruby.jsf xml.jsf \
+	csh.jsf ini.jsf matlab.jsf sed.jsf yaml.jsf \
+	css.jsf iptables.jsf md.jsf sh.jsf \
+	debian.jsf java.jsf ocaml.jsf sieve.jsf \
+	diff.jsf joerc.jsf pascal.jsf skill.jsf \
+	elixir.jsf jsf_check.jsf perl.jsf sml.jsf
+
 
 EXTRA_DIST = $(data_syntax_DATA)

@@ -689,27 +689,27 @@
  Makefile
 *Makefile
 -autoindent
--syntax conf
+-syntax makefile
 -pound_comment
 
 *makefile
 -autoindent
--syntax conf
+-syntax makefile
 -pound_comment
 
 *Makefile.in
 -autoindent
--syntax conf
+-syntax makefile
 -pound_comment
 
 *makefile.in
 -autoindent
--syntax conf
+-syntax makefile
 -pound_comment
 
 *MAKEFILE
 -autoindent
--syntax conf
+-syntax makefile
 -pound_comment
 
  Pascal
@@ -1016,11 +1016,35 @@
 -syntax elixir
 -pound_comment
 -text_delimiters do=end
--linums
 
 *.exs
 -autoindent
 -syntax elixir
 -pound_comment
 -text_delimiters do=end
--linums
+
+ Scheme
+*.scm
+-autoindent
+-syntax scheme
+-semi_comment
+
+*.ss
+-autoindent
+-syntax scheme
+-semi_comment
+
+ Docker
+*Dockerfile
+-syntax dockerfile
+
+ Terraform
+*.tf
+-autoindent
+-syntax terraform
+-c_comment
+
+*.tfvars
+-autoindent
+-syntax terraform
+-c_comment

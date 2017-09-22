@@ -226,7 +226,7 @@
 	"count"		kw
 	"counter"		kw
 	"create"		kw
-	"currency"		kw
+#	"currency"		kw
 	"current_date"		kw
 	"current_time"		kw
 	"current_timestamp"		kw
@@ -409,7 +409,7 @@
 	"usage"		kw
 	"user"		kw
 	"using"		kw
-	"value"		kw
+#	"value"		kw
 	"values"		kw
 	"var"		kw
 	"varbinary"		kw
@@ -457,6 +457,33 @@
 	"show"		kw
 	"explain"	kw
 	"enum"		kw
+	"bigint"	kw
+	"unsigned"	kw
+	"constraint"	kw
+	"serial"	kw
+	"engine"	kw
+	"charset"	kw
+	"returns"	kw
+	"truncate"	kw
+	"modifies"	kw
+	"sql"		kw
+	"data"		kw
+	"start"		kw
+	"function"	kw
+	"reads"		kw
+	"return"	kw
+	"repeat"	kw
+	"until"		kw
+	"call"		kw
+	"action"	kw
+	"delimiter"     kw
+# olbsql
+	"weakly"	kw
+	"aliases"	kw
+	"map"		kw
+	"row"		kw
+	"deterministic"	kw
+	"list"          kw
 done
 	"a-zA-Z0-9_"	ident
 
